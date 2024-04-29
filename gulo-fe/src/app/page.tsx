@@ -1,3 +1,4 @@
+"use client";
 import AnalyticsWidget from "@/components/widgets/analytics";
 import BalanceWidget from "@/components/widgets/balance";
 import StreamsWidget from "@/components/widgets/streams";
