@@ -1,5 +1,3 @@
-import { Stream } from "../types/Stream";
-
 interface StreamListProps {
 	streams: Stream[];
 }
