@@ -1,8 +1,10 @@
+import { Address } from "viem";
+
 interface Asset {
 	id: string;
 	address: string;
 	chainId: string;
-	decimals: number;
+	decimals: bigint;
 	name: string;
 	symbol: string;
 }
@@ -10,21 +12,21 @@ interface Asset {
 interface Batch {
 	id: string;
 	label: string;
-	size: number;
+	size: bigint;
 }
 
 interface Contract {
 	id: string;
-	address: string;
+	address: Address;
 	category: string;
 	version: string;
 }
 
 interface Segment {
 	id: string;
-	position: number;
+	position: bigint;
 	amount: string;
-	exponent: number;
+	exponent: bigint;
 	milestone: string;
 	endTime: string;
 	startTime: string;
@@ -34,9 +36,9 @@ interface Segment {
 
 interface Stream {
 	id: string;
-	tokenId: string;
+	tokenId: bigint;
 	subgraphId: string;
-	chainId: string;
+	chainId: bigint;
 	alias: string;
 	category: string;
 	funder: string;
@@ -66,3 +68,5 @@ interface Stream {
 	contract: Contract;
 	segments: Segment[];
 }
+
+export default Stream;

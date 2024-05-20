@@ -1,4 +1,4 @@
-import query from "@/utils/queries/getStreamsQuery";
+import query from "@/constants/query/getStreamsQuery";
 
 const variables = {
 	first: 31,

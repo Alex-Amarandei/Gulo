@@ -1,5 +1,6 @@
 "use client";
 
+import Stream from "@/interfaces/stream";
 import StreamList from "./streamList";
 
 interface StreamsWidgetProps {
