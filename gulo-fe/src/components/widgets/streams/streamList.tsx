@@ -1,4 +1,4 @@
-import formatDecimals from "@/utils/convert";
+import formatDecimals from "@/utils/format/convert";
 
 interface StreamListProps {
 	streams: Stream[];
