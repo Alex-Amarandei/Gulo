@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
 	return (
-		<footer className="bg-gray-800 text-white py-4" style={{ height: "8vh" }}>
+		<footer className="bg-gray-800 text-white py-4" style={{ height: "10vh" }}>
 			<div className="container mx-auto flex flex-col md:flex-row justify-between items-center h-full space-y-4 md:space-y-0 md:space-x-8">
 				{/* Contact Us */}
 				<div className="flex flex-col items-center md:items-start space-y-1 border-l-4 border-gray-600 pl-4 transition-transform duration-300 hover:transform hover:-translate-y-1">

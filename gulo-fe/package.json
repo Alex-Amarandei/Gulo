@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "bignumber.js": "^9.1.2",
     "ethers": "^6.12.1",
     "next": "14.2.3",
