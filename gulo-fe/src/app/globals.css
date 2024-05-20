@@ -41,3 +41,16 @@ body {
     text-wrap: balance;
   }
 }
+
+main {
+  flex: 1;
+}
+
+footer {
+  background-color: #333;
+  /* Ensure the footer background color matches your design */
+  color: white;
+  /* Ensure the footer text color matches your design */
+  padding: 1rem;
+  text-align: center;
+}

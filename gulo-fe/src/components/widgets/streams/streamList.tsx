@@ -10,7 +10,7 @@ const formatAddress = (address: string): string => {
 
 const StreamList = ({ streams }: StreamListProps) => {
 	return (
-		<div>
+		<div className="h-96 overflow-auto">
 			{streams.map((stream) => (
 				<div key={stream.id} className="p-4 border-b border-gray-200">
 					<h3 className="text-lg font-bold">{stream.alias}</h3>

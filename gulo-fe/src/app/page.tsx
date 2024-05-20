@@ -4,7 +4,6 @@ import AnalyticsWidget from "@/components/widgets/analytics";
 import BalanceWidget from "@/components/widgets/balance";
 import StreamsWidget from "@/components/widgets/streams/streamWidget";
 import fetchStreams from "@/api/fetchStreams";
-import { Stream } from "@/types/Stream";
 
 export default function Home() {
 	const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
