@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const NavbarIcon = (props: NavbarIconProps) => {
+export default function NavbarIcon(props: NavbarIconProps) {
   return (
     <Link href={props.href}>
       <Image
@@ -13,4 +13,4 @@ export const NavbarIcon = (props: NavbarIconProps) => {
       />
     </Link>
   );
-};
+}

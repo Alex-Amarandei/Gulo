@@ -1,13 +1,7 @@
-import Stream from '@/interfaces/stream-interfaces';
-import { formatAddress, formatDecimals } from '@/utils/format/convert';
+import { ModalProps } from '@/interfaces/props';
+import { formatAddress, formatDecimals } from '@/utils/convert/format';
 
-interface ModalProps {
-  stream: Stream;
-  nftDetails: string;
-  onClose: () => void;
-}
-
-export const StreamModal = ({ stream, nftDetails, onClose }: ModalProps) => {
+export default function StreamModal({ stream, onClose }: ModalProps) {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -57,8 +51,8 @@ export const StreamModal = ({ stream, nftDetails, onClose }: ModalProps) => {
         <p className="text-sm">
           <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
         </p>
-        <img src={nftDetails} alt="SVG" className="w-full h-auto object-contain mt-4" />
+        <img src={stream.nft} alt="SVG" className="w-full h-auto object-contain mt-4" />
       </div>
     </div>
   );
-};
+}

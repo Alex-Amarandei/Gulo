@@ -1,4 +1,4 @@
-const getStreamsQuery = `
+const GetStreamsQuery = `
 query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: Bytes!, $sender: Bytes!, $subgraphId: BigInt!) {
   streams(
     first: $first
@@ -19,11 +19,8 @@ query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: 
     chainId
     alias
     category
-    funder
     sender
     recipient
-    hash
-    timestamp
     depositAmount
     startTime
     endTime
@@ -35,12 +32,6 @@ query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: 
     canceled
     canceledTime
     withdrawnAmount
-    intactAmount
-    position
-    proxied
-    proxender
-    transferable
-    version
     asset {
       id
       address
@@ -74,4 +65,4 @@ query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: 
   }
 }`;
 
-export default getStreamsQuery;
+export default GetStreamsQuery;

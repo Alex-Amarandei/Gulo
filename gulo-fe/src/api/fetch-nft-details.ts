@@ -1,21 +1,16 @@
-import tokenUriAbi from '@/constants/abi/sablier';
-import Stream from '@/interfaces/stream-interfaces';
-import { useReadContract } from 'wagmi';
+import { tokenUriAbi } from '@/constants/abi/sablier';
+import Stream from '@/interfaces/stream';
+import { formatNftDetails } from '@/utils/convert/format';
+import config from '@/utils/wagmi/config';
+import { readContract } from '@wagmi/core';
 
-const mockJsonWithImageFieldBase64 = 'eyJpbWFnZSI6ICIifQ=='; // {"image":""}
-
-export default function fetchNftDetails(stream: Stream) {
-  const { data: name } = useReadContract({
+export default async function fetchNftDetails(stream: Stream) {
+  const result = await readContract(config, {
     abi: tokenUriAbi,
     address: stream.contract.address,
     functionName: 'tokenURI',
-    chainId: Number(stream.chainId),
     args: [stream.tokenId]
   });
 
-  const infoBase64 = name?.replace('data:application/json;base64,', '') ?? mockJsonWithImageFieldBase64;
-  const infoBase64Decoded = JSON.parse(Buffer.from(infoBase64, 'base64').toString('utf-8'));
-  const nftDetailsBase64 = infoBase64Decoded['image'];
-
-  return nftDetailsBase64;
+  return formatNftDetails(result ?? '');
 }

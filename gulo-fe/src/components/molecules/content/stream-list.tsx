@@ -1,37 +1,28 @@
-import fetchNftDetails from '@/api/fetch-nft-details';
-import { StreamModal } from '@/components/widgets/streams/streamModal';
-import Stream from '@/interfaces/stream-interfaces';
-import { formatDecimals } from '@/utils/format/convert';
+import StreamModal from '@/components/atoms/stream-modal';
+import { StreamInfoListProps } from '@/interfaces/props';
+import { StreamInfo } from '@/interfaces/stream-info';
+import { formatDecimals } from '@/utils/convert/format';
 import { useState } from 'react';
 
-interface StreamListProps {
-  streams: Stream[];
-}
+export default function StreamList({ streams }: StreamInfoListProps) {
+  const [selectedStream, setSelectedStream] = useState<StreamInfo | null>(null);
 
-const StreamList = ({ streams }: StreamListProps) => {
-  const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
-  const [selectedNftDetails, setSelectedNftDetails] = useState<string | null>(null);
-
-  const handleCardClick = (stream: Stream, nftDetails: string) => {
+  const handleCardClick = (stream: StreamInfo) => {
     setSelectedStream(stream);
-    setSelectedNftDetails(nftDetails);
   };
 
   const handleCloseModal = () => {
     setSelectedStream(null);
-    setSelectedNftDetails(null);
   };
 
   return (
     <div className="overflow-auto text-white p-4">
       {streams.map((stream) => {
-        const nftDetails = fetchNftDetails(stream);
-
         return (
           <div
             key={stream.id}
             className="flex items-center p-4 mb-6 bg-gradient-to-br from-gray-700 to-gray-800 bg-opacity-90 rounded-lg shadow-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-            onClick={() => handleCardClick(stream, nftDetails)}
+            onClick={() => handleCardClick(stream)}
           >
             <input
               type="checkbox"
@@ -49,16 +40,12 @@ const StreamList = ({ streams }: StreamListProps) => {
                 <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
               </p>
             </div>
-            <img src={nftDetails} alt="SVG" className="w-1/4 h-1/2 object-contain ml-4" />
+            <img src={stream.nft} alt="SVG" className="w-1/4 h-1/2 object-contain ml-4" />
           </div>
         );
       })}
 
-      {selectedStream && (
-        <StreamModal stream={selectedStream} nftDetails={selectedNftDetails ?? ''} onClose={handleCloseModal} />
-      )}
+      {selectedStream && <StreamModal stream={selectedStream} onClose={handleCloseModal} />}
     </div>
   );
-};
-
-export default StreamList;
+}

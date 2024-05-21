@@ -1,10 +1,10 @@
 'use client';
 
-import { NavbarIcon } from '@/components/atoms/navbar-icon';
+import NavbarIcon from '@/components/atoms/navbar-icon';
 import { NavbarIconMap } from '@/constants/maps/navbar-icons-map';
 import { usePathname } from 'next/navigation';
 
-export const Navigation = () => {
+export default function Navigation() {
   const currentPath = usePathname();
   const icons = NavbarIconMap[currentPath] || NavbarIconMap['/'];
 
@@ -17,4 +17,4 @@ export const Navigation = () => {
       </div>
     </nav>
   );
-};
+}

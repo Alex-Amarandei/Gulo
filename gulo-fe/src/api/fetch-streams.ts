@@ -1,4 +1,4 @@
-import query from '@/constants/query/getStreamsQuery';
+import GetStreamsQuery from '@/constants/query/get-streams-query';
 
 const variables = {
   first: 31,
@@ -15,7 +15,7 @@ const fetchStreams = async () => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      query,
+      query: GetStreamsQuery,
       variables
     })
   });

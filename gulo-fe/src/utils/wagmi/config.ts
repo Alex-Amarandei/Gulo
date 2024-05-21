@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import { mainnet, sepolia } from "wagmi/chains";
-import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { http } from "wagmi";
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { mainnet, sepolia } from 'wagmi/chains';
 
 const config = getDefaultConfig({
-	appName: "Gulo",
-	projectId: "YOUR_PROJECT_ID",
-	chains: [mainnet, sepolia],
-	ssr: true,
+  appName: 'Gulo',
+  projectId: 'a6bc9e7c5a90b4c17dee323e0efc3683',
+  chains: [mainnet, sepolia],
+  ssr: true
 });
 
 export default config;

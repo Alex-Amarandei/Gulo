@@ -1,7 +1,7 @@
-import { Author } from '@/components/molecules/footer/author';
-import { ContactUs } from '@/components/molecules/footer/contact-us';
-import { Copyright } from '@/components/molecules/footer/copyright';
-import { GitHub } from '@/components/molecules/footer/github';
+import Author from '@/components/molecules/footer/author';
+import ContactUs from '@/components/molecules/footer/contact-us';
+import Copyright from '@/components/molecules/footer/copyright';
+import GitHub from '@/components/molecules/footer/github';
 
 export default function Footer() {
   return (

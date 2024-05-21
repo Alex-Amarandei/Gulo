@@ -1,6 +1,7 @@
+import Content from '@/components/templates/content';
 import Footer from '@/components/templates/footer';
 import Header from '@/components/templates/header';
-import WagmiProviderWrapper from '@/components/wrappers/wagmi';
+import WagmiProviderWrapper from '@/components/contexts/wagmi';
 import '@/styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <WagmiProviderWrapper>
           <Header />
-          {children}
+          <Content children={children} />
           <Footer />
         </WagmiProviderWrapper>
       </body>

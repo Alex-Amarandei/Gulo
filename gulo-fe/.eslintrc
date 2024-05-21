@@ -8,12 +8,12 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
   ],
   "rules": {
     "no-console": "warn",
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
-  }
+    "react-hooks/exhaustive-deps": "warn",
+  },
 }
