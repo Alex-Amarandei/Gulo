@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Stream from "@/interfaces/stream";
-import StreamList from "./streamList";
+import Stream from '@/interfaces/stream-interfaces';
+import StreamList from './streamList';
 
 interface StreamsWidgetProps {
-	streams: Stream[];
+  streams: Stream[];
 }
 
 const StreamsWidget = ({ streams }: StreamsWidgetProps) => {
-	return <StreamList streams={streams} />;
+  return <StreamList streams={streams} />;
 };
 
 export default StreamsWidget;

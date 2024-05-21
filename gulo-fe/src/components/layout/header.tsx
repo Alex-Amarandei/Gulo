@@ -1,4 +1,4 @@
-import Navbar from "./navbar";
+import Navbar from "../organisms/navbar";
 
 export default function Header() {
 	return (

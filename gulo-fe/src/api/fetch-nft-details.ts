@@ -1,5 +1,5 @@
 import tokenUriAbi from '@/constants/abi/sablier';
-import Stream from '@/interfaces/stream';
+import Stream from '@/interfaces/stream-interfaces';
 import { useReadContract } from 'wagmi';
 
 const mockJsonWithImageFieldBase64 = 'eyJpbWFnZSI6ICIifQ=='; // {"image":""}
