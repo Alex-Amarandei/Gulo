@@ -1,3 +1,5 @@
+'use client';
+
 import { NavbarIcon } from '@/components/atoms/navbar-icon';
 import { NavbarIconMap } from '@/constants/maps/navbar-icons-map';
 import { usePathname } from 'next/navigation';

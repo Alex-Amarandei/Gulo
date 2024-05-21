@@ -1,6 +1,6 @@
-import { Logo } from '@/components/molecules/logo';
-import { Navigation } from '@/components/molecules/navigation';
-import { ConnectWallet } from '../molecules/connect-wallet';
+import { Logo } from '@/components/molecules/header/logo';
+import { Navigation } from '@/components/molecules/header/navigation';
+import { ConnectWallet } from '../molecules/header/connect-wallet';
 
 const Navbar = () => {
   return (

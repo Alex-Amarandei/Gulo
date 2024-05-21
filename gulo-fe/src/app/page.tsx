@@ -1,7 +1,6 @@
 'use client';
 
 import fetchStreams from '@/api/fetch-streams';
-import AnalyticsWidget from '@/components/widgets/analytics';
 import BalanceWidget from '@/components/widgets/balance';
 import StreamsWidget from '@/components/widgets/streams/streamWidget';
 import Stream from '@/interfaces/stream-interfaces';
@@ -11,7 +10,6 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
-  const [isAnalyticsCollapsed, setIsAnalyticsCollapsed] = useState(false);
   const [streams, setStreams] = useState<Stream[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -39,18 +37,8 @@ export default function Home() {
           {!isStreamsCollapsed && loading && <div>Loading...</div>}
         </div>
 
-        <div className="border p-2 w-1/3">
+        <div className="border p-2 w-2/3">
           <BalanceWidget />
-        </div>
-
-        <div className={`border p-2 transition-all duration-300 ${isAnalyticsCollapsed ? 'w-16' : 'w-1/3'}`}>
-          <button
-            className="text-orange-600 bg-gray-800 p-2 mb-2"
-            onClick={() => setIsAnalyticsCollapsed(!isAnalyticsCollapsed)}
-          >
-            <FontAwesomeIcon icon={isAnalyticsCollapsed ? faAngleLeft : faAngleRight} size="lg" />
-          </button>
-          {!isAnalyticsCollapsed && <AnalyticsWidget />}
         </div>
       </main>
     </div>
