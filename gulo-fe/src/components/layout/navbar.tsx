@@ -12,19 +12,19 @@ const navbarIconMap: {
 	};
 } = {
 	"/analytics": {
-		analytics: "/images/miscellaneous/analytics_on.png",
-		overview: "/images/miscellaneous/overview_off.png",
-		reports: "/images/miscellaneous/reports_off.png",
+		analytics: "/images/miscellaneous/analytics-on.png",
+		overview: "/images/miscellaneous/overview-off.png",
+		reports: "/images/miscellaneous/reports-off.png",
 	},
 	"/": {
-		analytics: "/images/miscellaneous/analytics_off.png",
-		overview: "/images/miscellaneous/overview_on.png",
-		reports: "/images/miscellaneous/reports_off.png",
+		analytics: "/images/miscellaneous/analytics-off.png",
+		overview: "/images/miscellaneous/overview-on.png",
+		reports: "/images/miscellaneous/reports-off.png",
 	},
 	"/reports": {
-		analytics: "/images/miscellaneous/analytics_off.png",
-		overview: "/images/miscellaneous/overview_off.png",
-		reports: "/images/miscellaneous/reports_on.png",
+		analytics: "/images/miscellaneous/analytics-off.png",
+		overview: "/images/miscellaneous/overview-off.png",
+		reports: "/images/miscellaneous/reports-on.png",
 	},
 };
 
