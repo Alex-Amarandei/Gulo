@@ -6,7 +6,7 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import AnalyticsWidget from "@/components/widgets/analytics";
 import BalanceWidget from "@/components/widgets/balance";
 import StreamsWidget from "@/components/widgets/streams/streamWidget";
-import fetchStreams from "@/api/fetchStreams";
+import fetchStreams from "@/api/fetch-streams";
 import Stream from "@/interfaces/stream";
 
 export default function Home() {

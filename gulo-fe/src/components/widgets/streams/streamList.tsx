@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import fetchNftDetails from "@/api/fetchNftDetails";
+import fetchNftDetails from "@/api/fetch-nft-details";
 import Stream from "@/interfaces/stream";
 import { formatDecimals } from "@/utils/format/convert";
 import { StreamModal } from "@/components/widgets/streams/streamModal";
