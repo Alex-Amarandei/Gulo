@@ -9,8 +9,7 @@ export default function Author() {
         <Link
           href="https://www.linkedin.com/in/alex-amarandei/"
           target="_blank"
-          className="text-blue-400 hover:underline"
-        >
+          className="text-blue-400 hover:underline">
           Alex Amarandei
         </Link>
       </p>

@@ -1,5 +1,5 @@
 import { ModalProps } from '@/interfaces/props';
-import { formatAddress, formatDecimals } from '@/utils/convert/format';
+import { formatAddress, formatDecimals } from '@/utils/converters/format';
 
 export default function StreamModal({ stream, onClose }: ModalProps) {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -11,21 +11,18 @@ export default function StreamModal({ stream, onClose }: ModalProps) {
   return (
     <div
       className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50"
-      onClick={handleOverlayClick}
-    >
+      onClick={handleOverlayClick}>
       <div className="relative bg-white text-black p-6 rounded-lg max-w-lg w-full">
         <button
           className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
           onClick={onClose}
-          aria-label="Close"
-        >
+          aria-label="Close">
           <svg
             className="w-6 h-6 text-gray-800 hover:text-gray-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>

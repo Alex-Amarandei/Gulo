@@ -1,10 +1,10 @@
-interface NavbarIconPaths {
+export interface NavbarIconPaths {
   analytics: string;
   overview: string;
   reports: string;
 }
 
-interface NavbarIconProps {
+export interface NavbarIconProps {
   href: string;
   src: string;
   alt: string;

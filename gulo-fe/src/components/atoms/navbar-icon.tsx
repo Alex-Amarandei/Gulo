@@ -1,3 +1,4 @@
+import { NavbarIconProps } from '@/interfaces/navbar-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 

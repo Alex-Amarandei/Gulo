@@ -1,12 +1,12 @@
 'use client';
 
 import NavbarIcon from '@/components/atoms/navbar-icon';
-import { NavbarIconMap } from '@/constants/maps/navbar-icons-map';
+import { NavbarIconPathsByRoute } from '@/constants/mappings/navbar-icons';
 import { usePathname } from 'next/navigation';
 
 export default function Navigation() {
-  const currentPath = usePathname();
-  const icons = NavbarIconMap[currentPath] || NavbarIconMap['/'];
+  const currentRoute = usePathname();
+  const icons = NavbarIconPathsByRoute[currentRoute] || NavbarIconPathsByRoute['/'];
 
   return (
     <nav className="flex-1 flex justify-center">

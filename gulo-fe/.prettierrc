@@ -3,14 +3,12 @@
   "bracketSpacing": true,
   "endOfLine": "auto",
   "importOrder": [
-    "^react$|^styled-components",
     "<THIRD_PARTY_MODULES>",
     "<THIRD_PARTY_TS_TYPES>",
     "<TS_TYPES>",
-    "^@internal/(.*)$",
+    "^@/internal/(.*)$",
     "^[./].*(?<!\\.(c|le|sc)ss)$",
-    "^[.]/[-a-zA-Z0-9_]+[.](module)[.](css|scss|less)$",
-    "^[./]"
+    "^[.]/[-a-zA-Z0-9_]+[.](module)[.](css|scss|less)$"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,

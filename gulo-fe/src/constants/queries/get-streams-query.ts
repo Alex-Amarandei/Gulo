@@ -1,4 +1,4 @@
-const GetStreamsQuery = `
+const GET_STREAMS_QUERY = `
 query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: Bytes!, $sender: Bytes!, $subgraphId: BigInt!) {
   streams(
     first: $first
@@ -65,4 +65,4 @@ query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: 
   }
 }`;
 
-export default GetStreamsQuery;
+export default GET_STREAMS_QUERY;

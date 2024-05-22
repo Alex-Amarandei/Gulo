@@ -1,7 +1,8 @@
 'use client';
 
+import { ReactNode, createContext, useContext, useState } from 'react';
+
 import { StreamContextType, StreamInfo } from '@/interfaces/stream-info';
-import { createContext, ReactNode, useContext, useState } from 'react';
 
 const StreamContext = createContext<StreamContextType | undefined>(undefined);
 

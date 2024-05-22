@@ -2,6 +2,7 @@ import Stream from '@/interfaces/stream';
 
 export interface StreamInfo extends Stream {
   nft: string;
+  isSelected: boolean;
 }
 
 export interface StreamContextType {
