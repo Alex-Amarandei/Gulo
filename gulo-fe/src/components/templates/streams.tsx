@@ -44,7 +44,13 @@ export default function Streams() {
   }, [account.isConnected]);
 
   return (
-    <div className={`p-2 transition-all duration-300 shadow-2xl ${isStreamsCollapsed ? 'w-16' : 'w-1/3'}`}>
+    <div
+      className={`p-2 transition-all duration-300 shadow-2xl ${isStreamsCollapsed ? 'w-16' : 'w-1/3'} btn ${isStreamsCollapsed ? 'cursor-pointer' : 'cursor-default'}`}
+      onClick={() => {
+        if (isStreamsCollapsed) {
+          setIsStreamsCollapsed(false);
+        }
+      }}>
       <div className="flex justify-between items-center">
         <button
           className="sablier-orange bg-gray-800 p-2 mb-2"

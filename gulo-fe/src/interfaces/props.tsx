@@ -20,7 +20,7 @@ export interface FilterButtonProps {
 }
 
 export interface DatePickerModalProps {
-  initialDate: Date | null;
+  date: Date | null;
   onClose: () => void;
   onDateChange: (date: Date | null) => void;
 }

@@ -26,7 +26,7 @@ export default function Balance() {
         <strong>1234567.56</strong>
       </div>
       <div className="balance-rectangle-3"></div>
-      {isModalOpen && <DatePickerModal initialDate={date} onClose={handleCloseModal} onDateChange={setDate} />}
+      {isModalOpen && <DatePickerModal date={date} onClose={handleCloseModal} onDateChange={setDate} />}
     </div>
   );
 }

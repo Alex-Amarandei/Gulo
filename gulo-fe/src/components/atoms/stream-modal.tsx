@@ -10,11 +10,11 @@ export default function StreamModal({ stream, onClose }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-opacity-70 bg-gray-900 flex items-center justify-center z-50"
       onClick={handleOverlayClick}>
-      <div className="relative bg-white text-black p-6 rounded-lg max-w-lg w-full">
+      <div className="relative glass text-black p-6 rounded-lg max-w-lg w-full">
         <button
-          className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+          className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-800 transition-colors sablier-orange"
           onClick={onClose}
           aria-label="Close">
           <svg

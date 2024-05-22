@@ -2,7 +2,7 @@ import { DatePickerModalProps } from '@/interfaces/props';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function DatePickerModal({ initialDate, onClose, onDateChange }: DatePickerModalProps) {
+export default function DatePickerModal({ date, onClose, onDateChange }: DatePickerModalProps) {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -23,7 +23,7 @@ export default function DatePickerModal({ initialDate, onClose, onDateChange }: 
           </svg>
         </button>
         <DatePicker
-          selected={initialDate}
+          selected={date}
           onChange={date => onDateChange(date)}
           showTimeSelect
           dateFormat="Pp"
