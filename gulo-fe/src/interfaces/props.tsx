@@ -18,3 +18,9 @@ export interface FilterButtonProps {
   text: string;
   onClick: () => void;
 }
+
+export interface DatePickerModalProps {
+  initialDate: Date | null;
+  onClose: () => void;
+  onDateChange: (date: Date | null) => void;
+}
