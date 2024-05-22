@@ -22,7 +22,7 @@ export default function Balance() {
           {date ? date.toLocaleString() : 'Select Date'}
         </span>
       </div>
-      <div className="balance-rectangle-2 flex items-center justify-center text-center text-6xl text-slate-200">
+      <div className="balance-rectangle-2 flex items-center justify-center text-center text-6xl text-slate-100">
         <strong>1234567.56</strong>
       </div>
       <div className="balance-rectangle-3"></div>
