@@ -1,7 +1,7 @@
 import DatePickerModal from '@/components/atoms/date-picker-modal';
 import { useState } from 'react';
 
-export default function BalanceWidget() {
+export default function Balance() {
   const [date, setDate] = useState<Date | null>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
 
