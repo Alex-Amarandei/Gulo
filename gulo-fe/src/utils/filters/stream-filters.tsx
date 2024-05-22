@@ -23,16 +23,23 @@ export const filterUncancelable = (streams: StreamInfo[]): StreamInfo[] => {
   });
 };
 
-export const filterToMe = (streams: StreamInfo[], account: Address): StreamInfo[] => {
+export const filterToMe = (streams: StreamInfo[], address: Address): StreamInfo[] => {
+  const addressInLowerCase = address.toLowerCase();
+
   return streams.filter(stream => {
-    stream.isSelected = stream.recipient === account;
-    return stream.recipient === account;
+    const recipientInLowerCase = stream.recipient.toLowerCase();
+    stream.isSelected = recipientInLowerCase === addressInLowerCase;
+    return recipientInLowerCase === addressInLowerCase;
   });
 };
 
-export const filterFromMe = (streams: StreamInfo[], account: Address): StreamInfo[] => {
+export const filterFromMe = (streams: StreamInfo[], address: Address): StreamInfo[] => {
+  const addressInLowerCase = address.toLowerCase();
+
   return streams.filter(stream => {
-    stream.isSelected = stream.sender === account;
-    return stream.sender === account;
+    const senderInLowerCase = stream.sender.toLowerCase();
+
+    stream.isSelected = senderInLowerCase === addressInLowerCase;
+    return senderInLowerCase === addressInLowerCase;
   });
 };

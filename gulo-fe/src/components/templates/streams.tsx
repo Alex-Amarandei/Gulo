@@ -14,20 +14,21 @@ import {
   filterUncancelable,
   filterUnselectAll,
 } from '@/utils/filters/stream-filters';
+import WAGMI_CONFIG from '@/utils/wagmi/config';
 import { faAngleLeft, faAngleRight, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getAccount } from '@wagmi/core';
 import { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
 
 export default function Streams() {
   const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
   const { streams, setStreams } = useStreams();
   const { selectedStreams, setSelectedStreams } = useStreams();
-  const account = useAccount();
+  const account = getAccount(WAGMI_CONFIG);
 
   useEffect(() => {
     const fetchData = async () => {
-      const streams = await fetchStreams(account.address ?? '0x');
+      const streams = await fetchStreams();
       const streamWithNftDetails: StreamInfo[] = await Promise.all(
         streams.map(async (stream: Stream) => ({
           ...stream,
@@ -40,27 +41,40 @@ export default function Streams() {
     };
 
     fetchData();
-  }, [account]);
+  }, [account.isConnected]);
 
   return (
-    <div className={`border p-2 transition-all duration-300 ${isStreamsCollapsed ? 'w-16' : 'w-1/3'}`}>
+    <div className={`p-2 transition-all duration-300 shadow-2xl ${isStreamsCollapsed ? 'w-16' : 'w-1/3'}`}>
       <div className="flex justify-between items-center">
         <button
           className="text-orange-600 bg-gray-800 p-2 mb-2"
           onClick={() => setIsStreamsCollapsed(!isStreamsCollapsed)}>
           <FontAwesomeIcon icon={isStreamsCollapsed ? faAngleRight : faAngleLeft} size="lg" />
         </button>
-        {selectedStreams.length === streams.length ? (
-          <FilterButton text="None" onClick={() => setSelectedStreams(filterUnselectAll(streams))} />
-        ) : (
-          <FilterButton text="All" onClick={() => setSelectedStreams(filterSelectAll(streams))} />
+        {!isStreamsCollapsed && (
+          <>
+            {selectedStreams.length === streams.length ? (
+              <FilterButton text="None" onClick={() => setSelectedStreams(filterUnselectAll(streams))} />
+            ) : (
+              <FilterButton text="All" onClick={() => setSelectedStreams(filterSelectAll(streams))} />
+            )}
+            <FilterButton text="Uncancelable" onClick={() => setSelectedStreams(filterUncancelable(streams))} />
+            <FilterButton
+              text="To Me"
+              onClick={() => {
+                if (!account.address) throw new Error('Please Connect Wallet first');
+                setSelectedStreams(filterToMe(streams, account.address));
+              }}
+            />
+            <FilterButton
+              text="From Me"
+              onClick={() => {
+                if (!account.address) throw new Error('Please Connect Wallet first');
+                setSelectedStreams(filterFromMe(streams, account.address));
+              }}
+            />
+          </>
         )}
-        <FilterButton text="Uncancelable" onClick={() => setSelectedStreams(filterUncancelable(streams))} />
-        <FilterButton text="To Me" onClick={() => setSelectedStreams(filterToMe(streams, account.address ?? '0x'))} />
-        <FilterButton
-          text="From Me"
-          onClick={() => setSelectedStreams(filterFromMe(streams, account.address ?? '0x'))}
-        />
         {!isStreamsCollapsed && (
           <button className="text-orange-600 bg-gray-800 p-2 mb-2">
             <a href="https://app.sablier.com" target="_blank" rel="noopener noreferrer" className="text-orange-600">

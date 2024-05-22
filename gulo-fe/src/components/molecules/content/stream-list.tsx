@@ -19,7 +19,10 @@ export default function StreamList({ streams }: StreamInfoListProps) {
     setSelectedStream(null);
   };
 
-  const handleSelectStream = (stream: StreamInfo, event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+  const handleSelectStream = (
+    stream: StreamInfo,
+    event: React.MouseEvent<HTMLInputElement, MouseEvent> | React.ChangeEvent<HTMLInputElement>,
+  ) => {
     event.stopPropagation();
     stream.isSelected = !stream.isSelected;
 
@@ -56,7 +59,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
                 <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
               </p>
             </div>
-            <img src={stream.nft} alt="SVG" className="w-1/4 h-1/2 object-contain ml-4" />
+            <img src={stream.nft} alt="SVG" className="w-1/4 h-1/2 object-contain ml-4 rounded-lg" />
           </div>
         );
       })}
