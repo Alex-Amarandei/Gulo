@@ -49,7 +49,16 @@ export default function StreamList({ streams }: StreamInfoListProps) {
               onChange={() => {}}
             />
             <div className="flex-grow mx-4 pl-6">
-              <h3 className="text-lg font-bold mb-2">{stream.alias}</h3>
+              <h3 className="text-md font-bold mb-2">
+                <a
+                  href={`https://app.sablier.com/stream/${stream.alias.toUpperCase()}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="sablier-orange"
+                  onClick={event => event.stopPropagation()}>
+                  <u>{stream.alias.toUpperCase()}</u>
+                </a>
+              </h3>
               <p className="text-sm">
                 <strong>Deposited Amount:</strong> {formatDecimals(stream.depositAmount)} {stream.asset.symbol}
               </p>
