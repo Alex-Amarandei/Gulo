@@ -18,7 +18,7 @@ import WAGMI_CONFIG from '@/utils/wagmi/config';
 import { faAngleLeft, faAngleRight, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAccount } from '@wagmi/core';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 export default function Streams() {
   const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
@@ -45,7 +45,7 @@ export default function Streams() {
 
   return (
     <div
-      className={`p-2 transition-all duration-300 shadow-2xl ${isStreamsCollapsed ? 'w-16' : 'w-1/3'} btn ${isStreamsCollapsed ? 'cursor-pointer' : 'cursor-default'}`}
+      className={`overflow-auto p-2 transition-all duration-300 shadow-2xl max-h-[90vh] ${isStreamsCollapsed ? 'w-16' : 'w-1/3'} btn ${isStreamsCollapsed ? 'cursor-pointer' : 'cursor-default'}`}
       onClick={() => {
         if (isStreamsCollapsed) {
           setIsStreamsCollapsed(false);
@@ -91,7 +91,9 @@ export default function Streams() {
       </div>
       {!isStreamsCollapsed && (
         <div className="flex justify-between items-center">
-          <StreamList streams={streams} />
+          <Suspense fallback={<strong>Loading...</strong>}>
+            <StreamList streams={streams} />
+          </Suspense>
         </div>
       )}
     </div>

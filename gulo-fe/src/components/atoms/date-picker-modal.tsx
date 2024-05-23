@@ -1,4 +1,5 @@
 import { DatePickerModalProps } from '@/interfaces/props';
+import { Suspense } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -22,13 +23,16 @@ export default function DatePickerModal({ date, onClose, onDateChange }: DatePic
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <DatePicker
-          selected={date}
-          onChange={date => onDateChange(date)}
-          showTimeSelect
-          dateFormat="Pp"
-          className="bg-transparent text-slate-100 font-bold border-0 focus:border-0 text-center text-lg focus:ring-0"
-        />
+        <Suspense fallback={<strong>NOW</strong>}>
+          <DatePicker
+            placeholderText="NOW"
+            selected={date}
+            onChange={date => onDateChange(date)}
+            showTimeSelect
+            dateFormat="Pp"
+            className="bg-transparent text-slate-100 font-bold border-0 focus:border-0 text-center text-lg focus:ring-0"
+          />
+        </Suspense>
       </div>
     </div>
   );

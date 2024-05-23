@@ -46,6 +46,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
               checked={stream.isSelected}
               className="h-6 w-6 text-gray-800 rounded-lg focus:ring-0 focus:ring-transparent focus:ring-offset-0 border-none"
               onClick={event => handleSelectStream(stream, event)}
+              onChange={() => {}}
             />
             <div className="flex-grow mx-4 pl-6">
               <h3 className="text-lg font-bold mb-2">{stream.alias}</h3>

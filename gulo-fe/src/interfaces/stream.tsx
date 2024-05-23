@@ -22,7 +22,7 @@ interface Contract {
   version: string;
 }
 
-interface Segment {
+export interface Segment {
   id: string;
   position: bigint;
   amount: string;
