@@ -1,11 +1,14 @@
 import { StreamInfo } from '@/interfaces/stream-info';
-import { isCircular } from '@/utils/balances';
+import areAddressesEqual from '@/utils/adresses';
 import { Address } from 'viem';
 
+export function isCircular(stream: StreamInfo): boolean {
+  return stream.sender === stream.recipient;
+}
 
-
-import areAddressesEqual from './adresses';
-
+export function isOutgoing(stream: StreamInfo, address: Address | undefined): boolean {
+  return stream.sender === address && !isCircular(stream);
+}
 
 export const selectAll = (streams: StreamInfo[]): StreamInfo[] => {
   return streams.map(stream => {

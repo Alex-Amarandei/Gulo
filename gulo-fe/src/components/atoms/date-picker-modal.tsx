@@ -33,6 +33,11 @@ export default function DatePickerModal({ date, onClose, onDateChange }: DatePic
             className="bg-transparent text-slate-100 font-bold border-0 focus:border-0 text-center text-lg focus:ring-0"
           />
         </Suspense>
+        <button
+          className="sablier-orange drop-shadow-lg bg-gray-800 p-2 transition-transform duration-300 hover:-translate-y-1"
+          onClick={() => onDateChange(null)}>
+          <strong>NOW</strong>
+        </button>
       </div>
     </div>
   );

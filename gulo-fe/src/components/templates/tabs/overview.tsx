@@ -1,4 +1,4 @@
-import Balance from '@/components/organisms/balance';
+import Balance from '@/components/molecules/content/balance';
 
 export default function Overview() {
   return (
