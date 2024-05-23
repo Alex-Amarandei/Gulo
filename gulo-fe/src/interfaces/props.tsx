@@ -15,8 +15,10 @@ export interface ModalProps {
 }
 
 export interface FilterButtonProps {
-  text: string;
-  onClick: () => void;
+  first: string;
+  second: string;
+  onFirstClick: () => void;
+  onSecondClick: () => void;
 }
 
 export interface DatePickerModalProps {

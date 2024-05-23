@@ -2,7 +2,7 @@ import StreamModal from '@/components/atoms/stream-modal';
 import { useStreams } from '@/components/contexts/streams-context';
 import { StreamInfoListProps } from '@/interfaces/props';
 import { StreamInfo } from '@/interfaces/stream-info';
-import { formatDecimals } from '@/utils/format';
+import { formatDecimals } from '@/utils/formats';
 import { useEffect, useState } from 'react';
 
 export default function StreamList({ streams }: StreamInfoListProps) {

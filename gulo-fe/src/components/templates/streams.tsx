@@ -7,14 +7,17 @@ import { useStreams } from '@/components/contexts/streams-context';
 import StreamList from '@/components/molecules/content/stream-list';
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
+import WAGMI_CONFIG from '@/utils/configs';
 import {
-  filterFromMe,
-  filterSelectAll,
-  filterToMe,
-  filterUncancelable,
-  filterUnselectAll,
+  selectAll,
+  selectCancelable,
+  selectCircular,
+  selectIn,
+  selectNonCancelable,
+  selectNonCircular,
+  selectNone,
+  selectOut,
 } from '@/utils/filters';
-import WAGMI_CONFIG from '@/utils/wagmi-config';
 import { faAngleLeft, faAngleRight, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAccount } from '@wagmi/core';
@@ -23,7 +26,7 @@ import { Suspense, useEffect, useState } from 'react';
 export default function Streams() {
   const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
   const { streams, setStreams } = useStreams();
-  const { selectedStreams, setSelectedStreams } = useStreams();
+  const { setSelectedStreams } = useStreams();
   const account = getAccount(WAGMI_CONFIG);
 
   useEffect(() => {
@@ -59,25 +62,29 @@ export default function Streams() {
         </button>
         {!isStreamsCollapsed && (
           <>
-            {selectedStreams.length === streams.length ? (
-              <FilterButton text="None" onClick={() => setSelectedStreams(filterUnselectAll(streams))} />
-            ) : (
-              <FilterButton text="All" onClick={() => setSelectedStreams(filterSelectAll(streams))} />
-            )}
-            <FilterButton text="Uncancelable" onClick={() => setSelectedStreams(filterUncancelable(streams))} />
             <FilterButton
-              text="To Me"
-              onClick={() => {
-                if (!account.address) throw new Error('Please Connect Wallet first');
-                setSelectedStreams(filterToMe(streams, account.address));
-              }}
+              first={'All'}
+              second={'None'}
+              onFirstClick={() => setSelectedStreams(selectAll(streams))}
+              onSecondClick={() => setSelectedStreams(selectNone(streams))}
             />
             <FilterButton
-              text="From Me"
-              onClick={() => {
-                if (!account.address) throw new Error('Please Connect Wallet first');
-                setSelectedStreams(filterFromMe(streams, account.address));
-              }}
+              first={'Non-Self'}
+              second={'Self'}
+              onFirstClick={() => setSelectedStreams(selectNonCircular(streams))}
+              onSecondClick={() => setSelectedStreams(selectCircular(streams))}
+            />
+            <FilterButton
+              first={'In'}
+              second={'Out'}
+              onFirstClick={() => setSelectedStreams(selectIn(streams, account.address))}
+              onSecondClick={() => setSelectedStreams(selectOut(streams, account.address))}
+            />
+            <FilterButton
+              first={'Cancelable'}
+              second={'Non-Cancelable'}
+              onFirstClick={() => setSelectedStreams(selectCancelable(streams))}
+              onSecondClick={() => setSelectedStreams(selectNonCancelable(streams))}
             />
           </>
         )}

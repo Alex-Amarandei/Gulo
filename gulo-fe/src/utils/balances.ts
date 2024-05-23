@@ -1,7 +1,7 @@
 import { Segment } from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
-import { rebase } from '@/utils/format';
-import WAGMI_CONFIG from '@/utils/wagmi-config';
+import WAGMI_CONFIG from '@/utils/configs';
+import { rebase } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 import BigNumber from 'bignumber.js';
 import { Address } from 'viem';
@@ -17,7 +17,7 @@ function getCurrentSegmentAmount(segment: Segment, timestamp: number): BigNumber
     .times(rebase(BigNumber(segment.amount)));
 }
 
-function isCircular(stream: StreamInfo): boolean {
+export function isCircular(stream: StreamInfo): boolean {
   return stream.sender === stream.recipient;
 }
 

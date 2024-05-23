@@ -2,7 +2,7 @@
 
 import DatePickerModal from '@/components/atoms/date-picker-modal';
 import { useStreams } from '@/components/contexts/streams-context';
-import getBalance from '@/utils/balance';
+import getBalance from '@/utils/balances';
 import { useEffect, useState } from 'react';
 
 export default function Balance() {

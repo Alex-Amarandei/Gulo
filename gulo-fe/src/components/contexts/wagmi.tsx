@@ -1,6 +1,6 @@
 'use client';
 
-import WAGMI_CONFIG from '@/utils/wagmi-config';
+import WAGMI_CONFIG from '@/utils/configs';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';

@@ -1,7 +1,7 @@
 import { TOKEN_URI_ABI } from '@/constants/abis/sablier';
 import Stream from '@/interfaces/stream';
-import { formatNftDetails } from '@/utils/format';
-import WAGMI_CONFIG from '@/utils/wagmi-config';
+import WAGMI_CONFIG from '@/utils/configs';
+import { formatNftDetails } from '@/utils/formats';
 import { readContract } from '@wagmi/core';
 
 export default async function fetchNftDetails(stream: Stream) {
