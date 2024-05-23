@@ -1,5 +1,5 @@
 import { ModalProps } from '@/interfaces/props';
-import { formatDecimals } from '@/utils/converters/format';
+import { formatDecimals } from '@/utils/format';
 
 export default function StreamModal({ stream, onClose }: ModalProps) {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {

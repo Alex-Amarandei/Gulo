@@ -2,14 +2,14 @@
 
 import DatePickerModal from '@/components/atoms/date-picker-modal';
 import { useStreams } from '@/components/contexts/streams-context';
-import getBalance from '@/utils/math/balance';
+import getBalance from '@/utils/balance';
 import { useEffect, useState } from 'react';
 
 export default function Balance() {
   const [date, setDate] = useState<Date | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedStreams } = useStreams();
-  const [balance, setBalance] = useState(getBalance(selectedStreams));
+  const [balance, setBalance] = useState('0.0000');
 
   const handleOpenModal = () => {
     setIsModalOpen(true);

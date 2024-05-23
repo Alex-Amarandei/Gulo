@@ -1,5 +1,5 @@
 import GET_STREAMS_QUERY from '@/constants/queries/get-streams-query';
-import WAGMI_CONFIG from '@/utils/wagmi/config';
+import WAGMI_CONFIG from '@/utils/wagmi-config';
 import { getAccount } from '@wagmi/core';
 
 const fetchStreams = async () => {

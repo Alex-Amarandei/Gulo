@@ -16,3 +16,7 @@ export function formatNftDetails(data: string): string {
 
   return nftDetailsBase64;
 }
+
+export function rebase(x: BigNumber): BigNumber {
+  return x.dividedBy(DIVISOR_1_E_18);
+}

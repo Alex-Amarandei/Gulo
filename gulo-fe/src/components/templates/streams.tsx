@@ -13,8 +13,8 @@ import {
   filterToMe,
   filterUncancelable,
   filterUnselectAll,
-} from '@/utils/filters/stream-filters';
-import WAGMI_CONFIG from '@/utils/wagmi/config';
+} from '@/utils/filters';
+import WAGMI_CONFIG from '@/utils/wagmi-config';
 import { faAngleLeft, faAngleRight, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAccount } from '@wagmi/core';
