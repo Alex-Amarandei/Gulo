@@ -1,5 +1,5 @@
 import { ModalProps } from '@/interfaces/props';
-import { formatAddress, formatDecimals } from '@/utils/converters/format';
+import { formatDecimals } from '@/utils/converters/format';
 
 export default function StreamModal({ stream, onClose }: ModalProps) {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -28,10 +28,10 @@ export default function StreamModal({ stream, onClose }: ModalProps) {
         </button>
         <h3 className="text-xl font-bold mb-4">{stream.alias}</h3>
         <p className="text-sm">
-          <strong>Sender:</strong> {formatAddress(stream.sender)}
+          <strong>Sender:</strong> {stream.sender}
         </p>
         <p className="text-sm">
-          <strong>Recipient:</strong> {formatAddress(stream.recipient)}
+          <strong>Recipient:</strong> {stream.recipient}
         </p>
         <p className="text-sm">
           <strong>Deposited Amount:</strong> {formatDecimals(stream.depositAmount)} {stream.asset.symbol}

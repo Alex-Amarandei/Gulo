@@ -48,5 +48,5 @@ export default function getBalance(streams: StreamInfo[]): string {
       .minus(BigNumber(stream.withdrawnAmount));
   });
 
-  return entitledAmount.dividedBy(DIVISOR_1_E_18).toFixed(8).toString();
+  return entitledAmount.dividedBy(DIVISOR_1_E_18).toFixed(4).toString();
 }
