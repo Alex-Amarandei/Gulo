@@ -48,7 +48,7 @@ export default function Streams() {
 
   return (
     <div
-      className={`overflow-auto p-4 transition-all duration-300 shadow-2xl h-[90vh] ${isStreamsCollapsed ? 'w-16' : 'w-1/3'} btn ${isStreamsCollapsed ? 'cursor-pointer z-50 absolute' : 'cursor-default'}`}
+      className={`rounded-lg overflow-auto p-4 transition-all duration-300 shadow-2xl h-[90vh] ${isStreamsCollapsed ? 'w-16' : 'w-1/3'} btn ${isStreamsCollapsed ? 'cursor-pointer z-50 absolute' : 'cursor-default'}`}
       onClick={() => {
         if (isStreamsCollapsed) {
           setIsStreamsCollapsed(false);

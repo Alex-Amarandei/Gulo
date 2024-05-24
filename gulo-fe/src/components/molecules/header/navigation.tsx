@@ -10,7 +10,7 @@ export default function Navigation() {
 
   return (
     <nav className="flex-1 flex justify-center">
-      <div className="flex space-x-6">
+      <div className="flex space-x-6 py-2">
         <NavbarIcon href="/analytics" src={icons.analytics} alt="Analytics Page Icon" />
         <NavbarIcon href="/" src={icons.overview} alt="Overview Page Icon" />
         <NavbarIcon href="/reports" src={icons.reports} alt="Reports Page Icon" />
