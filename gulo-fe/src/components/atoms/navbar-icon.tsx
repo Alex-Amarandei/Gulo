@@ -8,8 +8,8 @@ export default function NavbarIcon(props: NavbarIconProps) {
       <Image
         src={props.src}
         alt={props.alt}
-        width={30}
-        height={30}
+        width={40}
+        height={40}
         className="transition-transform duration-300 hover:-translate-y-1"
       />
     </Link>
