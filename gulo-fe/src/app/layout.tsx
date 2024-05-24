@@ -1,5 +1,5 @@
-import InfoButton from '@/components/atoms/info-button';
 import WagmiProviderWrapper from '@/components/contexts/wagmi';
+import FloatingButtons from '@/components/molecules/content/floating-buttons';
 import Content from '@/components/templates/layout/content';
 import Footer from '@/components/templates/layout/footer';
 import Header from '@/components/templates/layout/header';
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <Content children={children} />
           <Footer />
-          <InfoButton />
+          <FloatingButtons />
         </WagmiProviderWrapper>
       </body>
     </html>

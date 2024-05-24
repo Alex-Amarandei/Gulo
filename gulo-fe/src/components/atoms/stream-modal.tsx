@@ -1,10 +1,22 @@
+import { StreamModalProps } from '@/interfaces/props';
 import { formatDecimals } from '@/utils/formats';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 
 export default function StreamModal({ stream, onClose }: StreamModalProps) {
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }
+  };
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedText(text);
+    setTimeout(() => setCopiedText(null), 2000);
   };
 
   return (
@@ -35,11 +47,25 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
             <u>{stream.alias.toUpperCase()}</u>
           </a>
         </h3>
-        <p className="text-sm">
-          <strong>Sender:</strong> {stream.sender}
+        <p className="text-sm flex items-center">
+          <strong>Sender: </strong> {stream.sender}
+          <button
+            className="ml-2 p-1 rounded-full hover:text-gray-600 transition-colors"
+            onClick={() => handleCopy(stream.sender)}
+            aria-label="Copy Sender Address">
+            <FontAwesomeIcon icon={faCopy} size="sm" className="sablier-orange" />
+          </button>
+          {copiedText === stream.sender && <span className="ml-2 text-green-500">Copied!</span>}
         </p>
-        <p className="text-sm">
-          <strong>Recipient:</strong> {stream.recipient}
+        <p className="text-sm flex items-center">
+          <strong>Recipient: </strong> {stream.recipient}
+          <button
+            className="ml-2 p-1 rounded-full hover:text-gray-600 transition-colors"
+            onClick={() => handleCopy(stream.recipient)}
+            aria-label="Copy Recipient Address">
+            <FontAwesomeIcon icon={faCopy} size="sm" className="sablier-orange" />
+          </button>
+          {copiedText === stream.recipient && <span className="ml-2 text-green-500">Copied!</span>}
         </p>
         <p className="text-sm">
           <strong>Deposited Amount:</strong> {formatDecimals(stream.depositAmount)} {stream.asset.symbol}

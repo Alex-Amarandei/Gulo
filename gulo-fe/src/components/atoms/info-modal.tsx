@@ -9,7 +9,7 @@ export default function InfoModal({ onClose }: InfoModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-opacity-90 bg-gray-900 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-opacity-90 bg-gray-800 flex items-center justify-center z-50"
       onClick={handleOverlayClick}>
       <div className="relative bg-orange-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-5 text-slate-100 p-6 rounded-lg max-w-lg w-full shadow-xl">
         <button
