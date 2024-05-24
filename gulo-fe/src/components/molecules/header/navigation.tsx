@@ -1,7 +1,7 @@
 'use client';
 
 import NavbarIcon from '@/components/atoms/navbar-icon';
-import { NavbarIconPathsByRoute } from '@/constants/mappings/navbar-icons';
+import { NavbarIconPathsByRoute } from '@/constants/navbar-icons';
 import { usePathname } from 'next/navigation';
 
 export default function Navigation() {

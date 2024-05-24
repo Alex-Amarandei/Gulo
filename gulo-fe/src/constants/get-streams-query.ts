@@ -24,11 +24,9 @@ query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: 
     depositAmount
     startTime
     endTime
-    cliff
     cliffTime
     cliffAmount
     cancelable
-    renounceTime
     canceled
     canceledTime
     withdrawnAmount

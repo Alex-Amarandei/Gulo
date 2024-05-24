@@ -1,4 +1,4 @@
-import GET_STREAMS_QUERY from '@/constants/queries/get-streams-query';
+import GET_STREAMS_QUERY from '@/constants/get-streams-query';
 import WAGMI_CONFIG from '@/utils/configs';
 import { getAccount } from '@wagmi/core';
 

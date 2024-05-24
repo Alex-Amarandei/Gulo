@@ -1,32 +1,57 @@
 import { Segment } from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 import WAGMI_CONFIG from '@/utils/configs';
-import { isCircular, isOutgoing } from '@/utils/filters';
+import {
+  hasCliff,
+  hasNotStarted,
+  isCircularCancelable,
+  isLinear,
+  isOutgoingCancelable,
+  isOutgoingNonCancelable,
+} from '@/utils/filters';
 import { rebase } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 import BigNumber from 'bignumber.js';
 
-function getCurrentSegmentAmount(segment: Segment, timestamp_now: number): BigNumber {
-  const elapsedTime = timestamp_now - Number(segment.startTime);
-  const segmentDuration = Number(segment.endTime) - Number(segment.startTime);
+function getElapsedTimePercentage(s: Segment | StreamInfo, startTime: string, timestamp: number): number {
+  const elapsedTime = timestamp - Number(startTime);
+  const duration = Number(s.endTime) - Number(startTime);
 
-  const x = elapsedTime / segmentDuration;
+  return elapsedTime / duration;
+}
 
-  return BigNumber(x)
+function getCurrentSegmentAmountRebased(segment: Segment, timestamp: number): BigNumber {
+  return BigNumber(getElapsedTimePercentage(segment, segment.startTime, timestamp))
     .exponentiatedBy(rebase(BigNumber(segment.exponent.toString())))
     .times(rebase(BigNumber(segment.amount)));
 }
 
-function calculateElapsedAmount(
+function getCurrentLinearAmountRebased(stream: StreamInfo, timestamp: number): BigNumber {
+  if (timestamp < Number(stream.startTime)) {
+    return new BigNumber(0);
+  }
+
+  let startTime = stream.startTime;
+  let amount = stream.depositAmount;
+
+  if (hasCliff(stream)) {
+    if (timestamp < Number(stream.cliffTime)) {
+      return new BigNumber(0);
+    }
+
+    startTime = stream.cliffTime;
+    amount = stream.cliffAmount;
+  }
+
+  return BigNumber(getElapsedTimePercentage(stream, startTime, timestamp)).times(rebase(BigNumber(amount)));
+}
+
+function getCurrentDynamicAmountRebased(
   stream: StreamInfo,
   timestamp: number,
 ): { elapsedAmountRebased: BigNumber; exitSegmentIndex: number } {
   let elapsedAmount = new BigNumber(0);
   let exitSegmentIndex = -1;
-
-  if (stream.segments.length === 0 || timestamp < Number(stream.segments[0].startTime)) {
-    return { elapsedAmountRebased: new BigNumber(0), exitSegmentIndex };
-  }
 
   for (let i = 0; i < stream.segments.length; i++) {
     if (timestamp > Number(stream.segments[i].milestone)) {
@@ -37,59 +62,72 @@ function calculateElapsedAmount(
     }
   }
 
-  if (exitSegmentIndex === -1) {
-    exitSegmentIndex = stream.segments.length;
+  return { elapsedAmountRebased: rebase(elapsedAmount), exitSegmentIndex };
+}
+
+function calculateElapsedAmountRebased(
+  stream: StreamInfo,
+  timestamp: number,
+): { elapsedAmountRebased: BigNumber; exitSegmentIndex: number | null } {
+  if (isLinear(stream)) {
+    return { elapsedAmountRebased: getCurrentLinearAmountRebased(stream, timestamp), exitSegmentIndex: null };
   }
 
-  const elapsedAmountRebased = rebase(elapsedAmount);
-
-  return { elapsedAmountRebased, exitSegmentIndex };
+  return getCurrentDynamicAmountRebased(stream, timestamp);
 }
 
 export default function getBalance(streams: StreamInfo[], date: Date | null): string {
-  let entitledAmount = new BigNumber(0);
+  let entitledAmountRebased = new BigNumber(0);
   const address = getAccount(WAGMI_CONFIG).address;
-  const timestamp_now = Math.floor(new Date().getTime() / 1000);
-  console.log('NOW: ', timestamp_now);
-  const selected_timestamp = date ? Math.floor(date.getTime() / 1000) : timestamp_now;
-  console.log('Date: ', selected_timestamp);
+  const timestampNow = Math.floor(new Date().getTime() / 1000);
+  const selectedTimestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
   streams.forEach(stream => {
-    const remainingAmountRebased = rebase(BigNumber(stream.depositAmount).minus(BigNumber(stream.withdrawnAmount)));
-    if (remainingAmountRebased.isEqualTo(0) || (isOutgoing(stream, address) && !stream.cancelable)) {
+    if (hasNotStarted(stream, selectedTimestamp)) {
       return;
     }
 
-    if (isCircular(stream) && stream.cancelable) {
-      entitledAmount = entitledAmount.plus(remainingAmountRebased);
+    const depositAmountRebased = rebase(BigNumber(stream.depositAmount));
+    const withdrawnAmountRebased = rebase(BigNumber(stream.withdrawnAmount));
+    const remainingAmountRebased = depositAmountRebased.minus(withdrawnAmountRebased);
+
+    if (remainingAmountRebased.isEqualTo(0) || isOutgoingNonCancelable(stream, address)) {
       return;
     }
 
-    const { elapsedAmountRebased, exitSegmentIndex } = calculateElapsedAmount(stream, selected_timestamp);
+    if (isCircularCancelable(stream)) {
+      entitledAmountRebased = entitledAmountRebased.plus(remainingAmountRebased);
+      return;
+    }
+
+    const { elapsedAmountRebased, exitSegmentIndex } = calculateElapsedAmountRebased(stream, selectedTimestamp);
 
     if (exitSegmentIndex === -1) {
+      entitledAmountRebased = entitledAmountRebased.plus(remainingAmountRebased);
       return;
     }
 
-    if (exitSegmentIndex === stream.segments.length) {
-      entitledAmount = entitledAmount.plus(remainingAmountRebased);
+    if (isOutgoingCancelable(stream, address)) {
+      entitledAmountRebased = entitledAmountRebased.plus(depositAmountRebased).minus(elapsedAmountRebased);
       return;
     }
 
-    if (isOutgoing(stream, address) && stream.cancelable) {
-      entitledAmount = entitledAmount.plus(rebase(BigNumber(stream.depositAmount)).minus(elapsedAmountRebased));
+    entitledAmountRebased = entitledAmountRebased.plus(elapsedAmountRebased);
+
+    const amountToSubtract = selectedTimestamp >= timestampNow ? withdrawnAmountRebased : 0;
+
+    if (exitSegmentIndex === null) {
+      entitledAmountRebased = entitledAmountRebased.minus(amountToSubtract);
       return;
     }
 
-    const currentSegmentAmountRebased = getCurrentSegmentAmount(stream.segments[exitSegmentIndex], selected_timestamp);
+    const currentSegmentAmountRebased = getCurrentSegmentAmountRebased(
+      stream.segments[exitSegmentIndex],
+      selectedTimestamp,
+    );
 
-    entitledAmount = entitledAmount.plus(elapsedAmountRebased).plus(currentSegmentAmountRebased);
-
-    if (selected_timestamp >= timestamp_now) {
-      // we do not subtract the withdrawn amount if the selected timestamp is in the past
-      entitledAmount = entitledAmount.minus(rebase(BigNumber(stream.withdrawnAmount)));
-    }
+    entitledAmountRebased = entitledAmountRebased.plus(currentSegmentAmountRebased).minus(amountToSubtract);
   });
 
-  return entitledAmount.toFixed(4).toString();
+  return entitledAmountRebased.toFixed(4).toString();
 }

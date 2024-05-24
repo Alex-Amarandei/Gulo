@@ -2,12 +2,36 @@ import { StreamInfo } from '@/interfaces/stream-info';
 import areAddressesEqual from '@/utils/adresses';
 import { Address } from 'viem';
 
-export function isCircular(stream: StreamInfo): boolean {
+function isCircular(stream: StreamInfo): boolean {
   return stream.sender === stream.recipient;
 }
 
-export function isOutgoing(stream: StreamInfo, address: Address | undefined): boolean {
+function isOutgoing(stream: StreamInfo, address: Address | undefined): boolean {
   return stream.sender === address && !isCircular(stream);
+}
+
+export function hasNotStarted(stream: StreamInfo, timestamp: number): boolean {
+  return timestamp < Number(stream.startTime);
+}
+
+export function isOutgoingCancelable(stream: StreamInfo, address: Address | undefined): boolean {
+  return isOutgoing(stream, address) && stream.cancelable;
+}
+
+export function isOutgoingNonCancelable(stream: StreamInfo, address: Address | undefined): boolean {
+  return isOutgoing(stream, address) && !stream.cancelable;
+}
+
+export function isCircularCancelable(stream: StreamInfo): boolean {
+  return isCircular(stream) && stream.cancelable;
+}
+
+export function isLinear(stream: StreamInfo): boolean {
+  return stream.category === 'LockupLinear';
+}
+
+export function hasCliff(stream: StreamInfo): boolean {
+  return stream.cliffTime !== null;
 }
 
 export const selectAll = (streams: StreamInfo[]): StreamInfo[] => {

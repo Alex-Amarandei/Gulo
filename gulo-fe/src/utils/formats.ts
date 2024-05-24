@@ -1,4 +1,4 @@
-import { DIVISOR_1_E_18, MOCK_JSON_WITH_IMAGE_FIELD_BASE64 } from '@/constants/miscellaneous/misc';
+import { DIVISOR_1_E_18, MOCK_JSON_WITH_IMAGE_FIELD_BASE64 } from '@/constants/miscellaneous';
 import BigNumber from 'bignumber.js';
 
 export function formatDecimals(number: string): string {

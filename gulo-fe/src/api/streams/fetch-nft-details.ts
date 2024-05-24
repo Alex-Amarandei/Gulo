@@ -1,4 +1,4 @@
-import { TOKEN_URI_ABI } from '@/constants/abis/sablier';
+import { TOKEN_URI_ABI } from '@/constants/sablier-abis';
 import Stream from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
 import { formatNftDetails } from '@/utils/formats';

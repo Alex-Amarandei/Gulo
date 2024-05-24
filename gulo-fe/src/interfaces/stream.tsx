@@ -46,18 +46,16 @@ interface Stream {
   depositAmount: string;
   startTime: string;
   endTime: string;
-  cliff: string;
   cliffTime: string;
   cliffAmount: string;
   cancelable: boolean;
-  renounceTime: string;
   canceled: boolean;
   canceledTime: string;
   withdrawnAmount: string;
+  segments: Segment[];
   asset: Asset;
   batch: Batch;
   contract: Contract;
-  segments: Segment[];
 }
 
 export default Stream;
