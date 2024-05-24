@@ -9,7 +9,7 @@ export interface StreamInfoListProps {
   streams: StreamInfo[];
 }
 
-export interface ModalProps {
+export interface StreamModalProps {
   stream: StreamInfo;
   onClose: () => void;
 }
@@ -25,4 +25,8 @@ export interface DatePickerModalProps {
   date: Date | null;
   onClose: () => void;
   onDateChange: (date: Date | null) => void;
+}
+
+export interface InfoModalProps {
+  onClose: () => void;
 }

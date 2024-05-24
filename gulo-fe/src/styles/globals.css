@@ -111,3 +111,10 @@ footer {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+.info-button {
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.5),
+    0 5px 10px rgba(0, 0, 0, 0.5);
+  border: #f77725 1px solid;
+}
