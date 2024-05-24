@@ -25,8 +25,51 @@ export default function InfoModal({ onClose }: InfoModalProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h3 className="text-xl font-bold mb-2">Info Modal</h3>
-        <p className="text-sm">This is an info modal.</p>
+        <h2 className="text-2xl font-bold text-center">
+          ⚙️ <u>WORK IN PROGRESS</u> 🏗️
+        </h2>
+        <br />
+        <h3 className="text-xl font-semibold">
+          <u>Disclaimer</u>
+        </h3>
+        <p className="mt-2">
+          Gulo is a one-dev effort to help streamline the adoption of Sablier and is ongoing development. Gulo does not
+          store any kind of personal info and will be free-to-use. Feel free to support me if you feel like this is
+          helpful! 🫡
+        </p>
+        <br />
+        <h3 className="text-xl font-semibold">
+          <u>What is Gulo?</u>
+        </h3>
+        <p className="mt-2">
+          The core functionality of Gulo is to calculate the total amount of funds available for withdrawing from your
+          Sablier Stream Portfolio at a certain moment in time.
+        </p>
+        <br />
+        <h3 className="text-xl font-semibold">
+          <u>What Streams are Included?</u>
+        </h3>
+        <p className="mt-2">
+          You can select the streams to be included from the list on the left-hand side, which is populated once you
+          connect your wallet. You can click away or use the predefined filters.
+        </p>
+        <br />
+        <h3 className="text-xl font-semibold">
+          <u>What do "Self" and "Non-Self" mean?</u>
+        </h3>
+        <p className="mt-2">
+          "Self" signifies a circular stream, sent from you, to you. While this is peculiar in nature, it is an edge
+          case to be considered. Some Sablier users use this kind of Streams to limit their access to savings.
+        </p>
+        <br />
+        <h3 className="text-xl font-semibold">
+          <u>What else should I know?</u>
+        </h3>
+        <p className="mt-2">
+          One thing that must be taken into account is that for any dates in the past, the withdrawn amount from the
+          stream is not subtracted from the amount shown, as Sablier does not offer any info on when withdrawals were
+          made / how big they were.
+        </p>
       </div>
     </div>
   );

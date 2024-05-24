@@ -27,10 +27,6 @@ function getCurrentSegmentAmountRebased(segment: Segment, timestamp: number): Bi
 }
 
 function getCurrentLinearAmountRebased(stream: StreamInfo, timestamp: number): BigNumber {
-  if (timestamp < Number(stream.startTime)) {
-    return new BigNumber(0);
-  }
-
   let startTime = stream.startTime;
   let amount = stream.depositAmount;
 
