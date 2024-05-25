@@ -1,5 +1,4 @@
 import Stream from '@/interfaces/stream';
-import { Address } from 'viem';
 
 export interface StreamInfo extends Stream {
   nft: string;
@@ -11,5 +10,4 @@ export interface StreamContextType {
   setStreams: React.Dispatch<React.SetStateAction<StreamInfo[]>>;
   selectedStreams: StreamInfo[];
   setSelectedStreams: React.Dispatch<React.SetStateAction<StreamInfo[]>>;
-  address: Address;
 }
