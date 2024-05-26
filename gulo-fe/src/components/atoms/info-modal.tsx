@@ -33,9 +33,9 @@ export default function InfoModal({ onClose }: InfoModalProps) {
           <u>Disclaimer</u>
         </h3>
         <p className="mt-2">
-          Gulo is a one-dev effort to help streamline the adoption of Sablier and is ongoing development. Gulo does not
-          store any kind of personal info and will be free-to-use. Feel free to support me if you feel like this is
-          helpful! 🫡
+          We only support DAI Streams now, but this will change very soon! Gulo is a one-dev effort to help streamline
+          the adoption of Sablier and is ongoing development. Gulo does not store any kind of personal info and will be
+          free-to-use. Feel free to support me if you feel like this is helpful! 🫡
         </p>
         <br />
         <h3 className="text-xl font-semibold">
