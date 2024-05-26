@@ -79,6 +79,10 @@ export default function getBalance(streams: StreamInfo[], date: Date | null): st
   const selectedTimestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
   streams.forEach(stream => {
+    if (stream.asset.symbol !== 'DAI') {
+      return;
+    }
+
     if (hasNotStarted(stream, selectedTimestamp)) {
       return;
     }
