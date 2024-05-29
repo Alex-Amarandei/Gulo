@@ -1,8 +1,8 @@
-import { NavbarIconProps } from '@/interfaces/navbar-icons';
+import { NavbarButtonProps } from '@/interfaces/navbar-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function NavbarIcon(props: NavbarIconProps) {
+export default function NavbarButton(props: NavbarButtonProps) {
   return (
     <Link href={props.href}>
       <Image

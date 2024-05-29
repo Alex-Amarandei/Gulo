@@ -1,6 +1,6 @@
-import { NavbarIconPaths } from '@/interfaces/navbar-icons';
+import { NavbarButtonPaths } from '@/interfaces/navbar-icons';
 
-export const NavbarIconPathsByRoute: Record<string, NavbarIconPaths> = {
+export const NavbarButtonPathsByRoute: Record<string, NavbarButtonPaths> = {
   '/analytics': {
     analytics: '/images/miscellaneous/analytics-on.png',
     overview: '/images/miscellaneous/overview-off.png',

@@ -1,12 +1,11 @@
 'use client';
 
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import BuyMeACoffeeModal from '@/components/atoms/modals/buy-me-a-coffee-modal';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
-import InfoModal from './info-modal';
-
-export default function InfoButton() {
+export default function BuyMeACoffeeButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleButtonClick = () => {
@@ -22,9 +21,9 @@ export default function InfoButton() {
       <div
         className="bg-gray-800 sablier-orange info-button rounded-full p-4 z-50 transition-transform duration-300 hover:-translate-y-1 cursor-pointer"
         onClick={handleButtonClick}>
-        <FontAwesomeIcon icon={faInfoCircle} size="2xl" />
+        <FontAwesomeIcon icon={faCoffee} size="xl" className="sablier-orange" />
       </div>
-      {isModalOpen && <InfoModal onClose={handleCloseModal} />}
+      {isModalOpen && <BuyMeACoffeeModal onClose={handleCloseModal} />}
     </>
   );
 }

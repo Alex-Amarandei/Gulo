@@ -2,7 +2,7 @@
 
 import fetchNftDetails from '@/api/streams/fetch-nft-details';
 import fetchStreams from '@/api/streams/fetch-streams';
-import FilterButton from '@/components//atoms/filter-button';
+import FilterButton from '@/components/atoms/buttons/filter-button';
 import { useStreams } from '@/components/contexts/streams-context';
 import StreamList from '@/components/molecules/content/stream-list';
 import Stream from '@/interfaces/stream';

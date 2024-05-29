@@ -1,5 +1,5 @@
-import BuyMeACoffeeButton from '@/components/atoms/buy-me-a-coffee-button';
-import InfoButton from '@/components/atoms/info-button';
+import BuyMeACoffeeButton from '@/components/atoms/buttons/buy-me-a-coffee-button';
+import InfoButton from '@/components/atoms/buttons/info-button';
 
 export default function FloatingButtons() {
   return (
