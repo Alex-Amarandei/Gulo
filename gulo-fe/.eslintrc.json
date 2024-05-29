@@ -1,5 +1,12 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@next/next/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "ignorePatterns": ["**/*.d.ts", "**/*.config.js"],
   "overrides": [
     {
       "files": ["*.js"],
@@ -8,5 +15,14 @@
         "ecmaVersion": 2020
       }
     }
-  ]
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier", "react-hooks"],
+  "root": true,
+  "rules": {
+    "no-console": "error",
+    "prettier/prettier": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error"
+  }
 }

@@ -3,7 +3,7 @@ import InfoButton from '@/components/atoms/buttons/info-button';
 
 export default function FloatingButtons() {
   return (
-    <div className="fixed bottom-20 right-5 flex flex-col space-y-4 z-50">
+    <div className='fixed bottom-20 right-5 flex flex-col space-y-4 z-50'>
       <BuyMeACoffeeButton />
       <InfoButton />
     </div>

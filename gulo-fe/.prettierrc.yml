@@ -1,20 +1,22 @@
+arrowParens: avoid
+bracketSameLine: true
 bracketSpacing: true
+endOfLine: auto
+importOrder:
+  - '^react$|^styled-components'
+  - '<THIRD_PARTY_MODULES>'
+  - '<THIRD_PARTY_TS_TYPES>'
+  - '<TS_TYPES>'
+  - '^[./]'
+importOrderSeparation: true
+importOrderSortSpecifiers: true
+jsxSingleQuote: true
 plugins:
-  - "@trivago/prettier-plugin-sort-imports"
+  - '@trivago/prettier-plugin-sort-imports'
 printWidth: 120
-proseWrap: "always"
-singleQuote: false
+proseWrap: 'always'
+quoteProps: as-needed
+semi: true
+singleQuote: true
 tabWidth: 2
-trailingComma: "all"
-
-overrides:
-  - files: ["*.d.ts", "*.ts", "*.tsx"]
-    options:
-      importOrder:
-        - "^react$|^styled-components"
-        - "<THIRD_PARTY_MODULES>"
-        - "<THIRD_PARTY_TS_TYPES>"
-        - "<TS_TYPES>"
-        - "^[./]"
-      importOrderSeparation: false
-      importOrderSortSpecifiers: true
+trailingComma: 'all'

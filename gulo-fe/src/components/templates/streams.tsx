@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense, useEffect, useState } from 'react';
+
 import fetchNftDetails from '@/api/streams/fetch-nft-details';
 import fetchStreams from '@/api/streams/fetch-streams';
 import FilterButton from '@/components/atoms/buttons/filter-button';
@@ -21,7 +23,6 @@ import {
 import { faAngleLeft, faAngleRight, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAccount } from '@wagmi/core';
-import { Suspense, useEffect, useState } from 'react';
 
 export default function Streams() {
   const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
@@ -54,11 +55,11 @@ export default function Streams() {
           setIsStreamsCollapsed(false);
         }
       }}>
-      <div className="flex justify-between items-center">
+      <div className='flex justify-between items-center'>
         <button
-          className="sablier-orange bg-gray-800 p-2 mb-2"
+          className='sablier-orange bg-gray-800 p-2 mb-2'
           onClick={() => setIsStreamsCollapsed(!isStreamsCollapsed)}>
-          <FontAwesomeIcon icon={isStreamsCollapsed ? faAngleRight : faAngleLeft} size="lg" />
+          <FontAwesomeIcon icon={isStreamsCollapsed ? faAngleRight : faAngleLeft} size='lg' />
         </button>
         {!isStreamsCollapsed && (
           <>
@@ -89,15 +90,15 @@ export default function Streams() {
           </>
         )}
         {!isStreamsCollapsed && (
-          <button className="sablier-orange bg-gray-800 p-2 mb-2">
-            <a href="https://app.sablier.com" target="_blank" rel="noopener noreferrer" className="sablier-orange">
-              <FontAwesomeIcon icon={faExternalLinkAlt} className="lg" />
+          <button className='sablier-orange bg-gray-800 p-2 mb-2'>
+            <a href='https://app.sablier.com' target='_blank' rel='noopener noreferrer' className='sablier-orange'>
+              <FontAwesomeIcon icon={faExternalLinkAlt} className='lg' />
             </a>
           </button>
         )}
       </div>
       {!isStreamsCollapsed && (
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <Suspense fallback={<strong>Loading...</strong>}>
             <StreamList streams={streams} />
           </Suspense>

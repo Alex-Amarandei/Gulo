@@ -10,7 +10,7 @@ export default function NavbarButton(props: NavbarButtonProps) {
         alt={props.alt}
         width={40}
         height={40}
-        className="transition-transform duration-300 hover:-translate-y-1"
+        className='transition-transform duration-300 hover:-translate-y-1'
       />
     </Link>
   );

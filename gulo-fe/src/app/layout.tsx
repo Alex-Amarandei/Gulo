@@ -14,14 +14,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <link rel="icon" href="/images/branding/favicon.ico" />
-      <body className="flex flex-col">
+    <html lang='en'>
+      <link rel='icon' href='/images/branding/favicon.ico' />
+      <body className='flex flex-col'>
         <WagmiProviderWrapper>
           <Header />
-          <Content>
-            {children}
-          </Content>
+          <Content>{children}</Content>
           <Footer />
           <FloatingButtons />
         </WagmiProviderWrapper>

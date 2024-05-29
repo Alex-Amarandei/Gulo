@@ -6,7 +6,8 @@
 **/node_modules
 
 # files
-./next.config.js
+*/commitlint.config.js
+*/next.config.js
 bun.lockb
 next-env.d.ts
 package-lock.json
