@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address } from "viem";
 
 export default function areAddressesEqual(
   address1: Address | string | undefined,

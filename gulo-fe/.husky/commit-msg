@@ -1,0 +1,2 @@
+cd gulo-fe
+bunx commitlint --edit $1

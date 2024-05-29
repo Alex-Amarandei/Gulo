@@ -1,0 +1,2 @@
+cd gulo-fe
+bun lint-fix && bun prettier-write

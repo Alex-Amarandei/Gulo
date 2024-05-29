@@ -1,8 +1,9 @@
-import StreamModal from '@/components/atoms/stream-modal';
+import StreamModal from '@/components/atoms/modals/stream-modal';
 import { useStreams } from '@/components/contexts/streams-context';
 import { StreamInfoListProps } from '@/interfaces/props';
 import { StreamInfo } from '@/interfaces/stream-info';
 import { formatDecimals } from '@/utils/formats';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function StreamList({ streams }: StreamInfoListProps) {
@@ -43,6 +44,8 @@ export default function StreamList({ streams }: StreamInfoListProps) {
             onClick={() => handleCardClick(stream)}>
             <input
               type="checkbox"
+              id={`checkbox-${stream.id}`}
+              name={`checkbox-${stream.id}`}
               checked={stream.isSelected}
               className="h-6 w-6 text-gray-800 rounded-lg focus:ring-0 focus:ring-transparent focus:ring-offset-0 border-none"
               onClick={event => handleSelectStream(stream, event)}
@@ -69,7 +72,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
                 <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
               </p>
             </div>
-            <img src={stream.nft} alt="SVG" className="w-1/4 h-1/2 object-contain ml-4 rounded-lg" />
+            <Image src={stream.nft} alt="SVG" className="w-1/4 h-1/2 object-contain ml-4 rounded-lg" />
           </div>
         );
       })}

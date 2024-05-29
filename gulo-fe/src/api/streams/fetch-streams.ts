@@ -1,6 +1,6 @@
-import GET_STREAMS_QUERY from '@/constants/get-streams-query';
-import WAGMI_CONFIG, { getSablierSubgraphEndpoint } from '@/utils/configs';
-import { getAccount } from '@wagmi/core';
+import GET_STREAMS_QUERY from "@/constants/get-streams-query";
+import WAGMI_CONFIG, { getSablierSubgraphEndpoint } from "@/utils/configs";
+import { getAccount } from "@wagmi/core";
 
 const fetchStreams = async () => {
   const { address, chain } = getAccount(WAGMI_CONFIG);
@@ -10,15 +10,15 @@ const fetchStreams = async () => {
     skip: 0,
     recipient: address,
     sender: address,
-    subgraphId: '1000000000',
+    subgraphId: "1000000000",
   };
 
   const endpoint = getSablierSubgraphEndpoint(chain);
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       query: GET_STREAMS_QUERY,

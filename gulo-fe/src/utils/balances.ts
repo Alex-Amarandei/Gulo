@@ -1,6 +1,6 @@
-import { Segment } from '@/interfaces/stream';
-import { StreamInfo } from '@/interfaces/stream-info';
-import WAGMI_CONFIG from '@/utils/configs';
+import { Segment } from "@/interfaces/stream";
+import { StreamInfo } from "@/interfaces/stream-info";
+import WAGMI_CONFIG from "@/utils/configs";
 import {
   hasCliff,
   hasNotStarted,
@@ -8,10 +8,10 @@ import {
   isLinear,
   isOutgoingCancelable,
   isOutgoingNonCancelable,
-} from '@/utils/filters';
-import { rebase } from '@/utils/formats';
-import { getAccount } from '@wagmi/core';
-import BigNumber from 'bignumber.js';
+} from "@/utils/filters";
+import { rebase } from "@/utils/formats";
+import { getAccount } from "@wagmi/core";
+import BigNumber from "bignumber.js";
 
 function getElapsedTimePercentage(s: Segment | StreamInfo, startTime: string, timestamp: number): number {
   const elapsedTime = timestamp - Number(startTime);
@@ -78,8 +78,8 @@ export default function getBalance(streams: StreamInfo[], date: Date | null): st
   const timestampNow = Math.floor(new Date().getTime() / 1000);
   const selectedTimestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
-  streams.forEach(stream => {
-    if (stream.asset.symbol !== 'DAI') {
+  streams.forEach((stream) => {
+    if (stream.asset.symbol !== "DAI") {
       return;
     }
 

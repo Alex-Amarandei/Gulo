@@ -44,7 +44,7 @@ export default function Streams() {
     };
 
     fetchData();
-  }, [account.isConnected]);
+  }, [account.isConnected, setStreams, setSelectedStreams]);
 
   return (
     <div

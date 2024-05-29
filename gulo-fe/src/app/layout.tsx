@@ -19,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex flex-col">
         <WagmiProviderWrapper>
           <Header />
-          <Content children={children} />
+          <Content>
+            {children}
+          </Content>
           <Footer />
           <FloatingButtons />
         </WagmiProviderWrapper>

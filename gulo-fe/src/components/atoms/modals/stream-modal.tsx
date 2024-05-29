@@ -3,6 +3,7 @@ import { formatDecimals } from '@/utils/formats';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function StreamModal({ stream, onClose }: StreamModalProps) {
   const [copiedText, setCopiedText] = useState<string | null>(null);
@@ -82,7 +83,7 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
         <p className="text-sm">
           <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
         </p>
-        <img src={stream.nft} alt="SVG" className="w-full h-auto object-contain mt-4 rounded-2xl" />
+        <Image src={stream.nft} alt="SVG" className="w-full h-auto object-contain mt-4 rounded-2xl" />
       </div>
     </div>
   );

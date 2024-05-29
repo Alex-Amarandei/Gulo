@@ -1,9 +1,9 @@
 'use client';
 
+import InfoModal from '@/components/atoms/modals/info-modal';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import InfoModal from '@/components/atoms/modals/info-modal';
 
 export default function InfoButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
