@@ -5,6 +5,8 @@ import { useState } from 'react';
 import ChartButton from '@/components/atoms/buttons/chart-button';
 import DatePickerModal from '@/components/atoms/modals/date-picker-modal';
 import { ChartType, Increment } from '@/constants/enums';
+import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
+import { toast } from 'sonner';
 
 export default function Analytics() {
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -16,11 +18,48 @@ export default function Analytics() {
 
   const toggleStartModal = () => setIsStartModalOpen(prev => !prev);
   const toggleEndModal = () => setIsEndModalOpen(prev => !prev);
+
   const handleIncrementChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setIncrement(event.target.value);
+    const newIncrement = event.target.value as Increment;
+
+    if (endTime) {
+      const newStartTime = new Date(endTime.getTime() - INCREMENT_LIMITS[newIncrement] * 1000);
+      setStartTime(newStartTime);
+    } else if (startTime) {
+      const newEndTime = new Date(startTime.getTime() + INCREMENT_LIMITS[newIncrement] * 1000);
+      setEndTime(newEndTime);
+    }
+
+    setIncrement(newIncrement);
   };
+
   const handleChartTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setChartType(event.target.value as ChartType);
+  };
+
+  const isTimeDifferenceValid = (start: Date, end: Date) => {
+    const diffInSeconds = (end.getTime() - start.getTime()) / 1000;
+    return diffInSeconds <= INCREMENT_LIMITS[increment as Increment];
+  };
+
+  const handleStartTimeChange = (date: Date | null) => {
+    if (date && endTime && date > endTime) {
+      toast.error('Start time cannot be after end time.');
+    } else if (date && endTime && !isTimeDifferenceValid(date, endTime)) {
+      toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
+    } else {
+      setStartTime(date);
+    }
+  };
+
+  const handleEndTimeChange = (date: Date | null) => {
+    if (date && startTime && date < startTime) {
+      toast.error('End time cannot be before start time.');
+    } else if (date && startTime && !isTimeDifferenceValid(startTime, date)) {
+      toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
+    } else {
+      setEndTime(date);
+    }
   };
 
   return (
@@ -57,10 +96,15 @@ export default function Analytics() {
       </div>
       <div className='flex-grow border m-1'>Rectangle Area</div>
       {isStartModalOpen && (
-        <DatePickerModal date={startTime} onClose={toggleStartModal} onDateChange={setStartTime} setToCurrentDate />
+        <DatePickerModal
+          date={startTime}
+          onClose={toggleStartModal}
+          onDateChange={handleStartTimeChange}
+          setToCurrentDate
+        />
       )}
       {isEndModalOpen && (
-        <DatePickerModal date={endTime} onClose={toggleEndModal} onDateChange={setEndTime} setToCurrentDate />
+        <DatePickerModal date={endTime} onClose={toggleEndModal} onDateChange={handleEndTimeChange} setToCurrentDate />
       )}
     </div>
   );

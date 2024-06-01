@@ -6,6 +6,7 @@ import Header from '@/components/templates/layout/header';
 import '@/styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Gulo - Streamlining Sablier',
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <link rel='icon' href='/images/branding/favicon.ico' />
       <body className='flex flex-col'>
+        <Toaster />
         <WagmiProviderWrapper>
           <Header />
           <Content>{children}</Content>
