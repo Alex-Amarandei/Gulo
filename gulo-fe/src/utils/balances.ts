@@ -16,7 +16,7 @@ function getElapsedTimePercentage(s: Segment | Stream, startTime: string, timest
   const elapsedTime = timestamp - Number(startTime);
   const duration = Number(s.endTime) - Number(startTime);
 
-  return elapsedTime / duration;
+  return Math.min(elapsedTime / duration, 1);
 }
 
 function getCurrentSegmentAmountRebased(segment: Segment, timestamp: number): BigNumber {

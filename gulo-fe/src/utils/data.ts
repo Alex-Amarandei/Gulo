@@ -29,11 +29,13 @@ export function formatDate(timestamp: number, increment: Increment): string {
     case Increment.Minute:
       return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
     case Increment.Hour:
-      return date.toLocaleString('en-US', { weekday: 'long', hour: '2-digit', hour12: false });
+      return date.toLocaleString('en-US', { weekday: 'short', hour: '2-digit', hour12: false });
     case Increment.Day:
-      return date.toLocaleDateString('en-US', { day: '2-digit', month: 'long' });
+      return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+    case Increment.Week:
+      return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
     case Increment.Month:
-      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
     default:
       return date.toISOString();
   }
@@ -43,9 +45,22 @@ export function getStreamData(streams: Stream[], startTime: Date | null, endTime
   const steps = getSteps(startTime, endTime, increment);
 
   return steps.map(timestamp => {
+    const timestampInMilliseconds = timestamp * 1000;
     return {
-      timestamp: formatDate(timestamp, increment),
-      amount: getBalance(streams, new Date(timestamp * 1000)),
+      timestamp: formatDate(timestampInMilliseconds, increment),
+      amount: Number(getBalance(streams, new Date(timestampInMilliseconds))),
     };
   });
+}
+
+export function getShorthandTick(tickValue: number) {
+  if (Math.abs(tickValue) > 1_000_000_000) {
+    return (tickValue / 1_000_000_000).toFixed(2).toString() + 'B';
+  } else if (Math.abs(tickValue) > 1_000_000) {
+    return (tickValue / 1_000_000).toFixed(2).toString() + 'M';
+  } else if (Math.abs(tickValue) > 1_000) {
+    return (tickValue / 1_000).toFixed(2).toString() + 'K';
+  } else {
+    return tickValue.toString();
+  }
 }

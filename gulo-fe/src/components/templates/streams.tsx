@@ -64,10 +64,10 @@ export default function Streams() {
         {!isStreamsCollapsed && (
           <>
             <FilterButton
-              first={'All'}
-              second={'None'}
-              onFirstClick={() => setSelectedStreams(selectAll(streams))}
-              onSecondClick={() => setSelectedStreams(selectNone(streams))}
+              first={'None'}
+              second={'All'}
+              onFirstClick={() => setSelectedStreams(selectNone(streams))}
+              onSecondClick={() => setSelectedStreams(selectAll(streams))}
             />
             <FilterButton
               first={'Non-Self'}

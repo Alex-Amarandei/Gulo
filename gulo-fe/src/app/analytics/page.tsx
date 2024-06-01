@@ -21,6 +21,9 @@ export default function Analytics() {
   const toggleEndModal = () => setIsEndModalOpen(prev => !prev);
 
   const handleIncrementChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (startTime && endTime && !isTimeDifferenceValid(startTime, endTime)) {
+      toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
+    }
     setIncrement(event.target.value as Increment);
   };
 
