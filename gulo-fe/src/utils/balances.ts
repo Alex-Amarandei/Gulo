@@ -1,5 +1,4 @@
-import { Segment } from '@/interfaces/stream';
-import { StreamInfo } from '@/interfaces/stream-info';
+import Stream, { Segment } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
 import {
   hasCliff,
@@ -13,7 +12,7 @@ import { rebase } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 import BigNumber from 'bignumber.js';
 
-function getElapsedTimePercentage(s: Segment | StreamInfo, startTime: string, timestamp: number): number {
+function getElapsedTimePercentage(s: Segment | Stream, startTime: string, timestamp: number): number {
   const elapsedTime = timestamp - Number(startTime);
   const duration = Number(s.endTime) - Number(startTime);
 
@@ -26,7 +25,7 @@ function getCurrentSegmentAmountRebased(segment: Segment, timestamp: number): Bi
     .times(rebase(BigNumber(segment.amount)));
 }
 
-function getCurrentLinearAmountRebased(stream: StreamInfo, timestamp: number): BigNumber {
+function getCurrentLinearAmountRebased(stream: Stream, timestamp: number): BigNumber {
   let startTime = stream.startTime;
   let amount = stream.depositAmount;
 
@@ -43,7 +42,7 @@ function getCurrentLinearAmountRebased(stream: StreamInfo, timestamp: number): B
 }
 
 function getCurrentDynamicAmountRebased(
-  stream: StreamInfo,
+  stream: Stream,
   timestamp: number,
 ): { elapsedAmountRebased: BigNumber; exitSegmentIndex: number } {
   let elapsedAmount = new BigNumber(0);
@@ -62,7 +61,7 @@ function getCurrentDynamicAmountRebased(
 }
 
 function calculateElapsedAmountRebased(
-  stream: StreamInfo,
+  stream: Stream,
   timestamp: number,
 ): { elapsedAmountRebased: BigNumber; exitSegmentIndex: number | null } {
   if (isLinear(stream)) {
@@ -72,7 +71,7 @@ function calculateElapsedAmountRebased(
   return getCurrentDynamicAmountRebased(stream, timestamp);
 }
 
-export default function getBalance(streams: StreamInfo[], date: Date | null): string {
+export default function getBalance(streams: Stream[], date: Date | null): string {
   let entitledAmountRebased = new BigNumber(0);
   const address = getAccount(WAGMI_CONFIG).address;
   const timestampNow = Math.floor(new Date().getTime() / 1000);

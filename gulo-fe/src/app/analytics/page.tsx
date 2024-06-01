@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import ChartButton from '@/components/atoms/buttons/chart-button';
 import DatePickerModal from '@/components/atoms/modals/date-picker-modal';
+import Chart from '@/components/templates/chart';
 import { ChartType, Increment } from '@/constants/enums';
 import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
 import { toast } from 'sonner';
@@ -13,24 +14,14 @@ export default function Analytics() {
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [isStartModalOpen, setIsStartModalOpen] = useState(false);
   const [isEndModalOpen, setIsEndModalOpen] = useState(false);
-  const [increment, setIncrement] = useState(Increment.Minute.toString());
+  const [increment, setIncrement] = useState(Increment.Minute);
   const [chartType, setChartType] = useState<ChartType>(ChartType.Line);
 
   const toggleStartModal = () => setIsStartModalOpen(prev => !prev);
   const toggleEndModal = () => setIsEndModalOpen(prev => !prev);
 
   const handleIncrementChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newIncrement = event.target.value as Increment;
-
-    if (endTime) {
-      const newStartTime = new Date(endTime.getTime() - INCREMENT_LIMITS[newIncrement] * 1000);
-      setStartTime(newStartTime);
-    } else if (startTime) {
-      const newEndTime = new Date(startTime.getTime() + INCREMENT_LIMITS[newIncrement] * 1000);
-      setEndTime(newEndTime);
-    }
-
-    setIncrement(newIncrement);
+    setIncrement(event.target.value as Increment);
   };
 
   const handleChartTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -66,9 +57,11 @@ export default function Analytics() {
     <div className='flex flex-col h-[90vh] w-2/3 rounded-lg p-4'>
       <div className='flex justify-between items-center'>
         <ChartButton onClick={toggleStartModal}>
-          {startTime ? startTime.toLocaleString() : 'Select Start Time'}
+          {startTime ? startTime.toLocaleString(navigator.language) : 'Select Start Time'}
         </ChartButton>
-        <ChartButton onClick={toggleEndModal}>{endTime ? endTime.toLocaleString() : 'Select End Time'}</ChartButton>
+        <ChartButton onClick={toggleEndModal}>
+          {endTime ? endTime.toLocaleString(navigator.language) : 'Select End Time'}
+        </ChartButton>
         <ChartButton>
           <select
             value={increment}
@@ -94,7 +87,7 @@ export default function Analytics() {
           </select>
         </ChartButton>
       </div>
-      <div className='flex-grow border m-1'>Rectangle Area</div>
+      <Chart startTime={startTime} endTime={endTime} increment={increment} chartType={chartType} />
       {isStartModalOpen && (
         <DatePickerModal
           date={startTime}

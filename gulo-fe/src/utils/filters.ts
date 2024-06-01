@@ -1,36 +1,41 @@
+import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 import areAddressesEqual from '@/utils/adresses';
 import { Address } from 'viem';
 
-function isCircular(stream: StreamInfo): boolean {
-  return stream.sender === stream.recipient;
+function isCircular(stream: Stream): boolean {
+  return areAddressesEqual(stream.sender, stream.recipient);
 }
 
-function isOutgoing(stream: StreamInfo, address: Address | undefined): boolean {
-  return stream.sender === address && !isCircular(stream);
+function isIncoming(stream: Stream, address: Address | undefined): boolean {
+  return areAddressesEqual(stream.recipient, address) && !isCircular(stream);
 }
 
-export function hasNotStarted(stream: StreamInfo, timestamp: number): boolean {
+function isOutgoing(stream: Stream, address: Address | undefined): boolean {
+  return areAddressesEqual(stream.sender, address) && !isCircular(stream);
+}
+
+export function hasNotStarted(stream: Stream, timestamp: number): boolean {
   return timestamp < Number(stream.startTime);
 }
 
-export function isOutgoingCancelable(stream: StreamInfo, address: Address | undefined): boolean {
+export function isOutgoingCancelable(stream: Stream, address: Address | undefined): boolean {
   return isOutgoing(stream, address) && stream.cancelable;
 }
 
-export function isOutgoingNonCancelable(stream: StreamInfo, address: Address | undefined): boolean {
+export function isOutgoingNonCancelable(stream: Stream, address: Address | undefined): boolean {
   return isOutgoing(stream, address) && !stream.cancelable;
 }
 
-export function isCircularCancelable(stream: StreamInfo): boolean {
+export function isCircularCancelable(stream: Stream): boolean {
   return isCircular(stream) && stream.cancelable;
 }
 
-export function isLinear(stream: StreamInfo): boolean {
+export function isLinear(stream: Stream): boolean {
   return stream.category === 'LockupLinear';
 }
 
-export function hasCliff(stream: StreamInfo): boolean {
+export function hasCliff(stream: Stream): boolean {
   return stream.cliffTime !== null;
 }
 
@@ -65,17 +70,15 @@ export const selectNonCircular = (streams: StreamInfo[]): StreamInfo[] => {
 
 export const selectIn = (streams: StreamInfo[], address: Address | undefined): StreamInfo[] => {
   return streams.filter(stream => {
-    const areEqual = areAddressesEqual(stream.recipient, address);
-    stream.isSelected = areEqual;
-    return areEqual;
+    stream.isSelected = isIncoming(stream, address);
+    return stream.isSelected;
   });
 };
 
 export const selectOut = (streams: StreamInfo[], address: Address | undefined): StreamInfo[] => {
   return streams.filter(stream => {
-    const areEqual = areAddressesEqual(stream.sender, address);
-    stream.isSelected = areEqual;
-    return areEqual;
+    stream.isSelected = isOutgoing(stream, address);
+    return stream.isSelected;
   });
 };
 

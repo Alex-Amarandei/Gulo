@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import { ChartType, Increment } from '@/constants/enums';
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 
@@ -37,4 +38,18 @@ export interface InfoModalProps {
 export interface ChartButtonProps {
   children: ReactNode;
   onClick?: () => void;
+}
+
+export interface StreamDataProps {
+  streams: Stream[];
+  startTime: Date | null;
+  endTime: Date | null;
+  increment: Increment;
+}
+
+export interface ChartProps {
+  startTime: Date | null;
+  endTime: Date | null;
+  increment: Increment;
+  chartType: ChartType;
 }

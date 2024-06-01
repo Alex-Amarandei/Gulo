@@ -39,10 +39,11 @@ export default function DatePickerModal({
         </button>
         <Suspense fallback={<strong>NOW</strong>}>
           <DatePicker
-            placeholderText='NOW'
+            placeholderText='Select Date and Time'
             selected={date}
             onChange={date => onDateChange(date)}
             showTimeSelect
+            locale={navigator.language}
             dateFormat='Pp'
             className='bg-transparent text-slate-100 font-bold border-0 focus:border-0 text-center text-lg focus:ring-0'
           />
