@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 
@@ -25,8 +27,14 @@ export interface DatePickerModalProps {
   date: Date | null;
   onClose: () => void;
   onDateChange: (date: Date | null) => void;
+  setToCurrentDate?: boolean;
 }
 
 export interface InfoModalProps {
   onClose: () => void;
+}
+
+export interface ChartButtonProps {
+  children: ReactNode;
+  onClick?: () => void;
 }

@@ -4,10 +4,23 @@ import { DatePickerModalProps } from '@/interfaces/props';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function DatePickerModal({ date, onClose, onDateChange }: DatePickerModalProps) {
+export default function DatePickerModal({
+  date,
+  onClose,
+  onDateChange,
+  setToCurrentDate = false,
+}: DatePickerModalProps) {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
+    }
+  };
+
+  const handleNowButtonClick = () => {
+    if (setToCurrentDate) {
+      onDateChange(new Date());
+    } else {
+      onDateChange(null);
     }
   };
 
@@ -36,7 +49,7 @@ export default function DatePickerModal({ date, onClose, onDateChange }: DatePic
         </Suspense>
         <button
           className='sablier-orange drop-shadow-lg bg-gray-800 p-2 transition-transform duration-300 hover:-translate-y-1'
-          onClick={() => onDateChange(null)}>
+          onClick={handleNowButtonClick}>
           <strong>NOW</strong>
         </button>
       </div>

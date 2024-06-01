@@ -5,7 +5,6 @@ import { useStreams } from '@/components/contexts/streams-context';
 import { StreamInfoListProps } from '@/interfaces/props';
 import { StreamInfo } from '@/interfaces/stream-info';
 import { formatDecimals } from '@/utils/formats';
-import Image from 'next/image';
 
 export default function StreamList({ streams }: StreamInfoListProps) {
   const [selectedStream, setSelectedStream] = useState<StreamInfo | null>(null);
@@ -77,7 +76,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
                 <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
               </p>
             </div>
-            <Image src={stream.nft} alt='SVG' className='w-1/4 h-1/2 object-contain ml-4 rounded-lg' />
+            <img src={stream.nft} alt='SVG' className='w-1/4 h-1/2 object-contain ml-4 rounded-lg' />
           </div>
         );
       })}
