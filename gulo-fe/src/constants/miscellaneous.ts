@@ -2,6 +2,8 @@
 import { Increment } from '@/constants/enums';
 import BigNumber from 'bignumber.js';
 
+export const RADIAN = Math.PI / 180;
+export const SABLIER_ORANGE = '#f77725';
 export const DIVISOR_1_E_18 = new BigNumber(1e18);
 export const MOCK_JSON_WITH_IMAGE_FIELD_BASE64 = 'eyJpbWFnZSI6ICIifQ=='; // {"image":""}
 

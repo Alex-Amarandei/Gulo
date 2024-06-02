@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 
+import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import WAGMI_CONFIG from '@/utils/configs';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -16,7 +17,7 @@ const WagmiProviderWrapper = ({ children }: { children: ReactNode }) => {
         <RainbowKitProvider
           coolMode
           theme={darkTheme({
-            accentColor: '#f77725',
+            accentColor: SABLIER_ORANGE,
             accentColorForeground: '#1F2937',
             borderRadius: 'medium',
             overlayBlur: 'small',

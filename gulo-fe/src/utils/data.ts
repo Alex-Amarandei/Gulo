@@ -80,16 +80,30 @@ export function getBarChartStreamData(
 
   return steps.map(timestamp => {
     const timestampInMilliseconds = timestamp * 1000;
-    const result: { [key: string]: any } = {
+    const result: { [key: string]: number | string } = {
       timestamp: formatDate(timestampInMilliseconds, increment),
     };
 
     streams.forEach(stream => {
-      result[stream.alias.toUpperCase()] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
+      result[stream.alias] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
     });
 
     return result;
   });
+}
+
+export function getPieChartStreamData(streams: Stream[], startTime: Date | null) {
+  const results: { alias: string; amount: number }[] = [];
+  const timestampInMilliseconds = startTime !== null ? startTime.getTime() : 0;
+
+  streams.forEach(stream => {
+    results.push({
+      alias: stream.alias,
+      amount: Number(getBalance([stream], new Date(timestampInMilliseconds))),
+    });
+  });
+
+  return results;
 }
 
 export function getColorVariation(baseColor: string, index: number, total: number): string {

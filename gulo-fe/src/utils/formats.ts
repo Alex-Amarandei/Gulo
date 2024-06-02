@@ -20,3 +20,7 @@ export function formatNftDetails(data: string): string {
 export function rebase(x: BigNumber): BigNumber {
   return x.dividedBy(DIVISOR_1_E_18);
 }
+
+export function formatValueForLabel(value: string | number): number {
+  return value.toString().endsWith('%') ? parseFloat(value.toString().slice(0, -1)) : parseFloat(value.toString());
+}

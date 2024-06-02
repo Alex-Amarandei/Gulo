@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import ChartButton from '@/components/atoms/buttons/chart-button';
 import DatePickerModal from '@/components/atoms/modals/date-picker-modal';
-import Chart from '@/components/templates/chart';
+import Chart from '@/components/templates/charts';
 import { ChartType, Increment } from '@/constants/enums';
 import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
 import { toast } from 'sonner';
@@ -62,21 +62,25 @@ export default function Analytics() {
         <ChartButton onClick={toggleStartModal}>
           {startTime ? startTime.toLocaleString('en-US') : 'Select Start Time'}
         </ChartButton>
-        <ChartButton onClick={toggleEndModal}>
-          {endTime ? endTime.toLocaleString('en-US') : 'Select End Time'}
-        </ChartButton>
-        <ChartButton>
-          <select
-            value={increment}
-            onChange={handleIncrementChange}
-            className='bg-transparent border-none focus:ring-0 focus:ring-transparent py-0 cursor-pointer'>
-            {Object.values(Increment).map(value => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
-        </ChartButton>
+        {chartType !== ChartType.Pie && (
+          <ChartButton onClick={toggleEndModal}>
+            {endTime ? endTime.toLocaleString('en-US') : 'Select End Time'}
+          </ChartButton>
+        )}
+        {chartType !== ChartType.Pie && (
+          <ChartButton>
+            <select
+              value={increment}
+              onChange={handleIncrementChange}
+              className='bg-transparent border-none focus:ring-0 focus:ring-transparent py-0 cursor-pointer'>
+              {Object.values(Increment).map(value => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </ChartButton>
+        )}
         <ChartButton>
           <select
             value={chartType}

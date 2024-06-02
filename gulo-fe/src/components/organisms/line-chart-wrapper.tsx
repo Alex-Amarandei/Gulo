@@ -1,3 +1,4 @@
+import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
 import { getLineChartStreamData, getShorthandTick } from '@/utils/data';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -16,8 +17,8 @@ export default function LineChartWrapper({ streams, startTime, endTime, incremen
         }}>
         <defs>
           <linearGradient id='gradientColor' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#f77725' stopOpacity={0.8} />
-            <stop offset='95%' stopColor='#f77725' stopOpacity={0.1} />
+            <stop offset='5%' stopColor={SABLIER_ORANGE} stopOpacity={0.8} />
+            <stop offset='95%' stopColor={SABLIER_ORANGE} stopOpacity={0.1} />
           </linearGradient>
         </defs>
         <CartesianGrid
@@ -30,7 +31,7 @@ export default function LineChartWrapper({ streams, startTime, endTime, incremen
         />
         <XAxis
           dataKey='timestamp'
-          stroke='#f77725'
+          stroke={SABLIER_ORANGE}
           strokeWidth={4}
           strokeLinecap='round'
           strokeLinejoin='bevel'
@@ -39,7 +40,7 @@ export default function LineChartWrapper({ streams, startTime, endTime, incremen
           tickMargin={10}
         />
         <YAxis
-          stroke='#f77725'
+          stroke={SABLIER_ORANGE}
           strokeWidth={4}
           strokeLinecap='round'
           strokeLinejoin='bevel'
@@ -61,10 +62,10 @@ export default function LineChartWrapper({ streams, startTime, endTime, incremen
         <Area
           type='monotone'
           dataKey='amount'
-          stroke='#f77725'
+          stroke={SABLIER_ORANGE}
           strokeWidth={3}
           fill='url(#gradientColor)'
-          dot={{ stroke: '#f77725', strokeWidth: 1, fill: '#1F2937', r: 4, fillOpacity: 1 }}
+          dot={{ stroke: SABLIER_ORANGE, strokeWidth: 1, fill: '#1F2937', r: 4, fillOpacity: 1 }}
         />
       </AreaChart>
     </ResponsiveContainer>
