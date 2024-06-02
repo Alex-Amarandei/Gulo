@@ -1,9 +1,9 @@
+import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
 import { getBarChartStreamData, getColorVariation, getShorthandTick } from '@/utils/data';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 export default function BarChartWrapper({ streams, startTime, endTime, increment }: ChartWrapperProps) {
-  const baseColor = '#f77725';
   const data = getBarChartStreamData(streams, startTime, endTime, increment);
 
   return (
@@ -17,17 +17,6 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
           left: 10,
           bottom: 10,
         }}>
-        <defs>
-          {streams.map((_, index) => {
-            const color = getColorVariation(baseColor, index, streams.length);
-            return (
-              <linearGradient key={`gradientColor-${index}`} id={`gradientColor-${index}`} x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='5%' stopColor={color} stopOpacity={0.8} />
-                <stop offset='95%' stopColor={color} stopOpacity={0.5} />
-              </linearGradient>
-            );
-          })}
-        </defs>
         <CartesianGrid
           strokeDasharray='4 4'
           stroke='#f1f5f9'
@@ -38,7 +27,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
         />
         <XAxis
           dataKey='timestamp'
-          stroke='#f77725'
+          stroke={SABLIER_ORANGE}
           strokeWidth={4}
           strokeLinecap='round'
           strokeLinejoin='bevel'
@@ -47,7 +36,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
           tickMargin={10}
         />
         <YAxis
-          stroke='#f77725'
+          stroke={SABLIER_ORANGE}
           strokeWidth={4}
           strokeLinecap='round'
           strokeLinejoin='bevel'
@@ -71,9 +60,9 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
           <Bar
             key={`bar-${index}`}
             dataKey={stream.alias.toUpperCase()}
-            stroke={`url(#gradientColor-${index})`}
+            stroke={'rgba(0, 0, 0, 0)'}
             strokeWidth={2}
-            fill={`url(#gradientColor-${index})`}
+            fill={getColorVariation(index, streams.length)}
             stackId='a'
           />
         ))}

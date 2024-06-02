@@ -85,7 +85,7 @@ export function getBarChartStreamData(
     };
 
     streams.forEach(stream => {
-      result[stream.alias] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
+      result[stream.alias.toUpperCase()] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
     });
 
     return result;
@@ -106,15 +106,18 @@ export function getPieChartStreamData(streams: Stream[], startTime: Date | null)
   return results;
 }
 
-export function getColorVariation(baseColor: string, index: number, total: number): string {
-  const r = parseInt(baseColor.slice(1, 3), 16);
-  const g = parseInt(baseColor.slice(3, 5), 16);
-  const b = parseInt(baseColor.slice(5, 7), 16);
+const baseColor = { r: 247, g: 119, b: 37 };
+const endColor = { r: 139, g: 64, b: 0 };
 
-  const factor = (index + 1) / total;
-  const newR = Math.min(255, Math.floor(r + (255 - r) * factor * 0.3));
-  const newG = Math.min(255, Math.floor(g + (255 - g) * factor * 0.3));
-  const newB = Math.min(255, Math.floor(b + (255 - b) * factor * 0.3));
+function getRandomWarmColor(): string {
+  const hue = Math.floor(Math.random() * 61);
+  const saturation = 100;
+  const lightness = 50;
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
 
-  return `rgb(${newR}, ${newG}, ${newB})`;
+export function getColorVariation(index: number, total: number): string {
+  const color = getRandomWarmColor();
+  const opacity = index / total;
+  return color.replace('hsl', 'hsla').replace(')', `, ${opacity})`);
 }

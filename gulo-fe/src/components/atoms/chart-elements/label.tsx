@@ -28,9 +28,21 @@ export function renderCustomizedLabel({
   const x = cxNumber + radius * Math.cos(-midAngleNumber * RADIAN);
   const y = cyNumber + radius * Math.sin(-midAngleNumber * RADIAN);
 
+  const value = (percentNumber * 100).toFixed(0);
+
+  if (value === '0') {
+    return null;
+  }
+
   return (
-    <text x={x} y={y} fill='white' textAnchor={x > cxNumber ? 'start' : 'end'} dominantBaseline='central'>
-      {`${(percentNumber * 100).toFixed(0)}%`}
+    <text
+      x={x}
+      y={y}
+      fill='white'
+      textAnchor={x > cxNumber ? 'start' : 'end'}
+      dominantBaseline='central'
+      className='font-bold'>
+      {`${value}%`}
     </text>
   );
 }

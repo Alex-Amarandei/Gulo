@@ -1,7 +1,7 @@
 import { getShorthandTick } from '@/utils/data';
 import { TooltipProps } from 'recharts';
 
-export function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
+export function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
   if (!active || !payload || payload.length === 0) {
     return null;
   }
