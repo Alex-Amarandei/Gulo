@@ -60,10 +60,10 @@ export default function Analytics() {
     <div className='flex flex-col h-[90vh] w-2/3 rounded-lg p-4'>
       <div className='flex justify-between items-center'>
         <ChartButton onClick={toggleStartModal}>
-          {startTime ? startTime.toLocaleString(navigator.language) : 'Select Start Time'}
+          {startTime ? startTime.toLocaleString('en-US') : 'Select Start Time'}
         </ChartButton>
         <ChartButton onClick={toggleEndModal}>
-          {endTime ? endTime.toLocaleString(navigator.language) : 'Select End Time'}
+          {endTime ? endTime.toLocaleString('en-US') : 'Select End Time'}
         </ChartButton>
         <ChartButton>
           <select

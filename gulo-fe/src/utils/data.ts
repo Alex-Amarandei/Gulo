@@ -41,7 +41,24 @@ export function formatDate(timestamp: number, increment: Increment): string {
   }
 }
 
-export function getStreamData(streams: Stream[], startTime: Date | null, endTime: Date | null, increment: Increment) {
+export function getShorthandTick(tickValue: number) {
+  if (Math.abs(tickValue) > 1_000_000_000) {
+    return (tickValue / 1_000_000_000).toFixed(2).toString() + 'B';
+  } else if (Math.abs(tickValue) > 1_000_000) {
+    return (tickValue / 1_000_000).toFixed(2).toString() + 'M';
+  } else if (Math.abs(tickValue) > 1_000) {
+    return (tickValue / 1_000).toFixed(2).toString() + 'K';
+  } else {
+    return tickValue.toString();
+  }
+}
+
+export function getLineChartStreamData(
+  streams: Stream[],
+  startTime: Date | null,
+  endTime: Date | null,
+  increment: Increment,
+) {
   const steps = getSteps(startTime, endTime, increment);
 
   return steps.map(timestamp => {
@@ -53,14 +70,37 @@ export function getStreamData(streams: Stream[], startTime: Date | null, endTime
   });
 }
 
-export function getShorthandTick(tickValue: number) {
-  if (Math.abs(tickValue) > 1_000_000_000) {
-    return (tickValue / 1_000_000_000).toFixed(2).toString() + 'B';
-  } else if (Math.abs(tickValue) > 1_000_000) {
-    return (tickValue / 1_000_000).toFixed(2).toString() + 'M';
-  } else if (Math.abs(tickValue) > 1_000) {
-    return (tickValue / 1_000).toFixed(2).toString() + 'K';
-  } else {
-    return tickValue.toString();
-  }
+export function getBarChartStreamData(
+  streams: Stream[],
+  startTime: Date | null,
+  endTime: Date | null,
+  increment: Increment,
+) {
+  const steps = getSteps(startTime, endTime, increment);
+
+  return steps.map(timestamp => {
+    const timestampInMilliseconds = timestamp * 1000;
+    const result: { [key: string]: any } = {
+      timestamp: formatDate(timestampInMilliseconds, increment),
+    };
+
+    streams.forEach(stream => {
+      result[stream.alias.toUpperCase()] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
+    });
+
+    return result;
+  });
+}
+
+export function getColorVariation(baseColor: string, index: number, total: number): string {
+  const r = parseInt(baseColor.slice(1, 3), 16);
+  const g = parseInt(baseColor.slice(3, 5), 16);
+  const b = parseInt(baseColor.slice(5, 7), 16);
+
+  const factor = (index + 1) / total;
+  const newR = Math.min(255, Math.floor(r + (255 - r) * factor * 0.3));
+  const newG = Math.min(255, Math.floor(g + (255 - g) * factor * 0.3));
+  const newB = Math.min(255, Math.floor(b + (255 - b) * factor * 0.3));
+
+  return `rgb(${newR}, ${newG}, ${newB})`;
 }

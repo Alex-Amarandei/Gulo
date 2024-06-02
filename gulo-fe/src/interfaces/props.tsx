@@ -26,9 +26,9 @@ export interface FilterButtonProps {
 
 export interface DatePickerModalProps {
   date: Date | null;
+  setToCurrentDate?: boolean;
   onClose: () => void;
   onDateChange: (date: Date | null) => void;
-  setToCurrentDate?: boolean;
 }
 
 export interface InfoModalProps {
@@ -41,15 +41,22 @@ export interface ChartButtonProps {
 }
 
 export interface StreamDataProps {
-  streams: Stream[];
-  startTime: Date | null;
   endTime: Date | null;
   increment: Increment;
+  startTime: Date | null;
+  streams: Stream[];
 }
 
 export interface ChartProps {
-  startTime: Date | null;
+  chartType: ChartType;
   endTime: Date | null;
   increment: Increment;
-  chartType: ChartType;
+  startTime: Date | null;
+}
+
+export interface ChartWrapperProps {
+  endTime: Date | null;
+  increment: Increment;
+  startTime: Date | null;
+  streams: Stream[];
 }

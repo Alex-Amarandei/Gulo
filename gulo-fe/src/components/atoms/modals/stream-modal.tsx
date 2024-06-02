@@ -75,10 +75,10 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
           <strong>Withdrawn Amount:</strong> {formatDecimals(stream.withdrawnAmount)} {stream.asset.symbol}
         </p>
         <p className='text-sm'>
-          <strong>Start Time:</strong> {new Date(Number(stream.startTime) * 1000).toLocaleString(navigator.language)}
+          <strong>Start Time:</strong> {new Date(Number(stream.startTime) * 1000).toLocaleString('en-US')}
         </p>
         <p className='text-sm'>
-          <strong>End Time:</strong> {new Date(Number(stream.endTime) * 1000).toLocaleString(navigator.language)}
+          <strong>End Time:</strong> {new Date(Number(stream.endTime) * 1000).toLocaleString('en-US')}
         </p>
         <p className='text-sm'>
           <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}

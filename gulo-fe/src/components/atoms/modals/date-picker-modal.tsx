@@ -43,7 +43,7 @@ export default function DatePickerModal({
             selected={date}
             onChange={date => onDateChange(date)}
             showTimeSelect
-            locale={navigator.language}
+            locale={'en-US'}
             dateFormat='Pp'
             className='bg-transparent text-slate-100 font-bold border-0 focus:border-0 text-center text-lg focus:ring-0'
           />
