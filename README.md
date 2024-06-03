@@ -14,7 +14,13 @@ If you are a Sablier user with more than one stream, you are in the right place!
 
 ## 💡 What can you do with Gulo?
 
-Currently, the main feature is calculating the total amount of funds available for withdrawal from your Sablier Stream Portfolio at any given moment. However, many exciting features will be shipped in the coming weeks! Keep an eye out 😉
+Currently, the main feature is calculating the total amount of funds available for withdrawal from your Sablier Stream Portfolio at any given moment.
+
+However, many exciting features will be shipped in the coming weeks! Keep an eye out 😉
+
+### 📊 Analytics Page is Shipped! 🆕
+
+-   **Analytics Page:** See the evolution of your balance over time, both past and future. Line Charts, Bar Charts, Pie Charts — you name it!
 
 ## 🌱 Why was Gulo created?
 
@@ -31,7 +37,6 @@ The Roadmap is as follows:
 ### 📅 June
 
 -   **Multi-Currency Support:** Currently, only DAI is supported, but all ERC-20 tokens will be included soon!
--   **Analytics Page:** See the evolution of your balance over time, both past and future. Line charts, bar charts, pie charts—you name it.
 -   **Reports Page:** Get reports that will help you in your accountability efforts. Export them to CSV, Excel, PDF—whatever you need.
 
 ### 📅 July

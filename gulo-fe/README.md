@@ -15,6 +15,12 @@
 
 - **Clone the Repo Locally**
 
+- **Install Bun**
+
+  ```zsh
+  npm install -g bun
+  ```
+
 - **Install Dependencies**
 
   ```zsh
