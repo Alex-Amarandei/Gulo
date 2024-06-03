@@ -41,7 +41,10 @@ export function renderCustomizedLabel({
       fill='white'
       textAnchor={x > cxNumber ? 'start' : 'end'}
       dominantBaseline='central'
-      className='font-bold'>
+      className='font-bold font-xl'
+      style={{
+        filter: `drop-shadow(1px 1px 1px #02111A)`,
+      }}>
       {`${value}%`}
     </text>
   );

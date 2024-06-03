@@ -21,8 +21,9 @@ export default function Analytics() {
   const toggleEndModal = () => setIsEndModalOpen(prev => !prev);
 
   const handleIncrementChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (startTime && endTime && !isTimeDifferenceValid(startTime, endTime)) {
+    if (startTime && endTime && !isTimeDifferenceValid(startTime, endTime, event.target.value as Increment)) {
       toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
+      return;
     }
     setIncrement(event.target.value as Increment);
   };
@@ -31,15 +32,20 @@ export default function Analytics() {
     setChartType(event.target.value as ChartType);
   };
 
-  const isTimeDifferenceValid = (start: Date, end: Date) => {
+  const isTimeDifferenceValid = (start: Date, end: Date, potentialIncrement: Increment) => {
     const diffInSeconds = (end.getTime() - start.getTime()) / 1000;
-    return diffInSeconds <= INCREMENT_LIMITS[increment as Increment];
+    return diffInSeconds <= INCREMENT_LIMITS[potentialIncrement];
   };
 
   const handleStartTimeChange = (date: Date | null) => {
+    if (chartType === ChartType.Pie) {
+      setStartTime(date);
+      return;
+    }
+
     if (date && endTime && date > endTime) {
       toast.error('Start time cannot be after end time.');
-    } else if (date && endTime && !isTimeDifferenceValid(date, endTime)) {
+    } else if (date && endTime && !isTimeDifferenceValid(date, endTime, increment)) {
       toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
     } else {
       setStartTime(date);
@@ -49,7 +55,7 @@ export default function Analytics() {
   const handleEndTimeChange = (date: Date | null) => {
     if (date && startTime && date < startTime) {
       toast.error('End time cannot be before start time.');
-    } else if (date && startTime && !isTimeDifferenceValid(startTime, date)) {
+    } else if (date && startTime && !isTimeDifferenceValid(startTime, date, increment)) {
       toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
     } else {
       setEndTime(date);
@@ -60,7 +66,11 @@ export default function Analytics() {
     <div className='flex flex-col h-[90vh] w-2/3 rounded-lg p-4'>
       <div className='flex justify-between items-center'>
         <ChartButton onClick={toggleStartModal}>
-          {startTime ? startTime.toLocaleString('en-US') : 'Select Start Time'}
+          {startTime
+            ? startTime.toLocaleString('en-US')
+            : chartType === ChartType.Pie
+              ? 'Select Date and Time'
+              : 'Select Start Time'}
         </ChartButton>
         {chartType !== ChartType.Pie && (
           <ChartButton onClick={toggleEndModal}>

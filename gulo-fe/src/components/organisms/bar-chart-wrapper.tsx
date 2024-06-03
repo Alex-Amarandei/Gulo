@@ -1,10 +1,12 @@
-import { SABLIER_ORANGE } from '@/constants/miscellaneous';
+import { COLOR_PALETTES, SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
-import { getBarChartStreamData, getColorVariation, getShorthandTick } from '@/utils/data';
+import { getBarChartStreamData, getColorVariation, getRandomIndex } from '@/utils/data';
+import { getShorthandTick } from '@/utils/formats';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 export default function BarChartWrapper({ streams, startTime, endTime, increment }: ChartWrapperProps) {
   const data = getBarChartStreamData(streams, startTime, endTime, increment);
+  const selectedPalette = COLOR_PALETTES[getRandomIndex(COLOR_PALETTES.length)];
 
   return (
     <ResponsiveContainer width='100%' height='100%'>
@@ -32,7 +34,6 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
           strokeLinecap='round'
           strokeLinejoin='bevel'
           tick={{ fontSize: 12, fontWeight: 500 }}
-          tickFormatter={getShorthandTick}
           tickMargin={10}
         />
         <YAxis
@@ -53,6 +54,8 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
             borderRadius: '8px',
             boxShadow: '0 2px 4px 0 rgba(255, 255, 255, 0.1)',
           }}
+          labelStyle={{ fontWeight: 500, fontSize: 24, textAlign: 'center' }}
+          itemStyle={{ fontWeight: 500 }}
           cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }}
           formatter={getShorthandTick}
         />
@@ -62,8 +65,12 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
             dataKey={stream.alias.toUpperCase()}
             stroke={'rgba(0, 0, 0, 0)'}
             strokeWidth={2}
-            fill={getColorVariation(index, streams.length)}
+            fill={getColorVariation(selectedPalette)}
             stackId='a'
+            style={{
+              filter: `drop-shadow(0px 0px 2px #02111A)`,
+              outline: 'none',
+            }}
           />
         ))}
       </BarChart>

@@ -41,18 +41,6 @@ export function formatDate(timestamp: number, increment: Increment): string {
   }
 }
 
-export function getShorthandTick(tickValue: number) {
-  if (Math.abs(tickValue) > 1_000_000_000) {
-    return (tickValue / 1_000_000_000).toFixed(2).toString() + 'B';
-  } else if (Math.abs(tickValue) > 1_000_000) {
-    return (tickValue / 1_000_000).toFixed(2).toString() + 'M';
-  } else if (Math.abs(tickValue) > 1_000) {
-    return (tickValue / 1_000).toFixed(2).toString() + 'K';
-  } else {
-    return tickValue.toString();
-  }
-}
-
 export function getLineChartStreamData(
   streams: Stream[],
   startTime: Date | null,
@@ -106,18 +94,31 @@ export function getPieChartStreamData(streams: Stream[], startTime: Date | null)
   return results;
 }
 
-const baseColor = { r: 247, g: 119, b: 37 };
-const endColor = { r: 139, g: 64, b: 0 };
-
-function getRandomWarmColor(): string {
-  const hue = Math.floor(Math.random() * 61);
-  const saturation = 100;
-  const lightness = 50;
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+function interpolateColor(
+  color1: { r: number; g: number; b: number },
+  color2: { r: number; g: number; b: number },
+  factor: number,
+): { r: number; g: number; b: number } {
+  const r = Math.round(color1.r + factor * (color2.r - color1.r));
+  const g = Math.round(color1.g + factor * (color2.g - color1.g));
+  const b = Math.round(color1.b + factor * (color2.b - color1.b));
+  return { r, g, b };
 }
 
-export function getColorVariation(index: number, total: number): string {
-  const color = getRandomWarmColor();
-  const opacity = index / total;
-  return color.replace('hsl', 'hsla').replace(')', `, ${opacity})`);
+export function getColorVariation(palette: {
+  start: { r: number; g: number; b: number };
+  end: { r: number; g: number; b: number };
+}): string {
+  const { r, g, b } = interpolateColor(palette.start, palette.end, getRandomNumber());
+  return `rgba(${r}, ${g}, ${b}, 1)`;
+}
+
+function getRandomNumber() {
+  const array = new Uint32Array(1);
+  window.crypto.getRandomValues(array);
+  return array[0] / (0xffffffff + 1);
+}
+
+export function getRandomIndex(length: number) {
+  return Math.floor(getRandomNumber() * length);
 }

@@ -51,7 +51,7 @@ export default function Balance() {
         <strong>{balance}</strong>
       </div>
       <div className='balance-rectangle-3 flex items-center justify-center text-center text-2xl text-slate-100'>
-        <strong>DAI / USD</strong>
+        <strong>USD</strong>
       </div>
       {isModalOpen && <DatePickerModal date={date} onClose={handleCloseModal} onDateChange={setDate} />}
     </div>

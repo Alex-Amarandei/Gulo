@@ -24,3 +24,15 @@ export function rebase(x: BigNumber): BigNumber {
 export function formatValueForLabel(value: string | number): number {
   return value.toString().endsWith('%') ? parseFloat(value.toString().slice(0, -1)) : parseFloat(value.toString());
 }
+
+export function getShorthandTick(tickValue: number) {
+  if (Math.abs(tickValue) >= 1_000_000_000) {
+    return (tickValue / 1_000_000_000).toFixed(2).toString() + 'B';
+  } else if (Math.abs(tickValue) >= 1_000_000) {
+    return (tickValue / 1_000_000).toFixed(2).toString() + 'M';
+  } else if (Math.abs(tickValue) >= 1_000) {
+    return (tickValue / 1_000).toFixed(2).toString() + 'K';
+  } else {
+    return Number(tickValue).toFixed(2).toString();
+  }
+}

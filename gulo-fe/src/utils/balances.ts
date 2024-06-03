@@ -78,7 +78,7 @@ export default function getBalance(streams: Stream[], date: Date | null): string
   const selectedTimestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
   streams.forEach(stream => {
-    if (stream.asset.symbol !== 'DAI') {
+    if (!['DAI', 'USDC', 'USDT'].includes(stream.asset.symbol)) {
       return;
     }
 

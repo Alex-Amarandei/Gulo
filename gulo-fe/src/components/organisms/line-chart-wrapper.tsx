@@ -1,6 +1,7 @@
 import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
-import { getLineChartStreamData, getShorthandTick } from '@/utils/data';
+import { getLineChartStreamData } from '@/utils/data';
+import { getShorthandTick } from '@/utils/formats';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 export default function LineChartWrapper({ streams, startTime, endTime, increment }: ChartWrapperProps) {
@@ -36,7 +37,6 @@ export default function LineChartWrapper({ streams, startTime, endTime, incremen
           strokeLinecap='round'
           strokeLinejoin='bevel'
           tick={{ fontSize: 12, fontWeight: 500 }}
-          tickFormatter={getShorthandTick}
           tickMargin={10}
         />
         <YAxis

@@ -1,4 +1,5 @@
-import { getShorthandTick } from '@/utils/data';
+import { NO_APPLICABLE_STREAMS } from '@/constants/miscellaneous';
+import { getShorthandTick } from '@/utils/formats';
 import { TooltipProps } from 'recharts';
 
 export function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
@@ -6,14 +7,24 @@ export function CustomTooltip({ active, payload }: TooltipProps<number, string>)
     return null;
   }
 
+  if (payload[0].payload.alias === NO_APPLICABLE_STREAMS) {
+    return (
+      <div className='p-3 text-slate-100 bg-gray-800/75 border rounded-lg shadow-xl backdrop-blur-lg'>
+        <p key='empty-label' className='my-2 text-xl text-slate-100 font-bold text-center'>
+          {NO_APPLICABLE_STREAMS}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className='p-3 text-slate-100 bg-gray-800/75 border rounded-lg shadow-xl backdrop-blur-lg'>
       {payload.map((entry, index) => (
         <>
-          <p key={`item-${index}`} className='my-2 text-xs sablier-orange font-bold underline text-center'>
+          <p key={`item-${index}`} className='my-2 text-xl text-slate-100 font-bold underline text-center'>
             {entry.payload.alias.toUpperCase()}
           </p>
-          <p key={`amount-${index}`} className='my-2 text-sm sablier-orange font-bold text-center'>
+          <p key={`amount-${index}`} className='my-2 text-md text-slate-100 font-bold text-center'>
             {getShorthandTick(entry.payload.amount)}
           </p>
         </>
