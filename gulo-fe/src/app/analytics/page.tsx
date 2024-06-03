@@ -63,7 +63,7 @@ export default function Analytics() {
   };
 
   return (
-    <div className='flex flex-col h-[90vh] w-2/3 rounded-lg p-4'>
+    <div className='flex flex-grow flex-col h-[90vh] w-2/3 rounded-lg p-4 ml-12'>
       <div className='flex justify-between items-center'>
         <ChartButton onClick={toggleStartModal}>
           {startTime

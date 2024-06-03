@@ -57,6 +57,9 @@ export default function LineChartWrapper({ streams, startTime, endTime, incremen
             borderRadius: '8px',
             boxShadow: '0 2px 4px 0 rgba(255, 255, 255, 0.1)',
           }}
+          labelStyle={{ fontWeight: 500, fontSize: 24, textAlign: 'center' }}
+          itemStyle={{ fontWeight: 500 }}
+          cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }}
           formatter={getShorthandTick}
         />
         <Area
