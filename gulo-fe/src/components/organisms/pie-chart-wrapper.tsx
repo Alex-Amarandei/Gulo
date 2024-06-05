@@ -49,7 +49,7 @@ export default function PieChartWrapper({ streams, startTime }: ChartWrapperProp
             outerRadius={'100%'}
             dataKey='amount'
             labelLine={false}
-            label={renderCustomizedLabel}>
+            label={props => renderCustomizedLabel({ ...props, alias: data[props.index].alias })}>
             {data.map((stream, index) => (
               <Cell
                 key={`cell-${index}`}

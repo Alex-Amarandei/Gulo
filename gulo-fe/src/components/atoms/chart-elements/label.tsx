@@ -8,6 +8,7 @@ export function renderCustomizedLabel({
   innerRadius,
   outerRadius,
   percent,
+  alias,
 }: {
   cx: string | number;
   cy: string | number;
@@ -15,6 +16,7 @@ export function renderCustomizedLabel({
   innerRadius: string | number;
   outerRadius: string | number;
   percent: string | number;
+  alias: string;
   _: string | number;
 }) {
   const cxNumber = formatValueForLabel(cx);
@@ -35,17 +37,31 @@ export function renderCustomizedLabel({
   }
 
   return (
-    <text
-      x={x}
-      y={y}
-      fill='white'
-      textAnchor={x > cxNumber ? 'start' : 'end'}
-      dominantBaseline='central'
-      className='font-bold font-xl'
-      style={{
-        filter: `drop-shadow(1px 1px 1px #02111A)`,
-      }}>
-      {`${value}%`}
-    </text>
+    <g>
+      <text
+        x={x}
+        y={y - 10}
+        fill='white'
+        textAnchor='middle'
+        dominantBaseline='central'
+        className='font-bold font-xl'
+        style={{
+          filter: `drop-shadow(1px 1px 1px #02111A)`,
+        }}>
+        {`${value}%`}
+      </text>
+      <text
+        x={x}
+        y={y + 10}
+        fill='white'
+        textAnchor='middle'
+        dominantBaseline='central'
+        className='font-bold font-sm'
+        style={{
+          filter: `drop-shadow(1px 1px 1px #02111A)`,
+        }}>
+        {alias.toUpperCase()}
+      </text>
+    </g>
   );
 }
