@@ -1,12 +1,11 @@
-import { COLOR_PALETTES, SABLIER_ORANGE } from '@/constants/miscellaneous';
+import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
-import { getBarChartStreamData, getColorVariation, getRandomIndex } from '@/utils/data';
+import { getBarChartStreamData, getStopColorFromSVG } from '@/utils/data';
 import { getShorthandTick } from '@/utils/formats';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 export default function BarChartWrapper({ streams, startTime, endTime, increment }: ChartWrapperProps) {
   const data = getBarChartStreamData(streams, startTime, endTime, increment);
-  const selectedPalette = COLOR_PALETTES[getRandomIndex(COLOR_PALETTES.length)];
 
   return (
     <ResponsiveContainer width='100%' height='100%'>
@@ -65,7 +64,8 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
             dataKey={stream.alias.toUpperCase()}
             stroke={'rgba(0, 0, 0, 0)'}
             strokeWidth={2}
-            fill={getColorVariation(selectedPalette)}
+            fill={getStopColorFromSVG(stream.nft)}
+            fillOpacity={0.75}
             stackId='a'
             style={{
               filter: `drop-shadow(0px 0px 2px #02111A)`,

@@ -1,6 +1,7 @@
 import { Increment } from '@/constants/enums';
 import { INCREMENT_VALUE } from '@/constants/miscellaneous';
 import Stream from '@/interfaces/stream';
+import { StreamInfo } from '@/interfaces/stream-info';
 import getBalance from '@/utils/balances';
 
 function getSteps(startTime: Date | null, endTime: Date | null, increment: Increment) {
@@ -80,45 +81,23 @@ export function getBarChartStreamData(
   });
 }
 
-export function getPieChartStreamData(streams: Stream[], startTime: Date | null) {
-  const results: { alias: string; amount: number }[] = [];
+export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | null) {
+  const results: { alias: string; amount: number; nft: string }[] = [];
   const timestampInMilliseconds = startTime !== null ? startTime.getTime() : 0;
 
   streams.forEach(stream => {
     results.push({
       alias: stream.alias,
       amount: Number(getBalance([stream], new Date(timestampInMilliseconds))),
+      nft: stream.nft,
     });
   });
 
   return results;
 }
 
-function interpolateColor(
-  color1: { r: number; g: number; b: number },
-  color2: { r: number; g: number; b: number },
-  factor: number,
-): { r: number; g: number; b: number } {
-  const r = Math.round(color1.r + factor * (color2.r - color1.r));
-  const g = Math.round(color1.g + factor * (color2.g - color1.g));
-  const b = Math.round(color1.b + factor * (color2.b - color1.b));
-  return { r, g, b };
-}
-
-export function getColorVariation(palette: {
-  start: { r: number; g: number; b: number };
-  end: { r: number; g: number; b: number };
-}): string {
-  const { r, g, b } = interpolateColor(palette.start, palette.end, getRandomNumber());
-  return `rgba(${r}, ${g}, ${b}, 1)`;
-}
-
-function getRandomNumber() {
-  const array = new Uint32Array(1);
-  window.crypto.getRandomValues(array);
-  return array[0] / (0xffffffff + 1);
-}
-
-export function getRandomIndex(length: number) {
-  return Math.floor(getRandomNumber() * length);
+export function getStopColorFromSVG(base64SVG: string): string {
+  const svgContent = atob(base64SVG.split(',')[1]);
+  const stopColorMatch = svgContent.match(/stop-color="([^"]+)"/);
+  return stopColorMatch ? stopColorMatch[1] : 'rgba(255, 255, 255, 0.5)';
 }

@@ -1,13 +1,12 @@
 import { renderCustomizedLabel } from '@/components/atoms/chart-elements/label';
 import { CustomTooltip } from '@/components/atoms/chart-elements/tooltip';
-import { COLOR_PALETTES, NO_APPLICABLE_STREAMS } from '@/constants/miscellaneous';
+import { NO_APPLICABLE_STREAMS } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
-import { getColorVariation, getPieChartStreamData, getRandomIndex } from '@/utils/data';
+import { getPieChartStreamData, getStopColorFromSVG } from '@/utils/data';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function PieChartWrapper({ streams, startTime }: ChartWrapperProps) {
   const data = getPieChartStreamData(streams, startTime);
-  const selectedPalette = COLOR_PALETTES[getRandomIndex(COLOR_PALETTES.length)];
 
   return (
     <ResponsiveContainer width='100%' height='100%'>
@@ -51,10 +50,11 @@ export default function PieChartWrapper({ streams, startTime }: ChartWrapperProp
             dataKey='amount'
             labelLine={false}
             label={renderCustomizedLabel}>
-            {data.map((_, index) => (
+            {data.map((stream, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={getColorVariation(selectedPalette)}
+                fill={getStopColorFromSVG(stream.nft)}
+                fillOpacity={0.75}
                 strokeWidth={0}
                 style={{
                   filter: `drop-shadow(2px 2px 7px #02111A)`,

@@ -58,5 +58,5 @@ export interface ChartWrapperProps {
   endTime: Date | null;
   increment: Increment;
   startTime: Date | null;
-  streams: Stream[];
+  streams: StreamInfo[];
 }
