@@ -1,7 +1,7 @@
 import { InfoModalProps } from '@/interfaces/props';
 
 export default function InfoModal({ onClose }: InfoModalProps) {
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }

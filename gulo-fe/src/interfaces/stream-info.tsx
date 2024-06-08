@@ -7,7 +7,7 @@ export interface StreamInfo extends Stream {
 
 export interface StreamContextType {
   streams: StreamInfo[];
-  setStreams: React.Dispatch<React.SetStateAction<StreamInfo[]>>;
+  setStreams: Dispatch<SetStateAction<StreamInfo[]>>;
   selectedStreams: StreamInfo[];
-  setSelectedStreams: React.Dispatch<React.SetStateAction<StreamInfo[]>>;
+  setSelectedStreams: Dispatch<SetStateAction<StreamInfo[]>>;
 }

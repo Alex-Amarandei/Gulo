@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import WagmiProviderWrapper from '@/components/contexts/wagmi';
 import Content from '@/components/templates/layout/content';
 import Footer from '@/components/templates/layout/footer';
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Gulo - the all-in-one place for Sablier analytics',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en'>
       <link rel='icon' href='/images/branding/favicon.ico' />

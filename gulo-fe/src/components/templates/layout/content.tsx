@@ -1,7 +1,7 @@
 import { StreamProvider } from '@/components/contexts/streams-context';
 import Streams from '@/components/templates/streams';
 
-export default function Content({ children }: { children: React.ReactNode }) {
+export default function Content({ children }: { children: ReactNode }) {
   return (
     <StreamProvider>
       <main className='flex flex-grow justify-between px-4'>

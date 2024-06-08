@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function StreamModal({ stream, onClose }: StreamModalProps) {
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }

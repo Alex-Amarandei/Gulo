@@ -71,7 +71,7 @@ function calculateElapsedAmountRebased(
   return getCurrentDynamicAmountRebased(stream, timestamp);
 }
 
-export default function getBalance(streams: Stream[], date: Date | null): string {
+export default function getBalance(streams: Stream[], date: Date | undefined): string {
   let entitledAmountRebased = new BigNumber(0);
   const address = getAccount(WAGMI_CONFIG).address;
   const timestampNow = Math.floor(new Date().getTime() / 1000);

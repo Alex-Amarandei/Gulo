@@ -11,7 +11,7 @@ export default function BuyMeACoffeeModal({ onClose }: InfoModalProps) {
 
   const ethereumAddress = '0x3744fafA69a3236dd18Bc3870c8dA708D9f6906e';
 
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }

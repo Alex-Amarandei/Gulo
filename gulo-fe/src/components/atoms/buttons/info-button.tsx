@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import InfoModal from '@/components/atoms/modals/info-modal';
+import InfoModal from '@/components/molecules/modals/info-modal';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

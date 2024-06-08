@@ -1,26 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import ChartButton from '@/components/atoms/buttons/chart-button';
-import DatePickerModal from '@/components/atoms/modals/date-picker-modal';
+import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import Chart from '@/components/templates/charts';
 import { ChartType, Increment } from '@/constants/enums';
 import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
+import { oneMonthFrom } from '@/utils/data';
 import { toast } from 'sonner';
 
 export default function Analytics() {
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [endTime, setEndTime] = useState<Date | null>(null);
+  const now = new Date();
+
+  const [startTime, setStartTime] = useState<Date | undefined>(now);
+  const [endTime, setEndTime] = useState<Date | undefined>(oneMonthFrom(now));
   const [isStartModalOpen, setIsStartModalOpen] = useState(false);
   const [isEndModalOpen, setIsEndModalOpen] = useState(false);
-  const [increment, setIncrement] = useState(Increment.Minute);
+  const [increment, setIncrement] = useState(Increment.Day);
   const [chartType, setChartType] = useState<ChartType>(ChartType.Line);
 
   const toggleStartModal = () => setIsStartModalOpen(prev => !prev);
   const toggleEndModal = () => setIsEndModalOpen(prev => !prev);
 
-  const handleIncrementChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleIncrementChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (startTime && endTime && !isTimeDifferenceValid(startTime, endTime, event.target.value as Increment)) {
       toast.error('The difference between start time and end time exceeds the limit for the selected increment.');
       return;
@@ -28,7 +31,7 @@ export default function Analytics() {
     setIncrement(event.target.value as Increment);
   };
 
-  const handleChartTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChartTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setChartType(event.target.value as ChartType);
   };
 
@@ -37,7 +40,7 @@ export default function Analytics() {
     return diffInSeconds <= INCREMENT_LIMITS[potentialIncrement];
   };
 
-  const handleStartTimeChange = (date: Date | null) => {
+  const handleStartTimeChange = (date: Date | undefined) => {
     if (chartType === ChartType.Pie) {
       setStartTime(date);
       return;
@@ -52,7 +55,7 @@ export default function Analytics() {
     }
   };
 
-  const handleEndTimeChange = (date: Date | null) => {
+  const handleEndTimeChange = (date: Date | undefined) => {
     if (date && startTime && date < startTime) {
       toast.error('End time cannot be before start time.');
     } else if (date && startTime && !isTimeDifferenceValid(startTime, date, increment)) {

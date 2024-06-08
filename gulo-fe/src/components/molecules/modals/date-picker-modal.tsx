@@ -1,7 +1,7 @@
-import { Suspense } from 'react';
+import { MouseEvent, Suspense } from 'react';
 
 import { DatePickerModalProps } from '@/interfaces/props';
-import DatePicker from 'react-datepicker';
+import DateTimePicker from '@/lib/ui/organisms/date-picker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export default function DatePickerModal({
@@ -10,7 +10,7 @@ export default function DatePickerModal({
   onDateChange,
   setToCurrentDate = false,
 }: DatePickerModalProps) {
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }
@@ -20,7 +20,7 @@ export default function DatePickerModal({
     if (setToCurrentDate) {
       onDateChange(new Date());
     } else {
-      onDateChange(null);
+      onDateChange(undefined);
     }
   };
 
@@ -37,22 +37,18 @@ export default function DatePickerModal({
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
           </svg>
         </button>
-        <Suspense fallback={<strong>NOW</strong>}>
-          <DatePicker
-            placeholderText='Select Date and Time'
-            selected={date}
-            onChange={date => onDateChange(date)}
-            showTimeSelect
-            locale={'en-US'}
-            dateFormat='Pp'
-            className='bg-transparent text-slate-100 font-bold border-0 focus:border-0 text-center text-lg focus:ring-0'
-          />
-        </Suspense>
-        <button
-          className='sablier-orange drop-shadow-lg bg-gray-800 p-2 transition-transform duration-300 hover:-translate-y-1'
-          onClick={handleNowButtonClick}>
-          <strong>NOW</strong>
-        </button>
+        <div className='flex items-center space-x-2 mr-5'>
+          <Suspense fallback={<strong>Loading...</strong>}>
+            <div className='flex-grow'>
+              <DateTimePicker date={date} onDateChange={date => onDateChange(date)} />
+            </div>
+          </Suspense>
+          <button
+            className='sablier-orange drop-shadow-lg bg-gray-800 p-2 transition-transform duration-300 hover:-translate-y-1 flex-shrink-0 '
+            onClick={handleNowButtonClick}>
+            <strong>NOW</strong>
+          </button>
+        </div>
       </div>
     </div>
   );

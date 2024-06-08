@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import BuyMeACoffeeModal from '@/components/atoms/modals/buy-me-a-coffee-modal';
+import BuyMeACoffeeModal from '@/components/molecules/modals/buy-me-a-coffee-modal';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

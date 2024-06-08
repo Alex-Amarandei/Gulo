@@ -4,8 +4,8 @@ import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 import getBalance from '@/utils/balances';
 
-function getSteps(startTime: Date | null, endTime: Date | null, increment: Increment) {
-  if (startTime === null || endTime === null) {
+function getSteps(startTime: Date | undefined, endTime: Date | undefined, increment: Increment) {
+  if (startTime === undefined || endTime === undefined) {
     return [];
   }
 
@@ -44,8 +44,8 @@ export function formatDate(timestamp: number, increment: Increment): string {
 
 export function getLineChartStreamData(
   streams: Stream[],
-  startTime: Date | null,
-  endTime: Date | null,
+  startTime: Date | undefined,
+  endTime: Date | undefined,
   increment: Increment,
 ) {
   const steps = getSteps(startTime, endTime, increment);
@@ -61,8 +61,8 @@ export function getLineChartStreamData(
 
 export function getBarChartStreamData(
   streams: Stream[],
-  startTime: Date | null,
-  endTime: Date | null,
+  startTime: Date | undefined,
+  endTime: Date | undefined,
   increment: Increment,
 ) {
   const steps = getSteps(startTime, endTime, increment);
@@ -81,9 +81,9 @@ export function getBarChartStreamData(
   });
 }
 
-export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | null) {
+export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | undefined) {
   const results: { alias: string; amount: number; nft: string }[] = [];
-  const timestampInMilliseconds = startTime !== null ? startTime.getTime() : 0;
+  const timestampInMilliseconds = startTime !== undefined ? startTime.getTime() : 0;
 
   streams.forEach(stream => {
     results.push({
@@ -100,4 +100,10 @@ export function getStopColorFromSVG(base64SVG: string): string {
   const svgContent = atob(base64SVG.split(',')[1]);
   const stopColorMatch = svgContent.match(/stop-color="([^"]+)"/);
   return stopColorMatch ? stopColorMatch[1] : 'rgba(255, 255, 255, 0.5)';
+}
+
+export function oneMonthFrom(now: Date) {
+  const oneMonthFromNow = new Date(now);
+  oneMonthFromNow.setMonth(now.getMonth() + 1);
+  return oneMonthFromNow;
 }

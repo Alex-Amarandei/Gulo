@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import StreamModal from '@/components/atoms/modals/stream-modal';
 import { useStreams } from '@/components/contexts/streams-context';
+import StreamModal from '@/components/molecules/modals/stream-modal';
 import { StreamInfoListProps } from '@/interfaces/props';
 import { StreamInfo } from '@/interfaces/stream-info';
 import { formatDecimals } from '@/utils/formats';
@@ -24,7 +24,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
 
   const handleSelectStream = (
     stream: StreamInfo,
-    event: React.MouseEvent<HTMLInputElement, MouseEvent> | React.ChangeEvent<HTMLInputElement>,
+    event: MouseEvent<HTMLInputElement, MouseEvent> | ChangeEvent<HTMLInputElement>,
   ) => {
     event.stopPropagation();
     stream.isSelected = !stream.isSelected;

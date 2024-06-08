@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-import DatePickerModal from '@/components/atoms/modals/date-picker-modal';
 import { useStreams } from '@/components/contexts/streams-context';
+import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import getBalance from '@/utils/balances';
 
 export default function Balance() {
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedStreams } = useStreams();
   const [balance, setBalance] = useState('0.0000');
@@ -20,7 +20,7 @@ export default function Balance() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    if (date === null) {
+    if (date === undefined) {
       setTimestampChosenManually(false);
     }
   };
@@ -32,7 +32,7 @@ export default function Balance() {
     }
 
     const interval = setInterval(() => {
-      setBalance(getBalance(selectedStreams, null));
+      setBalance(getBalance(selectedStreams, undefined));
     }, 1000);
 
     return () => clearInterval(interval);
