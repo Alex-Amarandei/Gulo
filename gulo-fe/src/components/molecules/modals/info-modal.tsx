@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react';
+
 import { InfoModalProps } from '@/interfaces/props';
 
 export default function InfoModal({ onClose }: InfoModalProps) {

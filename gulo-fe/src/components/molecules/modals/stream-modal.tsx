@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { StreamModalProps } from '@/interfaces/props';
 import { formatDecimals } from '@/utils/formats';

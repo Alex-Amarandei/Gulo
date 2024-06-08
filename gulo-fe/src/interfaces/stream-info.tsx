@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import Stream from '@/interfaces/stream';
 
 export interface StreamInfo extends Stream {

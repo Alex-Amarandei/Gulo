@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
 import { useStreams } from '@/components/contexts/streams-context';
 import StreamModal from '@/components/molecules/modals/stream-modal';
@@ -22,10 +22,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
     setSelectedStream(null);
   };
 
-  const handleSelectStream = (
-    stream: StreamInfo,
-    event: MouseEvent<HTMLInputElement, MouseEvent> | ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleSelectStream = (stream: StreamInfo, event: MouseEvent | ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
     stream.isSelected = !stream.isSelected;
 

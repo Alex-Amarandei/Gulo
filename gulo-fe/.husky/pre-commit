@@ -1,2 +1,2 @@
 cd gulo-fe
-bun lint && bun prettier-check
+bun lint && bun prettier-check && bun --bun run build

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { InfoModalProps } from '@/interfaces/props';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
