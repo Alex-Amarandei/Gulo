@@ -15,11 +15,11 @@ export default function InfoModal({ onClose }: InfoModalProps) {
       onClick={handleOverlayClick}>
       <div className='relative bg-orange-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-5 text-slate-100 p-6 rounded-lg max-w-lg w-full shadow-xl'>
         <button
-          className='absolute top-2 right-2 p-1 rounded-full hover:bg-gray-800 transition-colors sablier-orange'
+          className='absolute top-2 right-2 p-1 rounded-full hover:bg-gray-800 transition-colors text-sablier '
           onClick={onClose}
           aria-label='Close'>
           <svg
-            className='w-6 h-6 sablier-orange'
+            className='w-6 h-6 text-sablier '
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'

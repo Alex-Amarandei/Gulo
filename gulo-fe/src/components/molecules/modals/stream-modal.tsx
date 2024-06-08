@@ -26,11 +26,11 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
       onClick={handleOverlayClick}>
       <div className='relative bg-orange-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-5 text-slate-100 p-6 rounded-lg max-w-lg w-full shadow-xl'>
         <button
-          className='absolute top-2 right-2 p-1 rounded-full hover:bg-gray-800 transition-colors sablier-orange'
+          className='absolute top-2 right-2 p-1 rounded-full hover:bg-gray-800 transition-colors text-sablier '
           onClick={onClose}
           aria-label='Close'>
           <svg
-            className='w-6 h-6 sablier-orange'
+            className='w-6 h-6 text-sablier '
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -43,7 +43,7 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
             href={`https://app.sablier.com/stream/${stream.alias.toUpperCase()}`}
             target='_blank'
             rel='noopener noreferrer'
-            className='sablier-orange'
+            className='sablier'
             onClick={event => event.stopPropagation()}>
             <u>{stream.alias.toUpperCase()}</u>
           </a>
@@ -54,7 +54,7 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
             className='ml-2 p-1 rounded-full hover:text-gray-600 transition-colors'
             onClick={() => handleCopy(stream.sender)}
             aria-label='Copy Sender Address'>
-            <FontAwesomeIcon icon={faCopy} size='sm' className='sablier-orange' />
+            <FontAwesomeIcon icon={faCopy} size='sm' className='sablier' />
           </button>
           {copiedText === stream.sender && <span className='ml-2 text-green-500'>Copied!</span>}
         </p>
@@ -64,7 +64,7 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
             className='ml-2 p-1 rounded-full hover:text-gray-600 transition-colors'
             onClick={() => handleCopy(stream.recipient)}
             aria-label='Copy Recipient Address'>
-            <FontAwesomeIcon icon={faCopy} size='sm' className='sablier-orange' />
+            <FontAwesomeIcon icon={faCopy} size='sm' className='sablier' />
           </button>
           {copiedText === stream.recipient && <span className='ml-2 text-green-500'>Copied!</span>}
         </p>

@@ -1,25 +1,12 @@
 import { MouseEvent } from 'react';
 
-import { DatePickerModalProps } from '@/interfaces/props';
-import DateTimePicker from '@/lib/ui/organisms/date-picker';
+import { DateRangePickerModalProps } from '@/interfaces/props';
+import { DatePickerWithRange } from '@/lib/ui/organisms/date-range-picker';
 
-export default function DatePickerModal({
-  date,
-  onClose,
-  onDateChange,
-  setToCurrentDate = false,
-}: DatePickerModalProps) {
+export default function DateRangePickerModal({ date, onClose, onDateChange }: DateRangePickerModalProps) {
   const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
-    }
-  };
-
-  const handleNowButtonClick = () => {
-    if (setToCurrentDate) {
-      onDateChange(new Date());
-    } else {
-      onDateChange(undefined);
     }
   };
 
@@ -38,13 +25,8 @@ export default function DatePickerModal({
         </button>
         <div className='flex items-center space-x-2 mr-5'>
           <div className='flex-grow'>
-            <DateTimePicker date={date} onDateChange={date => onDateChange(date)} />
+            <DatePickerWithRange date={date} onDateChange={date => onDateChange(date)} onClose={onClose} />
           </div>
-          <button
-            className=' text-sablier drop-shadow-lg bg-gray-800 p-2 transition-transform duration-300 hover:-translate-y-1 flex-shrink-0 '
-            onClick={handleNowButtonClick}>
-            <strong>NOW</strong>
-          </button>
         </div>
       </div>
     </div>

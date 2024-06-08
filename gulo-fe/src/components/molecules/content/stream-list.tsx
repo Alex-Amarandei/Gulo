@@ -58,7 +58,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
                   href={`https://app.sablier.com/stream/${stream.alias.toUpperCase()}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='sablier-orange'
+                  className='sablier'
                   onClick={event => event.stopPropagation()}>
                   <u>{stream.alias.toUpperCase()}</u>
                 </a>

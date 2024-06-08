@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { ChartType, Increment } from '@/constants/enums';
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
+import { DateRange } from 'react-day-picker';
 
 export interface StreamListProps {
   streams: Stream[];
@@ -29,6 +30,12 @@ export interface DatePickerModalProps {
   setToCurrentDate?: boolean;
   onClose: () => void;
   onDateChange: (date: Date | undefined) => void;
+}
+
+export interface DateRangePickerModalProps extends HTMLAttributes<HTMLDivElement> {
+  date: DateRange | undefined;
+  onClose: () => void;
+  onDateChange: (date: DateRange | undefined) => void;
 }
 
 export interface InfoModalProps {

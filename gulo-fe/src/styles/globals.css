@@ -100,10 +100,6 @@ footer {
   border: #f77725 1px solid;
 }
 
-.sablier-orange {
-  color: #f77725;
-}
-
 .glass {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 100%);
   border-radius: 16px;

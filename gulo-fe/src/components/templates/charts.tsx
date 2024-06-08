@@ -1,7 +1,7 @@
 import { useStreams } from '@/components/contexts/streams-context';
-import BarChartWrapper from '@/components/organisms/bar-chart-wrapper';
-import LineChartWrapper from '@/components/organisms/line-chart-wrapper';
-import PieChartWrapper from '@/components/organisms/pie-chart-wrapper';
+import BarChartWrapper from '@/components/organisms/charts/bar-chart-wrapper';
+import LineChartWrapper from '@/components/organisms/charts/line-chart-wrapper';
+import PieChartWrapper from '@/components/organisms/charts/pie-chart-wrapper';
 import { ChartType } from '@/constants/enums';
 import { ChartProps } from '@/interfaces/props';
 

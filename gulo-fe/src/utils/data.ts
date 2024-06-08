@@ -113,3 +113,9 @@ export function oneMonthFrom(now: Date) {
   oneMonthFromNow.setMonth(now.getMonth() + 1);
   return oneMonthFromNow;
 }
+
+export function oneMonthBefore(now: Date) {
+  const oneMonthBeforeNow = new Date(now);
+  oneMonthBeforeNow.setMonth(now.getMonth() - 1);
+  return oneMonthBeforeNow;
+}

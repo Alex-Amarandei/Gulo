@@ -57,7 +57,7 @@ export default function Streams() {
       }}>
       <div className='flex justify-between items-center'>
         <button
-          className='sablier-orange bg-gray-800 p-2 mb-2'
+          className=' text-sablier bg-gray-800 p-2 mb-2'
           onClick={() => setIsStreamsCollapsed(!isStreamsCollapsed)}>
           <FontAwesomeIcon icon={isStreamsCollapsed ? faAngleRight : faAngleLeft} size='lg' />
         </button>
@@ -90,8 +90,8 @@ export default function Streams() {
           </>
         )}
         {!isStreamsCollapsed && (
-          <button className='sablier-orange bg-gray-800 p-2 mb-2'>
-            <a href='https://app.sablier.com' target='_blank' rel='noopener noreferrer' className='sablier-orange'>
+          <button className=' text-sablier bg-gray-800 p-2 mb-2'>
+            <a href='https://app.sablier.com' target='_blank' rel='noopener noreferrer' className='sablier'>
               <FontAwesomeIcon icon={faExternalLinkAlt} className='lg' />
             </a>
           </button>

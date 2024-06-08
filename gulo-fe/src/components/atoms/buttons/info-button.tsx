@@ -20,7 +20,7 @@ export default function InfoButton() {
   return (
     <>
       <div
-        className='bg-gray-800 sablier-orange info-button rounded-full p-4 z-50 transition-transform duration-300 hover:-translate-y-1 cursor-pointer'
+        className='bg-gray-800 text-sablier info-button rounded-full p-4 z-50 transition-transform duration-300 hover:-translate-y-1 cursor-pointer'
         onClick={handleButtonClick}>
         <FontAwesomeIcon icon={faInfoCircle} size='2xl' />
       </div>

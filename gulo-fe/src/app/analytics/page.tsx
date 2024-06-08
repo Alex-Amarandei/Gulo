@@ -8,6 +8,7 @@ import Chart from '@/components/templates/charts';
 import { ChartType, Increment } from '@/constants/enums';
 import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
 import { nowWithZeroSeconds, oneMonthFrom } from '@/utils/data';
+import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 export default function Analytics() {
@@ -70,14 +71,14 @@ export default function Analytics() {
       <div className='flex justify-between items-center'>
         <ChartButton onClick={toggleStartModal}>
           {startTime
-            ? startTime.toLocaleString('en-US')
+            ? format(startTime, 'LLL dd, y HH:mm:ss')
             : chartType === ChartType.Pie
               ? 'Select Date and Time'
               : 'Select Start Time'}
         </ChartButton>
         {chartType !== ChartType.Pie && (
           <ChartButton onClick={toggleEndModal}>
-            {endTime ? endTime.toLocaleString('en-US') : 'Select End Time'}
+            {endTime ? format(endTime, 'LLL dd, y HH:mm:ss') : 'Select End Time'}
           </ChartButton>
         )}
         {chartType !== ChartType.Pie && (

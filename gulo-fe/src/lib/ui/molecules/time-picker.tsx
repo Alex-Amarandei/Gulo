@@ -58,7 +58,7 @@ export function TimePicker({ date, setDate }: TimePickerProps) {
           onLeftFocus={() => minuteRef.current?.focus()}
         />
       </div>
-      <div className='flex h-10 items-center sablier-orange'>
+      <div className='flex h-10 items-center text-sablier '>
         <Clock className='ml-2 h-4 w-4' />
       </div>
     </div>

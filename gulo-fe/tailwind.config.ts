@@ -19,6 +19,9 @@ const config: Config = {
       },
     },
     extend: {
+      colors: {
+        sablier: '#f77725',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

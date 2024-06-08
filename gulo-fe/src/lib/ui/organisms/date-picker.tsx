@@ -31,8 +31,8 @@ export default function DateTimePicker({ date, onDateChange }: DateTimePickerPro
             'justify-start text-left text-md w-full text-slate-100 hover:text-slate-100 hover:bg-gray-700 transition-colors dark:hover:text-slate-100 dark:hover:bg-gray-700 dark:transition-colors',
             !date && 'text-muted-foreground',
           )}>
-          <CalendarIcon className='mr-2 h-4 w-4 sablier-orange' />
-          {date ? format(date, 'PPP HH:mm:ss') : <span>Select Date and Time</span>}
+          <CalendarIcon className='mr-2 h-4 w-4 text-sablier' />
+          {date ? format(date, 'LLL dd, y HH:mm:ss') : <span>Select Date and Time</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0 border-none drop-shadow'>
