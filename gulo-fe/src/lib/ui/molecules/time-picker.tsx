@@ -23,7 +23,7 @@ export function TimePicker({ date, setDate }: TimePickerProps) {
           Hours
         </Label>
         <TimePickerInput
-          className='text-slate-100 bg-gray-800 border-opacity-10 focus:ring-0 focus:border-none focus:ring-transparent'
+          className='text-slate-100 bg-gray-800 border-gray-700 focus:ring-0 focus:border-none focus:ring-transparent dark:text-slate-100 dark:bg-gray-800 dark:border-gray-700 dark:focus:ring-0 dark:focus:border-none dark:focus:ring-transparent'
           picker='hours'
           date={date}
           setDate={setDate}
@@ -36,7 +36,7 @@ export function TimePicker({ date, setDate }: TimePickerProps) {
           Minutes
         </Label>
         <TimePickerInput
-          className='text-slate-100 bg-gray-800 border-opacity-10 focus:ring-0 focus:border-none focus:ring-transparent'
+          className='text-slate-100 bg-gray-800 border-gray-700 focus:ring-0 focus:border-none focus:ring-transparent dark:text-slate-100 dark:bg-gray-800 dark:border-gray-700 dark:focus:ring-0 dark:focus:border-none dark:focus:ring-transparent'
           picker='minutes'
           date={date}
           setDate={setDate}
@@ -50,7 +50,7 @@ export function TimePicker({ date, setDate }: TimePickerProps) {
           Seconds
         </Label>
         <TimePickerInput
-          className='text-slate-100 bg-gray-800 border-opacity-10 focus:ring-0 focus:border-none focus:ring-transparent'
+          className='text-slate-100 bg-gray-800 border-gray-700 focus:ring-0 focus:border-none focus:ring-transparent dark:text-slate-100 dark:bg-gray-800 dark:border-gray-700 dark:focus:ring-0 dark:focus:border-none dark:focus:ring-transparent'
           picker='seconds'
           date={date}
           setDate={setDate}

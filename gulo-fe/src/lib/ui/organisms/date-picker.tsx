@@ -28,7 +28,7 @@ export default function DateTimePicker({ date, onDateChange }: DateTimePickerPro
         <Button
           variant={'ghost'}
           className={cn(
-            'justify-start text-left text-md w-full text-slate-100 hover:text-slate-100 hover:bg-gray-700 transition-colors',
+            'justify-start text-left text-md w-full text-slate-100 hover:text-slate-100 hover:bg-gray-700 transition-colors dark:hover:text-slate-100 dark:hover:bg-gray-700 dark:transition-colors',
             !date && 'text-muted-foreground',
           )}>
           <CalendarIcon className='mr-2 h-4 w-4 sablier-orange' />
