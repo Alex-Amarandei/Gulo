@@ -10,10 +10,6 @@ import { add, format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 export default function DateTimePicker({ date, onDateChange }: DateTimePickerProps) {
-  /**
-   * carry over the current time when a user clicks a new day
-   * instead of resetting to 00:00
-   */
   const handleSelect = (newDay: Date | undefined) => {
     if (!newDay) return;
     if (!date) {
@@ -40,7 +36,7 @@ export default function DateTimePicker({ date, onDateChange }: DateTimePickerPro
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0 border-none drop-shadow'>
-        <Calendar mode='single' selected={date} onSelect={d => handleSelect(d)} initialFocus />
+        <Calendar weekStartsOn={1} mode='single' selected={date} onSelect={d => handleSelect(d)} initialFocus />
         <div className='p-3 bg-gray-800 text-slate-100'>
           <TimePicker setDate={onDateChange} date={date} />
         </div>

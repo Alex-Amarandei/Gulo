@@ -1,3 +1,5 @@
+'use client';
+
 import { InputHTMLAttributes, KeyboardEvent, forwardRef, useEffect, useMemo, useState } from 'react';
 
 import { Input } from '@/lib/ui/atoms/input';
@@ -12,7 +14,7 @@ export interface TimePickerInputProps extends InputHTMLAttributes<HTMLInputEleme
   onLeftFocus?: () => void;
 }
 
-const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
+export const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
   (
     {
       className,
@@ -35,10 +37,6 @@ const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
     const [flag, setFlag] = useState<boolean>(false);
     const [prevIntKey, setPrevIntKey] = useState<string>('0');
 
-    /**
-     * allow the user to enter the second digit within 2 seconds
-     * otherwise start again with entering first digit
-     */
     useEffect(() => {
       if (flag) {
         const timer = setTimeout(() => {
@@ -54,10 +52,6 @@ const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
     }, [date, picker]);
 
     const calculateNewValue = (key: string) => {
-      /*
-       * If picker is '12hours' and the first digit is 0, then the second digit is automatically set to 1.
-       * The second entered digit will break the condition and the value will be set to 10-12.
-       */
       if (picker === '12hours') {
         if (flag && calculatedValue.slice(1, 2) === '1' && prevIntKey === '0') return '0' + key;
       }
@@ -115,5 +109,3 @@ const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
 );
 
 TimePickerInput.displayName = 'TimePickerInput';
-
-export { TimePickerInput };

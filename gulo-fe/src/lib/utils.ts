@@ -5,23 +5,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * regular expression to check for valid hour format (01-23)
- */
 export function isValidHour(value: string) {
   return /^(0[0-9]|1[0-9]|2[0-3])$/.test(value);
 }
 
-/**
- * regular expression to check for valid 12 hour format (01-12)
- */
 export function isValid12Hour(value: string) {
   return /^(0[1-9]|1[0-2])$/.test(value);
 }
 
-/**
- * regular expression to check for valid minute format (00-59)
- */
 export function isValidMinuteOrSecond(value: string) {
   return /^[0-5][0-9]$/.test(value);
 }
@@ -164,11 +155,6 @@ export function getArrowByType(value: string, step: number, type: TimePickerType
   }
 }
 
-/**
- * handles value change of 12-hour input
- * 12:00 PM is 12:00
- * 12:00 AM is 00:00
- */
 export function convert12HourTo24Hour(hour: number, period: Period) {
   if (period === 'PM') {
     if (hour <= 11) {
@@ -183,11 +169,6 @@ export function convert12HourTo24Hour(hour: number, period: Period) {
   return hour;
 }
 
-/**
- * time is stored in the 24-hour form,
- * but needs to be displayed to the user
- * in its 12-hour representation
- */
 export function display12HourValue(hours: number) {
   if (hours === 0 || hours === 12) return '12';
   if (hours >= 22) return `${hours - 12}`;

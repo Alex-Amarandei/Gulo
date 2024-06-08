@@ -102,6 +102,12 @@ export function getStopColorFromSVG(base64SVG: string): string {
   return stopColorMatch ? stopColorMatch[1] : 'rgba(255, 255, 255, 0.5)';
 }
 
+export function nowWithZeroSeconds() {
+  const nextMinute = new Date();
+  nextMinute.setSeconds(0);
+  return nextMinute;
+}
+
 export function oneMonthFrom(now: Date) {
   const oneMonthFromNow = new Date(now);
   oneMonthFromNow.setMonth(now.getMonth() + 1);

@@ -7,11 +7,11 @@ import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import Chart from '@/components/templates/charts';
 import { ChartType, Increment } from '@/constants/enums';
 import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
-import { oneMonthFrom } from '@/utils/data';
+import { nowWithZeroSeconds, oneMonthFrom } from '@/utils/data';
 import { toast } from 'sonner';
 
 export default function Analytics() {
-  const now = new Date();
+  const now = nowWithZeroSeconds();
 
   const [startTime, setStartTime] = useState<Date | undefined>(now);
   const [endTime, setEndTime] = useState<Date | undefined>(oneMonthFrom(now));
