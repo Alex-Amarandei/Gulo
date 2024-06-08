@@ -2,7 +2,6 @@ import { MouseEvent, Suspense } from 'react';
 
 import { DatePickerModalProps } from '@/interfaces/props';
 import DateTimePicker from '@/lib/ui/organisms/date-picker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 export default function DatePickerModal({
   date,
