@@ -1,10 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-import ChartButton from '@/components/atoms/buttons/chart-button';
+import ToolButton from '@/components/atoms/buttons/tool-button';
+import { useStreams } from '@/components/contexts/streams-context';
+import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import DateRangePickerModal from '@/components/molecules/modals/date-range-picker-modal';
 import { StreamsTable } from '@/components/organisms/reports/streams-table';
+import { BalanceType } from '@/constants/enums';
 import { nowWithZeroSeconds, oneMonthBefore } from '@/utils/data';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
@@ -12,33 +15,65 @@ import { DateRange } from 'react-day-picker';
 export default function ReportsPage() {
   const now = nowWithZeroSeconds();
 
+  const { selectedStreams } = useStreams();
+  const [balanceType, setBalanceType] = useState(BalanceType.Actual);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [date, setDate] = useState<DateRange | undefined>({
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: oneMonthBefore(now),
     to: now,
   });
+  const [date, setDate] = useState<Date | undefined>(now);
 
-  const handleDateChange = (date: DateRange | undefined) => {
+  const handleDateRangeChange = (dateRange: DateRange | undefined) => {
+    setDateRange(dateRange);
+  };
+
+  const handleDateChange = (date: Date | undefined) => {
     setDate(date);
+  };
+
+  const handleBalanceTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setBalanceType(event.target.value as BalanceType);
   };
 
   const toggleStartModal = () => setIsModalOpen(prev => !prev);
 
   return (
-    <div className='flex flex-grow flex-col h-[90vh] w-2/3 rounded-lg p-4 ml-12'>
+    <div className='flex flex-grow flex-col justify-between h-[90vh] w-2/3 rounded-lg p-4 ml-12 overflow-auto'>
       <div className='flex justify-between items-center'>
-        <ChartButton onClick={toggleStartModal}>
-          {date && date.from && date.to
-            ? `${format(date.from, 'LLL dd, y')} - ${format(date.to, 'LLL dd, y')}`
-            : 'Select Date Range'}
-        </ChartButton>
         <div className='flex gap-4'>
-          <ChartButton>Download</ChartButton>
-          <ChartButton>Email</ChartButton>
+          <ToolButton onClick={toggleStartModal}>
+            {balanceType === BalanceType.Actual && dateRange && dateRange.from && dateRange.to
+              ? `${format(dateRange.from, 'LLL dd, y')} - ${format(dateRange.to, 'LLL dd, y')}`
+              : balanceType === BalanceType.Potential && date
+                ? format(date, 'LLL dd, y HH:mm:ss')
+                : 'Select Date'}
+          </ToolButton>
+          <ToolButton>
+            <select
+              value={balanceType}
+              onChange={handleBalanceTypeChange}
+              className='bg-transparent border-none focus:ring-0 focus:ring-transparent py-0 cursor-pointer'>
+              {Object.values(BalanceType).map(value => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </ToolButton>
+        </div>
+        <div className='flex gap-4'>
+          <ToolButton>Download</ToolButton>
+          <ToolButton>Email</ToolButton>
         </div>
       </div>
-      <StreamsTable />
-      {isModalOpen && <DateRangePickerModal date={date} onClose={toggleStartModal} onDateChange={handleDateChange} />}
+      <StreamsTable balanceType={balanceType} streams={selectedStreams} />
+      {isModalOpen && balanceType === BalanceType.Actual && (
+        <DateRangePickerModal date={dateRange} onClose={toggleStartModal} onDateChange={handleDateRangeChange} />
+      )}
+      {isModalOpen && balanceType === BalanceType.Potential && (
+        <DatePickerModal date={date} onClose={toggleStartModal} onDateChange={handleDateChange} setToCurrentDate />
+      )}
     </div>
   );
 }

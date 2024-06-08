@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode } from 'react';
 
-import { ChartType, Increment } from '@/constants/enums';
+import { BalanceType, ChartType, Increment } from '@/constants/enums';
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 import { DateRange } from 'react-day-picker';
@@ -42,7 +42,7 @@ export interface InfoModalProps {
   onClose: () => void;
 }
 
-export interface ChartButtonProps {
+export interface ToolButtonProps {
   children: ReactNode;
   onClick?: () => void;
 }
@@ -71,4 +71,11 @@ export interface ChartWrapperProps {
 export interface DateTimePickerProps {
   date: Date | undefined;
   onDateChange: (date: Date | undefined) => void;
+}
+
+export interface StreamsTableProps {
+  date?: Date;
+  dateRange?: DateRange;
+  streams: Stream[];
+  balanceType: BalanceType;
 }

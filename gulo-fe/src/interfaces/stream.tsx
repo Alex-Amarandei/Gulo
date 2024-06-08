@@ -58,4 +58,6 @@ interface Stream {
   contract: Contract;
 }
 
+export type StreamType = Stream;
+
 export default Stream;

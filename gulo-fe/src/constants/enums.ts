@@ -12,3 +12,8 @@ export enum ChartType {
   Bar = 'Bar Chart',
   Pie = 'Pie Chart',
 }
+
+export enum BalanceType {
+  Actual = 'Actual',
+  Potential = 'Potential',
+}

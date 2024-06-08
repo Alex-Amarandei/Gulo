@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from 'react';
 
-import ChartButton from '@/components/atoms/buttons/chart-button';
+import ToolButton from '@/components/atoms/buttons/tool-button';
 import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import Chart from '@/components/templates/charts';
 import { ChartType, Increment } from '@/constants/enums';
@@ -69,20 +69,20 @@ export default function Analytics() {
   return (
     <div className='flex flex-grow flex-col h-[90vh] w-2/3 rounded-lg p-4 ml-12'>
       <div className='flex justify-between items-center'>
-        <ChartButton onClick={toggleStartModal}>
+        <ToolButton onClick={toggleStartModal}>
           {startTime
             ? format(startTime, 'LLL dd, y HH:mm:ss')
             : chartType === ChartType.Pie
               ? 'Select Date and Time'
               : 'Select Start Time'}
-        </ChartButton>
+        </ToolButton>
         {chartType !== ChartType.Pie && (
-          <ChartButton onClick={toggleEndModal}>
+          <ToolButton onClick={toggleEndModal}>
             {endTime ? format(endTime, 'LLL dd, y HH:mm:ss') : 'Select End Time'}
-          </ChartButton>
+          </ToolButton>
         )}
         {chartType !== ChartType.Pie && (
-          <ChartButton>
+          <ToolButton>
             <select
               value={increment}
               onChange={handleIncrementChange}
@@ -93,9 +93,9 @@ export default function Analytics() {
                 </option>
               ))}
             </select>
-          </ChartButton>
+          </ToolButton>
         )}
-        <ChartButton>
+        <ToolButton>
           <select
             value={chartType}
             onChange={handleChartTypeChange}
@@ -106,7 +106,7 @@ export default function Analytics() {
               </option>
             ))}
           </select>
-        </ChartButton>
+        </ToolButton>
       </div>
       <Chart startTime={startTime} endTime={endTime} increment={increment} chartType={chartType} />
       {isStartModalOpen && (

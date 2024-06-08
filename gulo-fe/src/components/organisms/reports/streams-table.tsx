@@ -2,18 +2,9 @@
 
 import { useState } from 'react';
 
+import { StreamsTableProps } from '@/interfaces/props';
+import Stream from '@/interfaces/stream';
 import { Button } from '@/lib/ui/atoms/button';
-import { Checkbox } from '@/lib/ui/atoms/checkbox';
-import { Input } from '@/lib/ui/atoms/input';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/lib/ui/molecules/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/lib/ui/organisms/table';
 import {
   ColumnDef,
@@ -27,137 +18,108 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
 
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-];
+function getStreamedAmountForDateRange(stream: Stream, dateRange: DateRange | undefined) {
+  // Your implementation here
+  return 0; // Placeholder
+}
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
+function getRemainingStreamedAmount(stream: Stream) {
+  // Your implementation here
+  return 0; // Placeholder
+}
 
-export const columns: ColumnDef<Payment>[] = [
+const potentialColumns: ColumnDef<Stream>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
+    accessorKey: 'alias',
+    header: 'Alias',
+  },
+  {
+    accessorKey: 'asset',
+    header: 'Asset',
+  },
+  {
+    accessorKey: 'remainingStreamedAmount',
+    header: 'Remaining Streamed Amount',
+    cell: ({ row }) => {
+      const remainingAmount = getRemainingStreamedAmount(row.original);
+      return (
+        <div className='text-right font-medium'>
+          {new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }).format(remainingAmount)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'depositAmount',
+    header: 'Potential Amount',
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
+      <div className='text-right font-medium'>
+        {new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(row.getValue('depositAmount'))}
+      </div>
     ),
-    enableSorting: false,
-    enableHiding: false,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('status')}</div>,
+    accessorKey: 'sender',
+    header: 'From',
   },
   {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Email
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>,
-  },
-  {
-    accessorKey: 'amount',
-    header: () => <div className='text-right'>Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount);
-
-      return <div className='text-right font-medium'>{formatted}</div>;
-    },
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    accessorKey: 'recipient',
+    header: 'To',
   },
 ];
 
-export function StreamsTable() {
+export function StreamsTable({ balanceType, streams, date, dateRange }: StreamsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
+  const actualColumns: ColumnDef<Stream>[] = [
+    {
+      accessorKey: 'alias',
+      header: 'Alias',
+    },
+    {
+      accessorKey: 'asset.symbol',
+      header: 'Asset',
+    },
+    {
+      accessorKey: 'streamedAmount',
+      header: 'Streamed Amount',
+      cell: ({ row }) => {
+        const streamedAmount = getStreamedAmountForDateRange(row.original, dateRange);
+        return (
+          <div className='text-right font-medium'>
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            }).format(streamedAmount)}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: 'sender',
+      header: 'From',
+    },
+    {
+      accessorKey: 'recipient',
+      header: 'To',
+    },
+  ];
+
+  const columns = balanceType === 'Actual' ? actualColumns : potentialColumns;
+
   const table = useReactTable({
-    data,
+    data: streams,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -176,39 +138,8 @@ export function StreamsTable() {
   });
 
   return (
-    <div className='w-full'>
-      <div className='flex items-center py-4'>
-        <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={event => table.getColumn('email')?.setFilterValue(event.target.value)}
-          className='max-w-sm'
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Columns <ChevronDown className='ml-2 h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            {table
-              .getAllColumns()
-              .filter(column => column.getCanHide())
-              .map(column => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className='capitalize'
-                    checked={column.getIsVisible()}
-                    onCheckedChange={value => column.toggleVisibility(!!value)}>
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className='rounded-md border'>
+    <div className='w-full drop-shadow-xl'>
+      <div className='rounded-md border border-sablier'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
