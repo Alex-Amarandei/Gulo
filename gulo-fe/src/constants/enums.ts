@@ -15,5 +15,5 @@ export enum ChartType {
 
 export enum BalanceType {
   Actual = 'Actual',
-  Potential = 'Potential',
+  Forecast = 'Forecast',
 }

@@ -55,7 +55,7 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
   ];
 }
 
-export function getPotentialColumns(date: Date | undefined): ColumnDef<StreamInfo>[] {
+export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo>[] {
   return [
     {
       accessorKey: 'alias',
@@ -94,14 +94,14 @@ export function getPotentialColumns(date: Date | undefined): ColumnDef<StreamInf
     },
     {
       accessorKey: 'intactAmount',
-      header: () => <span className='font-bold text-slate-100 text-center'>Potential Amount</span>,
+      header: () => <span className='font-bold text-slate-100 text-center'>Forecast Amount</span>,
       cell: ({ row }) => (
         <div className='font-medium'>
           {new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
           }).format(Number(getRemainingAmount(row.original)))}
-          {!row.original.cancelable && <strong> (sealed)</strong>}
+          {!row.original.cancelable && <strong> (sure)</strong>}
         </div>
       ),
     },

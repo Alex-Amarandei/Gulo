@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { getActualColumns, getPotentialColumns } from '@/components/atoms/data/columns';
+import { getActualColumns, getForecastColumns } from '@/components/atoms/data/columns';
 import { StreamsTableProps } from '@/interfaces/props';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/lib/ui/organisms/table';
 import {
@@ -23,7 +23,7 @@ export function StreamsTable({ balanceType, streams, date, dateRange }: StreamsT
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const columns = balanceType === 'Actual' ? getActualColumns(dateRange) : getPotentialColumns(date);
+  const columns = balanceType === 'Actual' ? getActualColumns(dateRange) : getForecastColumns(date);
 
   const table = useReactTable({
     data: streams,

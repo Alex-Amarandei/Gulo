@@ -3,15 +3,15 @@ import { StreamInfo } from '@/interfaces/stream-info';
 import areAddressesEqual from '@/utils/adresses';
 import { Address } from 'viem';
 
-function isCircular(stream: Stream): boolean {
+export function isCircular(stream: Stream): boolean {
   return areAddressesEqual(stream.sender, stream.recipient);
 }
 
-function isIncoming(stream: Stream, address: Address | undefined): boolean {
+export function isIncoming(stream: Stream, address: Address | undefined): boolean {
   return areAddressesEqual(stream.recipient, address) && !isCircular(stream);
 }
 
-function isOutgoing(stream: Stream, address: Address | undefined): boolean {
+export function isOutgoing(stream: Stream, address: Address | undefined): boolean {
   return areAddressesEqual(stream.sender, address) && !isCircular(stream);
 }
 
@@ -33,6 +33,10 @@ export function isCircularCancelable(stream: Stream): boolean {
 
 export function isLinear(stream: Stream): boolean {
   return stream.category === 'LockupLinear';
+}
+
+export function isCanceled(stream: Stream): boolean {
+  return stream.canceled;
 }
 
 export function hasCliff(stream: Stream): boolean {

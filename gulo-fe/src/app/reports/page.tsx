@@ -46,7 +46,7 @@ export default function ReportsPage() {
           <ToolButton onClick={toggleStartModal}>
             {balanceType === BalanceType.Actual && dateRange && dateRange.from && dateRange.to
               ? `${format(dateRange.from, 'LLL dd, y')} - ${format(dateRange.to, 'LLL dd, y')}`
-              : balanceType === BalanceType.Potential && date
+              : balanceType === BalanceType.Forecast && date
                 ? format(date, 'LLL dd, y HH:mm:ss')
                 : 'Select Date'}
           </ToolButton>
@@ -77,7 +77,7 @@ export default function ReportsPage() {
       {isModalOpen && balanceType === BalanceType.Actual && (
         <DateRangePickerModal date={dateRange} onClose={toggleStartModal} onDateChange={handleDateRangeChange} />
       )}
-      {isModalOpen && balanceType === BalanceType.Potential && (
+      {isModalOpen && balanceType === BalanceType.Forecast && (
         <DatePickerModal date={date} onClose={toggleStartModal} onDateChange={handleDateChange} setToCurrentDate />
       )}
     </div>

@@ -1,13 +1,6 @@
 import Stream, { Segment } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
-import {
-  hasCliff,
-  hasNotStarted,
-  isCircularCancelable,
-  isLinear,
-  isOutgoingCancelable,
-  isOutgoingNonCancelable,
-} from '@/utils/filters';
+import { hasCliff, hasNotStarted, isCanceled, isCircular, isIncoming, isLinear } from '@/utils/filters';
 import { rebase } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 import BigNumber from 'bignumber.js';
@@ -72,61 +65,78 @@ function calculateElapsedAmountRebased(
   return getCurrentDynamicAmountRebased(stream, timestamp);
 }
 
+function getStreamedAmountRebased(stream: Stream, timestamp: number): BigNumber {
+  let entitledAmountRebased = new BigNumber(0);
+  const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
+  const { elapsedAmountRebased, exitSegmentIndex } = calculateElapsedAmountRebased(stream, timestamp);
+
+  if (exitSegmentIndex === -1) {
+    entitledAmountRebased = entitledAmountRebased.plus(intactAmountRebased);
+    return entitledAmountRebased;
+  }
+
+  entitledAmountRebased = entitledAmountRebased.plus(elapsedAmountRebased);
+
+  if (exitSegmentIndex === null) {
+    return entitledAmountRebased;
+  }
+
+  const currentSegmentAmountRebased = getCurrentSegmentAmountRebased(stream.segments[exitSegmentIndex], timestamp);
+
+  entitledAmountRebased = entitledAmountRebased.plus(currentSegmentAmountRebased);
+
+  return entitledAmountRebased;
+}
+
+function getIncomingStreamBalance(stream: Stream, timestamp: number, timestampNow: number): BigNumber {
+  let entitledAmountRebased = new BigNumber(0);
+
+  const withdrawnAmountRebased = rebase(BigNumber(stream.withdrawnAmount));
+  const selectedTimestamp = isCanceled(stream) ? Math.min(timestamp, Number(stream.canceledTime)) : timestamp;
+
+  if (timestamp >= timestampNow) {
+    entitledAmountRebased = entitledAmountRebased.minus(withdrawnAmountRebased);
+  }
+
+  entitledAmountRebased = entitledAmountRebased.plus(getStreamedAmountRebased(stream, selectedTimestamp));
+
+  return entitledAmountRebased;
+}
+
+function getOutgoingStreamBalance(stream: Stream, timestamp: number): BigNumber {
+  let entitledAmountRebased = new BigNumber(0);
+  const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
+
+  if ((!isCanceled(stream) && !stream.cancelable) || (isCanceled(stream) && Number(stream.canceledTime) <= timestamp)) {
+    entitledAmountRebased = entitledAmountRebased.minus(intactAmountRebased);
+    return entitledAmountRebased;
+  }
+
+  entitledAmountRebased = entitledAmountRebased.minus(getStreamedAmountRebased(stream, timestamp));
+
+  return entitledAmountRebased;
+}
+
 export default function getBalance(streams: Stream[], date: Date | undefined): string {
   let entitledAmountRebased = new BigNumber(0);
   const address = getAccount(WAGMI_CONFIG).address;
   const timestampNow = Math.floor(new Date().getTime() / 1000);
-  const selectedTimestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
+  const timestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
   streams.forEach(stream => {
     if (!['DAI', 'USDC', 'USDT'].includes(stream.asset.symbol)) {
       return;
     }
 
-    if (hasNotStarted(stream, selectedTimestamp)) {
+    if (hasNotStarted(stream, timestamp) || isCircular(stream)) {
       return;
     }
 
-    const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
-    const withdrawnAmountRebased = rebase(BigNumber(stream.withdrawnAmount));
-    const remainingAmountRebased = intactAmountRebased.minus(withdrawnAmountRebased);
+    const balance = isIncoming(stream, address)
+      ? getIncomingStreamBalance(stream, timestamp, timestampNow)
+      : getOutgoingStreamBalance(stream, timestamp);
 
-    if (remainingAmountRebased.isEqualTo(0) || isOutgoingNonCancelable(stream, address)) {
-      return;
-    }
-
-    if (isCircularCancelable(stream)) {
-      entitledAmountRebased = entitledAmountRebased.plus(remainingAmountRebased);
-      return;
-    }
-
-    const { elapsedAmountRebased, exitSegmentIndex } = calculateElapsedAmountRebased(stream, selectedTimestamp);
-
-    if (exitSegmentIndex === -1) {
-      entitledAmountRebased = entitledAmountRebased.plus(remainingAmountRebased);
-      return;
-    }
-
-    if (isOutgoingCancelable(stream, address)) {
-      entitledAmountRebased = entitledAmountRebased.plus(intactAmountRebased).minus(elapsedAmountRebased);
-      return;
-    }
-
-    entitledAmountRebased = entitledAmountRebased.plus(elapsedAmountRebased);
-
-    const amountToSubtract = selectedTimestamp >= timestampNow ? withdrawnAmountRebased : 0;
-
-    if (exitSegmentIndex === null) {
-      entitledAmountRebased = entitledAmountRebased.minus(amountToSubtract);
-      return;
-    }
-
-    const currentSegmentAmountRebased = getCurrentSegmentAmountRebased(
-      stream.segments[exitSegmentIndex],
-      selectedTimestamp,
-    );
-
-    entitledAmountRebased = entitledAmountRebased.plus(currentSegmentAmountRebased).minus(amountToSubtract);
+    entitledAmountRebased = entitledAmountRebased.plus(balance);
   });
 
   return entitledAmountRebased.toFixed(4).toString();
