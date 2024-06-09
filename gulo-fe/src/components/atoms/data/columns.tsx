@@ -15,7 +15,7 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
             href={`https://app.sablier.com/stream/${row.original.alias.toUpperCase()}`}
             target='_blank'
             rel='noopener noreferrer'
-            style={{ color: `${row.original.color}` }}
+            style={{ color: `${row.original.color}`, opacity: 0.9 }}
             onClick={event => event.stopPropagation()}>
             <u>{row.original.alias.toUpperCase()}</u>
           </a>
@@ -27,6 +27,7 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
       header: () => <span className='font-bold text-slate-100 text-center'>Asset</span>,
     },
     {
+      id: 'currentAmount',
       accessorKey: 'streamedAmount',
       header: () => <span className='font-bold text-slate-100 text-center'>Streamed Amount</span>,
       cell: ({ row }) => {
@@ -66,7 +67,7 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
             href={`https://app.sablier.com/stream/${row.original.alias.toUpperCase()}`}
             target='_blank'
             rel='noopener noreferrer'
-            style={{ color: `${row.original.color}` }}
+            style={{ color: `${row.original.color}`, opacity: 0.9 }}
             onClick={event => event.stopPropagation()}>
             <u>{row.original.alias.toUpperCase()}</u>
           </a>
@@ -78,8 +79,9 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
       header: () => <span className='font-bold text-slate-100 text-center'>Asset</span>,
     },
     {
-      accessorKey: 'remainingStreamedAmount',
-      header: () => <span className='font-bold text-slate-100 text-center'>Remaining Streamed Amount</span>,
+      id: 'currentAmount',
+      accessorKey: 'currentAmount',
+      header: () => <span className='font-bold text-slate-100 text-center'>Current Amount</span>,
       cell: ({ row }) => {
         const remainingAmount = getBalance([row.original], date);
         return (
@@ -93,7 +95,8 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
       },
     },
     {
-      accessorKey: 'intactAmount',
+      id: 'forecastAmount',
+      accessorKey: 'forecastAmount',
       header: () => <span className='font-bold text-slate-100 text-center'>Forecast Amount</span>,
       cell: ({ row }) => (
         <div className='font-medium'>
@@ -101,7 +104,7 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
             style: 'currency',
             currency: 'USD',
           }).format(Number(getRemainingAmount(row.original)))}
-          {!row.original.cancelable && <strong> (sure)</strong>}
+          {!row.original.cancelable && <strong className='text-sablier'> (sure)</strong>}
         </div>
       ),
     },

@@ -11,7 +11,7 @@ Table.displayName = 'Table';
 
 export const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
-    <thead ref={ref} className={cn('[&_tr]:border-b bg-gray-700/50 dark:bg-gray-700/50', className)} {...props} />
+    <thead ref={ref} className={cn('bg-gray-700/50 dark:bg-gray-700/50', className)} {...props} />
   ),
 );
 TableHeader.displayName = 'TableHeader';
@@ -25,11 +25,7 @@ TableBody.displayName = 'TableBody';
 
 export const TableFooter = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
-    <tfoot
-      ref={ref}
-      className={cn('border-t bg-gray-100/50 font-medium [&>tr]:last:border-b-0 dark:bg-gray-800/50', className)}
-      {...props}
-    />
+    <tfoot ref={ref} className={cn('bg-gray-700/50 dark:bg-gray-700/50', className)} {...props} />
   ),
 );
 TableFooter.displayName = 'TableFooter';
@@ -39,7 +35,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTable
     <tr
       ref={ref}
       className={cn(
-        'border-b transition-colors hover:bg-gray-700/50 data-[state=selected]:bg-gray-100 dark:hover:bg-gray-700/50 dark:data-[state=selected]:bg-gray-800',
+        'transition-colors hover:bg-gray-700/50 data-[state=selected]:bg-gray-100 dark:hover:bg-gray-700/50 dark:data-[state=selected]:bg-gray-800 shadow-md',
         className,
       )}
       {...props}

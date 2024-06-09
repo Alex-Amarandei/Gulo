@@ -161,8 +161,13 @@ export function getStreamedAmountForDateRange(stream: Stream, dateRange: DateRan
 }
 
 export function getRemainingAmount(stream: Stream): string {
+  const address = getAccount(WAGMI_CONFIG).address;
   const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
   const withdrawnAmountRebased = rebase(BigNumber(stream.withdrawnAmount));
 
-  return intactAmountRebased.minus(withdrawnAmountRebased).toFixed(4).toString();
+  if (isIncoming(stream, address)) {
+    return intactAmountRebased.minus(withdrawnAmountRebased).toFixed(4).toString();
+  }
+
+  return intactAmountRebased.times(-1).toFixed(4).toString();
 }
