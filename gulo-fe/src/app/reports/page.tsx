@@ -19,11 +19,11 @@ export default function ReportsPage() {
   const { selectedStreams } = useStreams();
   const [balanceType, setBalanceType] = useState(BalanceType.Actual);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [date, setDate] = useState<Date | undefined>(now);
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: oneMonthBefore(now),
     to: now,
   });
-  const [date, setDate] = useState<Date | undefined>(now);
 
   const handleDateRangeChange = (dateRange: DateRange | undefined) => {
     setDateRange(dateRange);

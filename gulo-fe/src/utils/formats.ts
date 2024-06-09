@@ -51,3 +51,10 @@ export function getCancelability(stream: Stream, short = true): string {
       ? 'Cancelable'
       : 'Non-Cancelable';
 }
+
+export function formatUsdAmount(amount: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount);
+}

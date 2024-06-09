@@ -1,6 +1,6 @@
 import { StreamInfo } from '@/interfaces/stream-info';
 import getBalance, { getRemainingAmount, getStreamedAmountForDateRange } from '@/utils/balances';
-import { formatAddress } from '@/utils/formats';
+import { formatAddress, formatUsdAmount } from '@/utils/formats';
 import { ColumnDef } from '@tanstack/react-table';
 import { DateRange } from 'react-day-picker';
 
@@ -33,14 +33,7 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
       cell: ({ row }) => {
         const streamedAmount = getStreamedAmountForDateRange(row.original, dateRange);
 
-        return (
-          <div className='font-medium'>
-            {new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            }).format(streamedAmount)}
-          </div>
-        );
+        return <div className='font-medium'>{formatUsdAmount(streamedAmount)}</div>;
       },
     },
     {
@@ -84,14 +77,7 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
       header: () => <span className='font-bold text-slate-100 text-center'>Current Amount</span>,
       cell: ({ row }) => {
         const remainingAmount = getBalance([row.original], date);
-        return (
-          <div className='font-medium'>
-            {new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            }).format(Number(remainingAmount))}
-          </div>
-        );
+        return <div className='font-medium'>{formatUsdAmount(Number(remainingAmount))}</div>;
       },
     },
     {
@@ -100,10 +86,7 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
       header: () => <span className='font-bold text-slate-100 text-center'>Forecast Amount</span>,
       cell: ({ row }) => (
         <div className='font-medium'>
-          {new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(Number(getRemainingAmount(row.original)))}
+          {formatUsdAmount(Number(getRemainingAmount(row.original)))}
           {!row.original.cancelable && <strong className='text-sablier'> (sure)</strong>}
         </div>
       ),

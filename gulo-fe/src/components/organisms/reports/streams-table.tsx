@@ -1,15 +1,9 @@
-'use client';
-
-import { useState } from 'react';
-
 import { getActualColumns, getForecastColumns } from '@/components/atoms/data/columns';
 import { StreamsTableProps } from '@/interfaces/props';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/lib/ui/organisms/table';
 import getBalance, { getRemainingAmount, getStreamedAmountForDateRange } from '@/utils/balances';
+import { formatUsdAmount } from '@/utils/formats';
 import {
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -19,30 +13,15 @@ import {
 } from '@tanstack/react-table';
 
 export function StreamsTable({ balanceType, streams, date, dateRange }: StreamsTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
-
   const columns = balanceType === 'Actual' ? getActualColumns(dateRange) : getForecastColumns(date);
 
   const table = useReactTable({
     data: streams,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
   });
 
   const totals = table.getRowModel().rows.reduce(
@@ -61,8 +40,8 @@ export function StreamsTable({ balanceType, streams, date, dateRange }: StreamsT
   return (
     <div className='w-full'>
       <div className='border-none shadow-2xl text-slate-100 font-xl'>
-        <Table>
-          <TableHeader>
+        <Table key='table'>
+          <TableHeader key='table-header'>
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
@@ -75,7 +54,7 @@ export function StreamsTable({ balanceType, streams, date, dateRange }: StreamsT
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody key='table-body'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
@@ -87,27 +66,24 @@ export function StreamsTable({ balanceType, streams, date, dateRange }: StreamsT
                 </TableRow>
               ))
             ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center font-extrabold text-slate-100'>
+              <TableRow key='no-results-row'>
+                <TableCell
+                  key='no-results-cell'
+                  colSpan={columns.length}
+                  className='h-24 text-center font-extrabold text-slate-100'>
                   No results.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell key={column.id} className='font-bold text-slate-100 text-center'>
+          <TableFooter key='table-footer'>
+            <TableRow key='footer-row'>
+              {columns.map((column, index) => (
+                <TableCell key={`footer-cell-${column.id}-${index}`} className='font-bold text-slate-100 text-center'>
                   {column.id === 'currentAmount'
-                    ? `Total: ${new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                      }).format(totals.currentAmount)}`
+                    ? `Total: ${formatUsdAmount(totals.currentAmount)}`
                     : column.id === 'forecastAmount'
-                      ? `Total: ${new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                        }).format(totals.forecastAmount)}`
+                      ? `Total: ${formatUsdAmount(totals.forecastAmount)}`
                       : null}
                 </TableCell>
               ))}
