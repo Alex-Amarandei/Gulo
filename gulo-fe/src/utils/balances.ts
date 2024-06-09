@@ -21,7 +21,8 @@ function getCurrentSegmentAmountRebased(segment: Segment, timestamp: number): Bi
 
 function getCurrentLinearAmountRebased(stream: Stream, timestamp: number): BigNumber {
   let startTime = stream.startTime;
-  let amount = stream.intactAmount;
+  let cliffAmount = BigNumber(0);
+  const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
 
   if (hasCliff(stream)) {
     if (timestamp < Number(stream.cliffTime)) {
@@ -29,29 +30,39 @@ function getCurrentLinearAmountRebased(stream: Stream, timestamp: number): BigNu
     }
 
     startTime = stream.cliffTime;
-    amount = stream.cliffAmount;
+    cliffAmount = rebase(BigNumber(stream.cliffAmount));
   }
 
-  return BigNumber(getElapsedTimePercentage(stream, startTime, timestamp)).times(rebase(BigNumber(amount)));
+  return BigNumber(getElapsedTimePercentage(stream, startTime, timestamp))
+    .times(intactAmountRebased.minus(cliffAmount))
+    .plus(cliffAmount);
 }
 
 function getCurrentDynamicAmountRebased(
   stream: Stream,
   timestamp: number,
 ): { elapsedAmountRebased: BigNumber; exitSegmentIndex: number } {
-  let elapsedAmount = new BigNumber(0);
+  let elapsedAmountRebased = new BigNumber(0);
   let exitSegmentIndex = -1;
 
   for (let i = 0; i < stream.segments.length; i++) {
     if (timestamp > Number(stream.segments[i].milestone)) {
-      elapsedAmount = elapsedAmount.plus(BigNumber(stream.segments[i].endAmount));
+      continue;
     } else {
       exitSegmentIndex = i;
       break;
     }
   }
 
-  return { elapsedAmountRebased: rebase(elapsedAmount), exitSegmentIndex };
+  if (exitSegmentIndex > 0) {
+    elapsedAmountRebased = rebase(BigNumber(stream.segments[exitSegmentIndex - 1].endAmount));
+  }
+
+  if (exitSegmentIndex === -1) {
+    elapsedAmountRebased = rebase(BigNumber(stream.intactAmount));
+  }
+
+  return { elapsedAmountRebased: elapsedAmountRebased, exitSegmentIndex };
 }
 
 function calculateElapsedAmountRebased(

@@ -36,7 +36,14 @@ export default function DateTimePicker({ date, onDateChange }: DateTimePickerPro
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0 border-none drop-shadow'>
-        <Calendar weekStartsOn={1} mode='single' selected={date} onSelect={d => handleSelect(d)} initialFocus />
+        <Calendar
+          defaultMonth={date}
+          weekStartsOn={1}
+          mode='single'
+          selected={date}
+          onSelect={d => handleSelect(d)}
+          initialFocus
+        />
         <div className='p-3 bg-gray-800 text-slate-100'>
           <TimePicker setDate={onDateChange} date={date} />
         </div>
