@@ -11,6 +11,7 @@ import {
 import { rebase } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 import BigNumber from 'bignumber.js';
+import { DateRange } from 'react-day-picker';
 
 function getElapsedTimePercentage(s: Segment | Stream, startTime: string, timestamp: number): number {
   const elapsedTime = timestamp - Number(startTime);
@@ -129,4 +130,11 @@ export default function getBalance(streams: Stream[], date: Date | undefined): s
   });
 
   return entitledAmountRebased.toFixed(4).toString();
+}
+
+export function getStreamedAmountForDateRange(stream: Stream, dateRange: DateRange | undefined) {
+  const startStreamedAmount = Number(getBalance([stream], dateRange?.from));
+  const endStreamedAmount = Number(getBalance([stream], dateRange?.to));
+
+  return endStreamedAmount - startStreamedAmount;
 }

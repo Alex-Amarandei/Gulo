@@ -2,7 +2,7 @@ import { renderCustomizedLabel } from '@/components/atoms/chart-elements/label';
 import { CustomTooltip } from '@/components/atoms/chart-elements/tooltip';
 import { NO_APPLICABLE_STREAMS } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
-import { getPieChartStreamData, getStopColorFromSVG } from '@/utils/data';
+import { getPieChartStreamData } from '@/utils/data';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function PieChartWrapper({ streams, startTime }: ChartWrapperProps) {
@@ -53,7 +53,7 @@ export default function PieChartWrapper({ streams, startTime }: ChartWrapperProp
             {data.map((stream, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={getStopColorFromSVG(stream.nft)}
+                fill={stream.color}
                 fillOpacity={0.75}
                 strokeWidth={0}
                 style={{

@@ -76,6 +76,6 @@ export interface DateTimePickerProps {
 export interface StreamsTableProps {
   date?: Date;
   dateRange?: DateRange;
-  streams: Stream[];
+  streams: StreamInfo[];
   balanceType: BalanceType;
 }

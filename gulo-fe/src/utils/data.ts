@@ -82,7 +82,7 @@ export function getBarChartStreamData(
 }
 
 export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | undefined) {
-  const results: { alias: string; amount: number; nft: string }[] = [];
+  const results: { alias: string; amount: number; nft: string; color: string }[] = [];
   const timestampInMilliseconds = startTime !== undefined ? startTime.getTime() : 0;
 
   streams.forEach(stream => {
@@ -90,16 +90,68 @@ export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | u
       alias: stream.alias,
       amount: Number(getBalance([stream], new Date(timestampInMilliseconds))),
       nft: stream.nft,
+      color: stream.color,
     });
   });
 
   return results;
 }
 
-export function getStopColorFromSVG(base64SVG: string): string {
+function getStopColorFromSVG(base64SVG: string): string {
   const svgContent = atob(base64SVG.split(',')[1]);
   const stopColorMatch = svgContent.match(/stop-color="([^"]+)"/);
   return stopColorMatch ? stopColorMatch[1] : 'rgba(255, 255, 255, 0.5)';
+}
+
+function getHexFromHsl(hsl: string, forceRemoveAlpha = true): string {
+  const hslMatch = hsl.match(/hsla?\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,?\s*([\d.]+)?\)/);
+
+  if (!hslMatch) {
+    throw new Error('Invalid HSL format');
+  }
+
+  const [_, h, s, l, a] = hslMatch;
+
+  const hValue = parseInt(h, 10);
+  const sValue = parseFloat(s) / 100;
+  const lValue = parseFloat(l) / 100;
+
+  const c = (1 - Math.abs(2 * lValue - 1)) * sValue;
+  const x = c * (1 - Math.abs(((hValue / 60) % 2) - 1));
+  const m = lValue - c / 2;
+
+  let [r, g, b] = [0, 0, 0];
+
+  if (0 <= hValue && hValue < 60) {
+    [r, g, b] = [c, x, 0];
+  } else if (60 <= hValue && hValue < 120) {
+    [r, g, b] = [x, c, 0];
+  } else if (120 <= hValue && hValue < 180) {
+    [r, g, b] = [0, c, x];
+  } else if (180 <= hValue && hValue < 240) {
+    [r, g, b] = [0, x, c];
+  } else if (240 <= hValue && hValue < 300) {
+    [r, g, b] = [x, 0, c];
+  } else if (300 <= hValue && hValue < 360) {
+    [r, g, b] = [c, 0, x];
+  }
+
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  return (
+    '#' +
+    [r, g, b, a]
+      .filter((value, index) => !forceRemoveAlpha || index !== 3)
+      .map(value => value.toString(16))
+      .map(string => (string.length === 1 ? '0' + string : string))
+      .join('')
+  );
+}
+
+export function getNftColor(base64SVG: string): string {
+  return getHexFromHsl(getStopColorFromSVG(base64SVG));
 }
 
 export function nowWithZeroSeconds() {

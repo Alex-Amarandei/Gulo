@@ -10,6 +10,7 @@ import StreamList from '@/components/molecules/content/stream-list';
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 import WAGMI_CONFIG from '@/utils/configs';
+import { getNftColor } from '@/utils/data';
 import {
   selectAll,
   selectCancelable,
@@ -34,11 +35,16 @@ export default function Streams() {
     const fetchData = async () => {
       const streams = await fetchStreams();
       const streamWithNftDetails: StreamInfo[] = await Promise.all(
-        streams.map(async (stream: Stream) => ({
-          ...stream,
-          nft: await fetchNftDetails(stream),
-          isSelected: true,
-        })),
+        streams.map(async (stream: Stream) => {
+          const nft = await fetchNftDetails(stream);
+          const color = getNftColor(nft);
+          return {
+            ...stream,
+            nft: nft,
+            color: color,
+            isSelected: true,
+          };
+        }),
       );
       setStreams(streamWithNftDetails);
       setSelectedStreams(streamWithNftDetails);

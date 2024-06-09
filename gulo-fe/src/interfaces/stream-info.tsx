@@ -4,6 +4,7 @@ import Stream from '@/interfaces/stream';
 
 export interface StreamInfo extends Stream {
   nft: string;
+  color: string;
   isSelected: boolean;
 }
 

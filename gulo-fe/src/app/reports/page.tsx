@@ -39,7 +39,7 @@ export default function ReportsPage() {
   const toggleStartModal = () => setIsModalOpen(prev => !prev);
 
   return (
-    <div className='flex flex-grow flex-col justify-between h-[90vh] w-2/3 rounded-lg p-4 ml-12 overflow-auto'>
+    <div className='flex flex-grow flex-col gap-10 h-[90vh] w-2/3 rounded-lg p-4 ml-12 overflow-auto'>
       <div className='flex justify-between items-center'>
         <div className='flex gap-4'>
           <ToolButton onClick={toggleStartModal}>
@@ -67,7 +67,7 @@ export default function ReportsPage() {
           <ToolButton>Email</ToolButton>
         </div>
       </div>
-      <StreamsTable balanceType={balanceType} streams={selectedStreams} />
+      <StreamsTable balanceType={balanceType} streams={selectedStreams} dateRange={dateRange} />
       {isModalOpen && balanceType === BalanceType.Actual && (
         <DateRangePickerModal date={dateRange} onClose={toggleStartModal} onDateChange={handleDateRangeChange} />
       )}

@@ -1,6 +1,6 @@
 import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
-import { getBarChartStreamData, getStopColorFromSVG } from '@/utils/data';
+import { getBarChartStreamData } from '@/utils/data';
 import { getShorthandTick } from '@/utils/formats';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -64,7 +64,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
             dataKey={stream.alias.toUpperCase()}
             stroke={'rgba(0, 0, 0, 0)'}
             strokeWidth={2}
-            fill={getStopColorFromSVG(stream.nft)}
+            fill={stream.color}
             fillOpacity={0.75}
             stackId='a'
             style={{
