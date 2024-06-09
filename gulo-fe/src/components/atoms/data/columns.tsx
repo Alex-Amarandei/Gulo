@@ -1,8 +1,7 @@
 import { StreamInfo } from '@/interfaces/stream-info';
-import getBalance, { getStreamedAmountForDateRange } from '@/utils/balances';
-import { formatAddress, rebase } from '@/utils/formats';
+import getBalance, { getRemainingAmount, getStreamedAmountForDateRange } from '@/utils/balances';
+import { formatAddress } from '@/utils/formats';
 import { ColumnDef } from '@tanstack/react-table';
-import BigNumber from 'bignumber.js';
 import { DateRange } from 'react-day-picker';
 
 export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<StreamInfo>[] {
@@ -10,7 +9,18 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
     {
       accessorKey: 'alias',
       header: () => <span className='font-bold text-slate-100 text-center'>Alias</span>,
-      cell: ({ row }) => <span className={`font-extrabold`}>{row.original.alias.toUpperCase()}</span>,
+      cell: ({ row }) => (
+        <span className='font-extrabold'>
+          <a
+            href={`https://app.sablier.com/stream/${row.original.alias.toUpperCase()}`}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ color: `${row.original.color}` }}
+            onClick={event => event.stopPropagation()}>
+            <u>{row.original.alias.toUpperCase()}</u>
+          </a>
+        </span>
+      ),
     },
     {
       accessorKey: 'asset.symbol',
@@ -50,7 +60,18 @@ export function getPotentialColumns(date: Date | undefined): ColumnDef<StreamInf
     {
       accessorKey: 'alias',
       header: () => <span className='font-extrabold text-slate-100 text-center'>Alias</span>,
-      cell: ({ row }) => <span className='font-extrabold'>{row.original.alias.toUpperCase()}</span>,
+      cell: ({ row }) => (
+        <span className='font-extrabold'>
+          <a
+            href={`https://app.sablier.com/stream/${row.original.alias.toUpperCase()}`}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ color: `${row.original.color}` }}
+            onClick={event => event.stopPropagation()}>
+            <u>{row.original.alias.toUpperCase()}</u>
+          </a>
+        </span>
+      ),
     },
     {
       accessorKey: 'asset.symbol',
@@ -72,14 +93,15 @@ export function getPotentialColumns(date: Date | undefined): ColumnDef<StreamInf
       },
     },
     {
-      accessorKey: 'depositAmount',
+      accessorKey: 'intactAmount',
       header: () => <span className='font-bold text-slate-100 text-center'>Potential Amount</span>,
       cell: ({ row }) => (
         <div className='font-medium'>
           {new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
-          }).format(Number(rebase(BigNumber(row.original.depositAmount))))}
+          }).format(Number(getRemainingAmount(row.original)))}
+          {!row.original.cancelable && <strong> (sealed)</strong>}
         </div>
       ),
     },

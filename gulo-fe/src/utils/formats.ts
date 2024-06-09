@@ -1,8 +1,14 @@
 import { DIVISOR_1_E_18, MOCK_JSON_WITH_IMAGE_FIELD_BASE64 } from '@/constants/miscellaneous';
+import Stream from '@/interfaces/stream';
 import BigNumber from 'bignumber.js';
+import { format } from 'date-fns';
 
-export function formatDecimals(number: string): string {
-  return BigNumber(number).dividedBy(DIVISOR_1_E_18).toString();
+export function formatDecimals(number: string, fixed = 0): string {
+  const formattedNumber = BigNumber(number).dividedBy(DIVISOR_1_E_18);
+  if (fixed > 0) {
+    return formattedNumber.toFixed(fixed).toString();
+  }
+  return formattedNumber.toString();
 }
 
 export function formatAddress(address: string): string {
@@ -35,4 +41,13 @@ export function getShorthandTick(tickValue: number) {
   } else {
     return Number(tickValue).toFixed(2).toString();
   }
+}
+
+export function getCancelability(stream: Stream, short = true): string {
+  const dateFormat = short ? 'LLL dd, y' : 'LLL dd, y HH:mm:ss';
+  return stream.canceled
+    ? `Canceled on ${format(new Date(Number(stream.canceledTime + '000')), dateFormat)}`
+    : stream.cancelable
+      ? 'Cancelable'
+      : 'Non-Cancelable';
 }

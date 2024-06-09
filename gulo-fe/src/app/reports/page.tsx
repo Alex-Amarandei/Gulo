@@ -9,6 +9,7 @@ import DateRangePickerModal from '@/components/molecules/modals/date-range-picke
 import { StreamsTable } from '@/components/organisms/reports/streams-table';
 import { BalanceType } from '@/constants/enums';
 import { nowWithZeroSeconds, oneMonthBefore } from '@/utils/data';
+import { filterNonCircular } from '@/utils/filters';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 
@@ -67,7 +68,12 @@ export default function ReportsPage() {
           <ToolButton>Email</ToolButton>
         </div>
       </div>
-      <StreamsTable balanceType={balanceType} streams={selectedStreams} dateRange={dateRange} />
+      <StreamsTable
+        balanceType={balanceType}
+        streams={filterNonCircular(selectedStreams)}
+        dateRange={dateRange}
+        date={date}
+      />
       {isModalOpen && balanceType === BalanceType.Actual && (
         <DateRangePickerModal date={dateRange} onClose={toggleStartModal} onDateChange={handleDateRangeChange} />
       )}

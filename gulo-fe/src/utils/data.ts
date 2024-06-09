@@ -3,6 +3,7 @@ import { INCREMENT_VALUE } from '@/constants/miscellaneous';
 import Stream from '@/interfaces/stream';
 import { StreamInfo } from '@/interfaces/stream-info';
 import getBalance from '@/utils/balances';
+import { format } from 'date-fns';
 
 function getSteps(startTime: Date | undefined, endTime: Date | undefined, increment: Increment) {
   if (startTime === undefined || endTime === undefined) {
@@ -26,17 +27,17 @@ export function formatDate(timestamp: number, increment: Increment): string {
 
   switch (increment) {
     case Increment.Second:
-      return date.toLocaleTimeString('en-US', { minute: '2-digit', second: '2-digit' });
+      return format(date, 'mm:ss');
     case Increment.Minute:
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      return format(date, 'HH:mm');
     case Increment.Hour:
-      return date.toLocaleString('en-US', { weekday: 'short', hour: '2-digit', hour12: false });
+      return format(date, 'EEE HH:mm');
     case Increment.Day:
-      return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+      return format(date, 'dd MMM');
     case Increment.Week:
-      return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+      return format(date, 'dd MMM');
     case Increment.Month:
-      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      return format(date, 'MMM yyyy');
     default:
       return date.toISOString();
   }

@@ -28,7 +28,7 @@ function getCurrentSegmentAmountRebased(segment: Segment, timestamp: number): Bi
 
 function getCurrentLinearAmountRebased(stream: Stream, timestamp: number): BigNumber {
   let startTime = stream.startTime;
-  let amount = stream.depositAmount;
+  let amount = stream.intactAmount;
 
   if (hasCliff(stream)) {
     if (timestamp < Number(stream.cliffTime)) {
@@ -87,9 +87,9 @@ export default function getBalance(streams: Stream[], date: Date | undefined): s
       return;
     }
 
-    const depositAmountRebased = rebase(BigNumber(stream.depositAmount));
+    const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
     const withdrawnAmountRebased = rebase(BigNumber(stream.withdrawnAmount));
-    const remainingAmountRebased = depositAmountRebased.minus(withdrawnAmountRebased);
+    const remainingAmountRebased = intactAmountRebased.minus(withdrawnAmountRebased);
 
     if (remainingAmountRebased.isEqualTo(0) || isOutgoingNonCancelable(stream, address)) {
       return;
@@ -108,7 +108,7 @@ export default function getBalance(streams: Stream[], date: Date | undefined): s
     }
 
     if (isOutgoingCancelable(stream, address)) {
-      entitledAmountRebased = entitledAmountRebased.plus(depositAmountRebased).minus(elapsedAmountRebased);
+      entitledAmountRebased = entitledAmountRebased.plus(intactAmountRebased).minus(elapsedAmountRebased);
       return;
     }
 
@@ -137,4 +137,11 @@ export function getStreamedAmountForDateRange(stream: Stream, dateRange: DateRan
   const endStreamedAmount = Number(getBalance([stream], dateRange?.to));
 
   return endStreamedAmount - startStreamedAmount;
+}
+
+export function getRemainingAmount(stream: Stream): string {
+  const intactAmountRebased = rebase(BigNumber(stream.intactAmount));
+  const withdrawnAmountRebased = rebase(BigNumber(stream.withdrawnAmount));
+
+  return intactAmountRebased.minus(withdrawnAmountRebased).toFixed(4).toString();
 }

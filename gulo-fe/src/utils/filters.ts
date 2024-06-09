@@ -95,3 +95,9 @@ export const selectNonCancelable = (streams: StreamInfo[]): StreamInfo[] => {
     return stream.cancelable === false;
   });
 };
+
+export const filterNonCircular = (streams: StreamInfo[]): StreamInfo[] => {
+  return streams.filter(stream => {
+    return !isCircular(stream);
+  });
+};

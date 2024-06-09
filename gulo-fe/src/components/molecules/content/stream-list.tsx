@@ -4,7 +4,7 @@ import { useStreams } from '@/components/contexts/streams-context';
 import StreamModal from '@/components/molecules/modals/stream-modal';
 import { StreamInfoListProps } from '@/interfaces/props';
 import { StreamInfo } from '@/interfaces/stream-info';
-import { formatDecimals } from '@/utils/formats';
+import { formatDecimals, getCancelability } from '@/utils/formats';
 
 export default function StreamList({ streams }: StreamInfoListProps) {
   const [selectedStream, setSelectedStream] = useState<StreamInfo | null>(null);
@@ -58,7 +58,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
                   href={`https://app.sablier.com/stream/${stream.alias.toUpperCase()}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='sablier'
+                  className='text-sablier'
                   onClick={event => event.stopPropagation()}>
                   <u>{stream.alias.toUpperCase()}</u>
                 </a>
@@ -69,8 +69,14 @@ export default function StreamList({ streams }: StreamInfoListProps) {
               <p className='text-sm'>
                 <strong>Withdrawn Amount:</strong> {formatDecimals(stream.withdrawnAmount)} {stream.asset.symbol}
               </p>
+              {stream.canceled && (
+                <p className='text-sm'>
+                  <strong>Streamed Amount: </strong>
+                  {formatDecimals(stream.intactAmount, 4)} {stream.asset.symbol}
+                </p>
+              )}
               <p className='text-sm'>
-                <strong>Is Cancelable:</strong> {stream.cancelable ? 'Yes' : 'No'}
+                <strong>{getCancelability(stream)}</strong>
               </p>
             </div>
             <img src={stream.nft} alt='SVG' className='w-1/4 h-1/2 object-contain ml-4 rounded-lg' />

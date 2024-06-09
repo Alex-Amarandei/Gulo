@@ -44,6 +44,7 @@ interface Stream {
   sender: string;
   recipient: string;
   depositAmount: string;
+  intactAmount: string;
   startTime: string;
   endTime: string;
   cliffTime: string;

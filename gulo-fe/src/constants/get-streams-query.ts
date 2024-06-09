@@ -29,6 +29,7 @@ query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: 
     cancelable
     canceled
     canceledTime
+    intactAmount
     withdrawnAmount
     asset {
       id
