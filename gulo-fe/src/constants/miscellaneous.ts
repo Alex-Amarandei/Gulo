@@ -31,4 +31,6 @@ export const COLOR_PALETTES = [
   { start: { r: 241, g: 245, b: 249 }, end: { r: 247, g: 119, b: 37 } },
 ];
 
-export const NO_APPLICABLE_STREAMS = 'No Applicable Streams';
+export const NO_POSITIVE_BALANCE_STREAMS = 'No Positive Balance Streams';
+export const NO_NEGATIVE_BALANCE_STREAMS = 'No Negative Balance Streams';
+export const NO_APPLICABLE_STREAMS = [NO_POSITIVE_BALANCE_STREAMS, NO_NEGATIVE_BALANCE_STREAMS];

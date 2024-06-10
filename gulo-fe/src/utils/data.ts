@@ -83,19 +83,29 @@ export function getBarChartStreamData(
 }
 
 export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | undefined) {
-  const results: { alias: string; amount: number; nft: string; color: string }[] = [];
+  const positiveData: { alias: string; amount: number; color: string; isNegative: boolean }[] = [];
+  const negativeData: { alias: string; amount: number; color: string; isNegative: boolean }[] = [];
   const timestampInMilliseconds = startTime !== undefined ? startTime.getTime() : 0;
 
   streams.forEach(stream => {
-    results.push({
+    const amount = Number(getBalance([stream], new Date(timestampInMilliseconds)));
+    const entry = {
       alias: stream.alias,
-      amount: Number(getBalance([stream], new Date(timestampInMilliseconds))),
-      nft: stream.nft,
+      amount,
       color: stream.color,
-    });
+      isNegative: false,
+    };
+
+    if (amount > 0) {
+      positiveData.push(entry);
+    } else if (amount < 0) {
+      entry.amount = Math.abs(amount);
+      entry.isNegative = true;
+      negativeData.push(entry);
+    }
   });
 
-  return results;
+  return { positiveData, negativeData };
 }
 
 function getStopColorFromSVG(base64SVG: string): string {

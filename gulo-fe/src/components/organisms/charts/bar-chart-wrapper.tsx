@@ -2,7 +2,7 @@ import { SABLIER_ORANGE } from '@/constants/miscellaneous';
 import { ChartWrapperProps } from '@/interfaces/props';
 import { getBarChartStreamData } from '@/utils/data';
 import { getShorthandTick } from '@/utils/formats';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 export default function BarChartWrapper({ streams, startTime, endTime, increment }: ChartWrapperProps) {
   const data = getBarChartStreamData(streams, startTime, endTime, increment);
@@ -12,6 +12,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
       <BarChart
         height={200}
         data={data}
+        stackOffset='sign'
         margin={{
           top: 10,
           right: 10,
@@ -43,6 +44,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
           tick={{ fontSize: 12, fontWeight: 500 }}
           tickFormatter={getShorthandTick}
           tickMargin={10}
+          scale='linear'
         />
         <Tooltip
           contentStyle={{
@@ -58,6 +60,14 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
           cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }}
           formatter={getShorthandTick}
         />
+        <ReferenceLine
+          y={0}
+          stroke='#f77725'
+          opacity={1}
+          strokeWidth={2}
+          strokeLinecap='round'
+          strokeLinejoin='bevel'
+        />
         {streams.map((stream, index) => (
           <Bar
             key={`bar-${index}`}
@@ -66,7 +76,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
             strokeWidth={2}
             fill={stream.color}
             fillOpacity={0.75}
-            stackId='a'
+            stackId='stack'
             style={{
               filter: `drop-shadow(0px 0px 2px #02111A)`,
               outline: 'none',
