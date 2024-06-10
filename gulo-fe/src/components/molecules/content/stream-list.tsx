@@ -2,19 +2,19 @@ import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
 import { useStreams } from '@/components/contexts/streams-context';
 import StreamModal from '@/components/molecules/modals/stream-modal';
-import { StreamInfoListProps } from '@/interfaces/props';
-import { StreamInfo } from '@/interfaces/stream-info';
+import { StreamListProps } from '@/interfaces/props';
+import { Stream } from '@/interfaces/stream';
 import { formatDecimals, getCancelability } from '@/utils/formats';
 
-export default function StreamList({ streams }: StreamInfoListProps) {
-  const [selectedStream, setSelectedStream] = useState<StreamInfo | null>(null);
+export default function StreamList({ streams }: StreamListProps) {
+  const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
   const { selectedStreams, setSelectedStreams, streamNftMap } = useStreams();
 
   useEffect(() => {
     // Do nothing
   }, [selectedStreams, streamNftMap]);
 
-  const handleCardClick = (stream: StreamInfo) => {
+  const handleCardClick = (stream: Stream) => {
     setSelectedStream(stream);
   };
 
@@ -22,7 +22,7 @@ export default function StreamList({ streams }: StreamInfoListProps) {
     setSelectedStream(null);
   };
 
-  const handleSelectStream = (stream: StreamInfo, event: MouseEvent | ChangeEvent<HTMLInputElement>) => {
+  const handleSelectStream = (stream: Stream, event: MouseEvent | ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
     stream.isSelected = !stream.isSelected;
 

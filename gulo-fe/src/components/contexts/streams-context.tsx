@@ -2,13 +2,13 @@
 
 import { ReactNode, createContext, useContext, useState } from 'react';
 
-import { StreamContextType, StreamInfo } from '@/interfaces/stream-info';
+import { Stream, StreamContextType } from '@/interfaces/stream';
 
 const StreamContext = createContext<StreamContextType | undefined>(undefined);
 
 export const StreamProvider = ({ children }: { children: ReactNode }) => {
-  const [streams, setStreams] = useState<StreamInfo[]>([]);
-  const [selectedStreams, setSelectedStreams] = useState<StreamInfo[]>([]);
+  const [streams, setStreams] = useState<Stream[]>([]);
+  const [selectedStreams, setSelectedStreams] = useState<Stream[]>([]);
   const [streamNftMap, setStreamNftMap] = useState<Record<string, string>>({});
 
   return (

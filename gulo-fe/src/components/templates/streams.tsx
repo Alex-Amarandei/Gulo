@@ -7,8 +7,7 @@ import fetchStreams from '@/api/streams/fetch-streams';
 import FilterButton from '@/components/atoms/buttons/filter-button';
 import { useStreams } from '@/components/contexts/streams-context';
 import StreamList from '@/components/molecules/content/stream-list';
-import Stream from '@/interfaces/stream';
-import { StreamInfo } from '@/interfaces/stream-info';
+import { Stream, StreamData } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
 import { getNftColor } from '@/utils/data';
 import {
@@ -21,6 +20,7 @@ import {
   selectNone,
   selectOut,
 } from '@/utils/filters';
+import { rebaseStream } from '@/utils/formats';
 import { faAngleLeft, faAngleRight, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAccount } from '@wagmi/core';
@@ -33,13 +33,14 @@ export default function Streams() {
   useEffect(() => {
     const fetchData = async () => {
       const streams = await fetchStreams();
-      const streamWithNftDetails: StreamInfo[] = await Promise.all(
-        streams.map(async (stream: Stream) => {
+      const streamWithNftDetails: Stream[] = await Promise.all(
+        streams.map(async (stream: StreamData) => {
           const nft = await fetchNftDetails(stream);
           const color = getNftColor(nft);
+          const rebasedStream = rebaseStream(stream);
           setStreamNftMap(prevState => ({ ...prevState, [stream.alias]: nft }));
           return {
-            ...stream,
+            ...rebasedStream,
             color: color,
             isSelected: true,
           };

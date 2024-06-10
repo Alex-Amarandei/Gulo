@@ -1,5 +1,5 @@
 import { BalanceType, DownloadType } from '@/constants/enums';
-import Stream from '@/interfaces/stream';
+import { Stream } from '@/interfaces/stream';
 import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
 

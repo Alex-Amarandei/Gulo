@@ -1,14 +1,13 @@
 import { DIVISOR_1_E_18, MOCK_JSON_WITH_IMAGE_FIELD_BASE64 } from '@/constants/miscellaneous';
-import Stream from '@/interfaces/stream';
+import { Stream, StreamData } from '@/interfaces/stream';
 import BigNumber from 'bignumber.js';
 import { format } from 'date-fns';
 
-export function formatDecimals(number: string, fixed = 0): string {
-  const formattedNumber = BigNumber(number).dividedBy(DIVISOR_1_E_18);
+export function formatDecimals(number: BigNumber, fixed = 0): string {
   if (fixed > 0) {
-    return formattedNumber.toFixed(fixed).toString();
+    return number.toFixed(fixed).toString();
   }
-  return formattedNumber.toString();
+  return number.toString();
 }
 
 export function formatAddress(address: string): string {
@@ -25,6 +24,27 @@ export function formatNftDetails(data: string): string {
 
 export function rebase(x: BigNumber): BigNumber {
   return x.dividedBy(DIVISOR_1_E_18);
+}
+
+export function rebaseStream(stream: StreamData): Stream {
+  return {
+    ...stream,
+    segments: stream.segments.map(segment => {
+      return {
+        ...segment,
+        amount: rebase(BigNumber(segment.amount)),
+        endAmount: rebase(BigNumber(segment.endAmount)),
+        startAmount: rebase(BigNumber(segment.startAmount)),
+        exponent: BigInt(rebase(BigNumber(Number(segment.exponent))).toString()),
+      };
+    }),
+    cliffAmount: rebase(BigNumber(stream.cliffAmount)),
+    depositAmount: rebase(BigNumber(stream.depositAmount)),
+    intactAmount: rebase(BigNumber(stream.intactAmount)),
+    withdrawnAmount: rebase(BigNumber(stream.withdrawnAmount)),
+    color: '',
+    isSelected: true,
+  };
 }
 
 export function formatValueForLabel(value: string | number): number {
@@ -59,7 +79,7 @@ export function formatUsdAmount(amount: number) {
   }).format(amount);
 }
 
-export function uppercaseAlias(streams: Stream[]): Stream[] {
+export function uppercaseAlias(streams: StreamData[]): StreamData[] {
   return streams.map(stream => {
     return {
       ...stream,

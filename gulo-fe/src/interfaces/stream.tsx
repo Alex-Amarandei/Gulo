@@ -1,3 +1,6 @@
+import { Dispatch, SetStateAction } from 'react';
+
+import BigNumber from 'bignumber.js';
 import { Address } from 'viem';
 
 interface Asset {
@@ -22,7 +25,7 @@ interface Contract {
   version: string;
 }
 
-export interface Segment {
+export interface SegmentData {
   id: string;
   position: bigint;
   amount: string;
@@ -34,7 +37,7 @@ export interface Segment {
   endAmount: string;
 }
 
-interface Stream {
+export interface StreamData {
   id: string;
   tokenId: bigint;
   subgraphId: string;
@@ -53,10 +56,56 @@ interface Stream {
   canceled: boolean;
   canceledTime: string;
   withdrawnAmount: string;
-  segments: Segment[];
+  segments: SegmentData[];
   asset: Asset;
   batch: Batch;
   contract: Contract;
 }
 
-export default Stream;
+export interface Segment {
+  id: string;
+  position: bigint;
+  amount: BigNumber;
+  exponent: bigint;
+  milestone: string;
+  endTime: string;
+  startTime: string;
+  startAmount: BigNumber;
+  endAmount: BigNumber;
+}
+
+export interface Stream {
+  id: string;
+  tokenId: bigint;
+  subgraphId: string;
+  chainId: bigint;
+  alias: string;
+  category: string;
+  sender: string;
+  recipient: string;
+  depositAmount: BigNumber;
+  intactAmount: BigNumber;
+  startTime: string;
+  endTime: string;
+  cliffTime: string;
+  cliffAmount: BigNumber;
+  cancelable: boolean;
+  canceled: boolean;
+  canceledTime: string;
+  withdrawnAmount: BigNumber;
+  segments: Segment[];
+  asset: Asset;
+  batch: Batch;
+  contract: Contract;
+  color: string;
+  isSelected: boolean;
+}
+
+export interface StreamContextType {
+  streams: Stream[];
+  setStreams: Dispatch<SetStateAction<Stream[]>>;
+  selectedStreams: Stream[];
+  setSelectedStreams: Dispatch<SetStateAction<Stream[]>>;
+  streamNftMap: Record<string, string>;
+  setStreamNftMap: Dispatch<SetStateAction<Record<string, string>>>;
+}

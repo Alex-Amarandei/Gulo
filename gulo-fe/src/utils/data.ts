@@ -1,7 +1,6 @@
 import { Increment } from '@/constants/enums';
 import { INCREMENT_VALUE } from '@/constants/miscellaneous';
-import Stream from '@/interfaces/stream';
-import { StreamInfo } from '@/interfaces/stream-info';
+import { Stream } from '@/interfaces/stream';
 import getBalance from '@/utils/balances';
 import { format } from 'date-fns';
 
@@ -82,7 +81,7 @@ export function getBarChartStreamData(
   });
 }
 
-export function getPieChartStreamData(streams: StreamInfo[], startTime: Date | undefined) {
+export function getPieChartStreamData(streams: Stream[], startTime: Date | undefined) {
   const positiveData: { alias: string; amount: number; color: string; isNegative: boolean }[] = [];
   const negativeData: { alias: string; amount: number; color: string; isNegative: boolean }[] = [];
   const timestampInMilliseconds = startTime !== undefined ? startTime.getTime() : 0;

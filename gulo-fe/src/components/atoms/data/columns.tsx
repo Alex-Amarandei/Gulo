@@ -1,10 +1,10 @@
-import { StreamInfo } from '@/interfaces/stream-info';
+import { Stream } from '@/interfaces/stream';
 import getBalance, { getRemainingAmount, getStreamedAmountForDateRange } from '@/utils/balances';
 import { formatAddress, formatUsdAmount } from '@/utils/formats';
 import { ColumnDef } from '@tanstack/react-table';
 import { DateRange } from 'react-day-picker';
 
-export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<StreamInfo>[] {
+export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<Stream>[] {
   return [
     {
       accessorKey: 'alias',
@@ -49,7 +49,7 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
   ];
 }
 
-export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo>[] {
+export function getForecastColumns(date: Date | undefined): ColumnDef<Stream>[] {
   return [
     {
       accessorKey: 'alias',

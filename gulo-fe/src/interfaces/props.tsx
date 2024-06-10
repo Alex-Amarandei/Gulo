@@ -1,20 +1,19 @@
 import { HTMLAttributes, ReactNode } from 'react';
 
 import { BalanceType, ChartType, Increment } from '@/constants/enums';
-import Stream from '@/interfaces/stream';
-import { StreamInfo } from '@/interfaces/stream-info';
+import { Stream } from '@/interfaces/stream';
 import { DateRange } from 'react-day-picker';
 
 export interface StreamListProps {
   streams: Stream[];
 }
 
-export interface StreamInfoListProps {
-  streams: StreamInfo[];
+export interface StreamListProps {
+  streams: Stream[];
 }
 
 export interface StreamModalProps {
-  stream: StreamInfo;
+  stream: Stream;
   nft: string;
   onClose: () => void;
 }
@@ -66,7 +65,7 @@ export interface ChartWrapperProps {
   endTime: Date | undefined;
   increment: Increment;
   startTime: Date | undefined;
-  streams: StreamInfo[];
+  streams: Stream[];
 }
 
 export interface DateTimePickerProps {
@@ -77,6 +76,6 @@ export interface DateTimePickerProps {
 export interface StreamsTableProps {
   date?: Date;
   dateRange?: DateRange;
-  streams: StreamInfo[];
+  streams: Stream[];
   balanceType: BalanceType;
 }

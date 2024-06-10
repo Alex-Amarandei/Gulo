@@ -1,5 +1,4 @@
-import Stream from '@/interfaces/stream';
-import { StreamInfo } from '@/interfaces/stream-info';
+import { Stream } from '@/interfaces/stream';
 import areAddressesEqual from '@/utils/adresses';
 import { Address } from 'viem';
 
@@ -43,14 +42,14 @@ export function hasCliff(stream: Stream): boolean {
   return stream.cliffTime !== null;
 }
 
-export const selectAll = (streams: StreamInfo[]): StreamInfo[] => {
+export const selectAll = (streams: Stream[]): Stream[] => {
   return streams.map(stream => {
     stream.isSelected = true;
     return stream;
   });
 };
 
-export const selectNone = (streams: StreamInfo[]): StreamInfo[] => {
+export const selectNone = (streams: Stream[]): Stream[] => {
   streams.forEach(stream => {
     stream.isSelected = false;
   });
@@ -58,49 +57,49 @@ export const selectNone = (streams: StreamInfo[]): StreamInfo[] => {
   return [];
 };
 
-export const selectCircular = (streams: StreamInfo[]): StreamInfo[] => {
+export const selectCircular = (streams: Stream[]): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = isCircular(stream);
     return isCircular(stream);
   });
 };
 
-export const selectNonCircular = (streams: StreamInfo[]): StreamInfo[] => {
+export const selectNonCircular = (streams: Stream[]): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = !isCircular(stream);
     return !isCircular(stream);
   });
 };
 
-export const selectIn = (streams: StreamInfo[], address: Address | undefined): StreamInfo[] => {
+export const selectIn = (streams: Stream[], address: Address | undefined): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = isIncoming(stream, address);
     return stream.isSelected;
   });
 };
 
-export const selectOut = (streams: StreamInfo[], address: Address | undefined): StreamInfo[] => {
+export const selectOut = (streams: Stream[], address: Address | undefined): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = isOutgoing(stream, address);
     return stream.isSelected;
   });
 };
 
-export const selectCancelable = (streams: StreamInfo[]): StreamInfo[] => {
+export const selectCancelable = (streams: Stream[]): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = stream.cancelable === true;
     return stream.cancelable === true;
   });
 };
 
-export const selectNonCancelable = (streams: StreamInfo[]): StreamInfo[] => {
+export const selectNonCancelable = (streams: Stream[]): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = stream.cancelable === false;
     return stream.cancelable === false;
   });
 };
 
-export const filterNonCircular = (streams: StreamInfo[]): StreamInfo[] => {
+export const filterNonCircular = (streams: Stream[]): Stream[] => {
   return streams.filter(stream => {
     return !isCircular(stream);
   });
