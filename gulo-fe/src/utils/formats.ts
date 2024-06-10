@@ -58,3 +58,12 @@ export function formatUsdAmount(amount: number) {
     currency: 'USD',
   }).format(amount);
 }
+
+export function uppercaseAlias(streams: Stream[]): Stream[] {
+  return streams.map(stream => {
+    return {
+      ...stream,
+      alias: stream.alias.toUpperCase(),
+    };
+  });
+}

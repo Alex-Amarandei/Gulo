@@ -9,9 +9,11 @@ const StreamContext = createContext<StreamContextType | undefined>(undefined);
 export const StreamProvider = ({ children }: { children: ReactNode }) => {
   const [streams, setStreams] = useState<StreamInfo[]>([]);
   const [selectedStreams, setSelectedStreams] = useState<StreamInfo[]>([]);
+  const [streamNftMap, setStreamNftMap] = useState<Record<string, string>>({});
 
   return (
-    <StreamContext.Provider value={{ streams, setStreams, selectedStreams, setSelectedStreams }}>
+    <StreamContext.Provider
+      value={{ streams, setStreams, selectedStreams, setSelectedStreams, streamNftMap, setStreamNftMap }}>
       {children}
     </StreamContext.Provider>
   );

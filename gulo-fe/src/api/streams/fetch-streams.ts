@@ -1,5 +1,6 @@
 import GET_STREAMS_QUERY from '@/constants/get-streams-query';
 import WAGMI_CONFIG, { getSablierSubgraphEndpoint } from '@/utils/configs';
+import { uppercaseAlias } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 
 const fetchStreams = async () => {
@@ -27,7 +28,7 @@ const fetchStreams = async () => {
   });
 
   const data = await response.json();
-  return data.data ? data.data.streams : [];
+  return data.data ? uppercaseAlias(data.data.streams) : [];
 };
 
 export default fetchStreams;

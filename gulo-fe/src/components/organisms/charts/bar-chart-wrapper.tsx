@@ -71,7 +71,7 @@ export default function BarChartWrapper({ streams, startTime, endTime, increment
         {streams.map((stream, index) => (
           <Bar
             key={`bar-${index}`}
-            dataKey={stream.alias.toUpperCase()}
+            dataKey={stream.alias}
             stroke={'rgba(0, 0, 0, 0)'}
             strokeWidth={2}
             fill={stream.color}

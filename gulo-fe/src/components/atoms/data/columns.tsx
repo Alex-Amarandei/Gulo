@@ -12,12 +12,12 @@ export function getActualColumns(dateRange: DateRange | undefined): ColumnDef<St
       cell: ({ row }) => (
         <span className='font-extrabold'>
           <a
-            href={`https://app.sablier.com/stream/${row.original.alias.toUpperCase()}`}
+            href={`https://app.sablier.com/stream/${row.original.alias}`}
             target='_blank'
             rel='noopener noreferrer'
             style={{ color: `${row.original.color}`, opacity: 0.9 }}
             onClick={event => event.stopPropagation()}>
-            <u>{row.original.alias.toUpperCase()}</u>
+            <u>{row.original.alias}</u>
           </a>
         </span>
       ),
@@ -57,12 +57,12 @@ export function getForecastColumns(date: Date | undefined): ColumnDef<StreamInfo
       cell: ({ row }) => (
         <span className='font-extrabold'>
           <a
-            href={`https://app.sablier.com/stream/${row.original.alias.toUpperCase()}`}
+            href={`https://app.sablier.com/stream/${row.original.alias}`}
             target='_blank'
             rel='noopener noreferrer'
             style={{ color: `${row.original.color}`, opacity: 0.9 }}
             onClick={event => event.stopPropagation()}>
-            <u>{row.original.alias.toUpperCase()}</u>
+            <u>{row.original.alias}</u>
           </a>
         </span>
       ),

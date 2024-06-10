@@ -22,7 +22,7 @@ export function CustomTooltip({ active, payload }: TooltipProps<number, string>)
       {payload.map((entry, index) => (
         <>
           <p key={`item-${index}`} className='my-2 text-xl text-slate-100 font-bold underline text-center'>
-            {entry.payload.alias.toUpperCase()}
+            {entry.payload.alias}
           </p>
           <p key={`amount-${index}`} className='my-2 text-md text-slate-100 font-bold text-center'>
             {entry.payload.isNegative ? '-' : ''}

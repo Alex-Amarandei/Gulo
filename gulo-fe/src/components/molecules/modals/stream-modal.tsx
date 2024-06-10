@@ -6,7 +6,7 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 
-export default function StreamModal({ stream, onClose }: StreamModalProps) {
+export default function StreamModal({ stream, onClose, nft }: StreamModalProps) {
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -43,12 +43,12 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
         </button>
         <h3 className='text-xl font-bold mb-2'>
           <a
-            href={`https://app.sablier.com/stream/${stream.alias.toUpperCase()}`}
+            href={`https://app.sablier.com/stream/${stream.alias}`}
             target='_blank'
             rel='noopener noreferrer'
             className='sablier'
             onClick={event => event.stopPropagation()}>
-            <u>{stream.alias.toUpperCase()}</u>
+            <u>{stream.alias}</u>
           </a>
         </h3>
         <p className='text-sm flex items-center'>
@@ -94,7 +94,7 @@ export default function StreamModal({ stream, onClose }: StreamModalProps) {
         <p className='text-sm'>
           <strong>{getCancelability(stream, false)}</strong>
         </p>
-        <img src={stream.nft} alt='SVG' className='w-full h-auto object-contain mt-4 rounded-2xl' />
+        <img src={nft} alt='SVG' className='w-full h-auto object-contain mt-4 rounded-2xl' />
       </div>
     </div>
   );

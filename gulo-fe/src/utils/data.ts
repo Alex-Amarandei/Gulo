@@ -75,7 +75,7 @@ export function getBarChartStreamData(
     };
 
     streams.forEach(stream => {
-      result[stream.alias.toUpperCase()] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
+      result[stream.alias] = Number(getBalance([stream], new Date(timestampInMilliseconds)));
     });
 
     return result;

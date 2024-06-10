@@ -15,6 +15,7 @@ export interface StreamInfoListProps {
 
 export interface StreamModalProps {
   stream: StreamInfo;
+  nft: string;
   onClose: () => void;
 }
 

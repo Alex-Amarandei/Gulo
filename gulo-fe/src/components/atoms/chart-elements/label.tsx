@@ -60,7 +60,7 @@ export function renderCustomizedLabel({
         style={{
           filter: `drop-shadow(1px 1px 1px #02111A)`,
         }}>
-        {alias.toUpperCase()}
+        {alias}
       </text>
     </g>
   );

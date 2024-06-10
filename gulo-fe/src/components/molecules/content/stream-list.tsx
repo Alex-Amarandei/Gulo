@@ -8,11 +8,11 @@ import { formatDecimals, getCancelability } from '@/utils/formats';
 
 export default function StreamList({ streams }: StreamInfoListProps) {
   const [selectedStream, setSelectedStream] = useState<StreamInfo | null>(null);
-  const { selectedStreams, setSelectedStreams } = useStreams();
+  const { selectedStreams, setSelectedStreams, streamNftMap } = useStreams();
 
   useEffect(() => {
     // Do nothing
-  }, [selectedStreams]);
+  }, [selectedStreams, streamNftMap]);
 
   const handleCardClick = (stream: StreamInfo) => {
     setSelectedStream(stream);
@@ -55,12 +55,12 @@ export default function StreamList({ streams }: StreamInfoListProps) {
             <div className='flex-grow mx-4 pl-6'>
               <h3 className='text-md font-bold mb-2'>
                 <a
-                  href={`https://app.sablier.com/stream/${stream.alias.toUpperCase()}`}
+                  href={`https://app.sablier.com/stream/${stream.alias}`}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-sablier'
                   onClick={event => event.stopPropagation()}>
-                  <u>{stream.alias.toUpperCase()}</u>
+                  <u>{stream.alias}</u>
                 </a>
               </h3>
               <p className='text-sm'>
@@ -79,12 +79,16 @@ export default function StreamList({ streams }: StreamInfoListProps) {
                 <strong>{getCancelability(stream)}</strong>
               </p>
             </div>
-            <img src={stream.nft} alt='SVG' className='w-1/4 h-1/2 object-contain ml-4 rounded-lg' />
+            {streamNftMap[stream.alias] && (
+              <img src={streamNftMap[stream.alias]} alt='SVG' className='w-1/4 h-1/2 object-contain ml-4 rounded-lg' />
+            )}
           </div>
         );
       })}
 
-      {selectedStream && <StreamModal stream={selectedStream} onClose={handleCloseModal} />}
+      {selectedStream && (
+        <StreamModal stream={selectedStream} onClose={handleCloseModal} nft={streamNftMap[selectedStream.alias]} />
+      )}
     </div>
   );
 }

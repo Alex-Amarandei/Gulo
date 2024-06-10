@@ -27,8 +27,7 @@ import { getAccount } from '@wagmi/core';
 
 export default function Streams() {
   const [isStreamsCollapsed, setIsStreamsCollapsed] = useState(false);
-  const { streams, setStreams } = useStreams();
-  const { setSelectedStreams } = useStreams();
+  const { streams, setStreams, setSelectedStreams, streamNftMap, setStreamNftMap } = useStreams();
   const account = getAccount(WAGMI_CONFIG);
 
   useEffect(() => {
@@ -38,9 +37,9 @@ export default function Streams() {
         streams.map(async (stream: Stream) => {
           const nft = await fetchNftDetails(stream);
           const color = getNftColor(nft);
+          setStreamNftMap(prevState => ({ ...prevState, [stream.alias]: nft }));
           return {
             ...stream,
-            nft: nft,
             color: color,
             isSelected: true,
           };
@@ -51,7 +50,7 @@ export default function Streams() {
     };
 
     fetchData();
-  }, [account.isConnected, setStreams, setSelectedStreams]);
+  }, [account.isConnected, setStreams, setSelectedStreams, setStreamNftMap]);
 
   return (
     <div
@@ -105,9 +104,13 @@ export default function Streams() {
       </div>
       {!isStreamsCollapsed && (
         <div className='flex justify-between items-center'>
-          <Suspense fallback={<strong>Loading...</strong>}>
-            <StreamList streams={streams} />
-          </Suspense>
+          {Object.keys(streamNftMap).length === streams.length ? (
+            <Suspense fallback={<strong>Loading...</strong>}>
+              <StreamList streams={streams} />
+            </Suspense>
+          ) : (
+            <strong>Loading...</strong>
+          )}
         </div>
       )}
     </div>
