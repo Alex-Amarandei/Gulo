@@ -17,3 +17,9 @@ export enum BalanceType {
   Actual = 'Actual',
   Forecast = 'Forecast',
 }
+
+export enum DownloadType {
+  CSV = 'CSV',
+  PDF = 'PDF',
+  XLSX = 'XLSX',
+}

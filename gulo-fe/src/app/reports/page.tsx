@@ -2,12 +2,21 @@
 
 import { ChangeEvent, useState } from 'react';
 
+import { downloadTable } from '@/api/reports/download-table';
 import ToolButton from '@/components/atoms/buttons/tool-button';
 import { useStreams } from '@/components/contexts/streams-context';
 import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import DateRangePickerModal from '@/components/molecules/modals/date-range-picker-modal';
 import { StreamsTable } from '@/components/organisms/reports/streams-table';
-import { BalanceType } from '@/constants/enums';
+import { BalanceType, DownloadType } from '@/constants/enums';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/lib/ui/molecules/dropdown-menu';
 import { nowWithZeroSeconds, oneMonthBefore } from '@/utils/data';
 import { filterNonCircular } from '@/utils/filters';
 import { format } from 'date-fns';
@@ -64,7 +73,30 @@ export default function ReportsPage() {
           </ToolButton>
         </div>
         <div className='flex gap-4'>
-          <ToolButton>Download</ToolButton>
+          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
+            <DropdownMenu>
+              <DropdownMenuTrigger>Download</DropdownMenuTrigger>
+              <DropdownMenuContent className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg px-4 py-2 mb-2 font-bold border-none drop-shadow-xl'>
+                <DropdownMenuLabel className='font-extrabold'>Export Type</DropdownMenuLabel>
+                <DropdownMenuSeparator className='bg-sablier' />
+                {Object.values(DownloadType).map(value => (
+                  <DropdownMenuItem
+                    onClick={() =>
+                      downloadTable(
+                        filterNonCircular(selectedStreams),
+                        balanceType,
+                        date,
+                        dateRange,
+                        value as DownloadType,
+                      )
+                    }
+                    key={value}>
+                    {value}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <ToolButton>Email</ToolButton>
         </div>
       </div>
