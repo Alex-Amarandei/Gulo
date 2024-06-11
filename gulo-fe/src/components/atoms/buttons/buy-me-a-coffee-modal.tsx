@@ -49,7 +49,7 @@ export default function BuyMeACoffeeModal({ onClose }: InfoModalProps) {
             <FontAwesomeIcon icon={faCopy} size='sm' className='sablier' />
           </button>
         </div>
-        {isCopied && <p className='text-green-500 text-center mt-2'>Address copied to clipboard!</p>}
+        {isCopied && <p className='text-sablier font-bold text-center mt-2'>Copied!</p>}
       </div>
     </div>
   );

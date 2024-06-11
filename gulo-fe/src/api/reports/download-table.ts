@@ -16,6 +16,7 @@ export async function downloadTable(
   date: Maybe<Date>,
   dateRange: Maybe<DateRange>,
   downloadType: DownloadType,
+  email?: string,
 ) {
   const body = JSON.stringify(
     {
@@ -24,6 +25,7 @@ export async function downloadTable(
       date,
       dateRange,
       downloadType,
+      email,
     },
     (_, value) => (typeof value === 'bigint' ? value.toString() : value),
   );
@@ -55,7 +57,9 @@ export async function downloadTable(
     const data = await response.json();
     const address = getAccount(WAGMI_CONFIG).address;
 
-    download(data, address, downloadType);
+    if (email === undefined) {
+      download(data, address, downloadType);
+    }
 
     toast.success('File generated successfully!');
     return data;

@@ -80,3 +80,9 @@ export interface StreamsTableProps {
   streams: Stream[];
   balanceType: BalanceType;
 }
+
+export interface EmailInputModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (email: string) => void;
+}

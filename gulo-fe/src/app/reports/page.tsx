@@ -7,6 +7,7 @@ import ToolButton from '@/components/atoms/buttons/tool-button';
 import { useStreams } from '@/components/contexts/streams-context';
 import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import DateRangePickerModal from '@/components/molecules/modals/date-range-picker-modal';
+import { EmailInputModal } from '@/components/molecules/modals/email-input-modal';
 import { StreamsTable } from '@/components/organisms/reports/streams-table';
 import { BalanceType, DownloadType } from '@/constants/enums';
 import {
@@ -33,6 +34,8 @@ export default function ReportsPage() {
     from: oneMonthBefore(now),
     to: now,
   });
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [selectedDownloadType, setSelectedDownloadType] = useState<Maybe<DownloadType>>(DownloadType.JSON);
 
   const handleDateRangeChange = (dateRange: Maybe<DateRange>) => {
     setDateRange(dateRange);
@@ -48,6 +51,16 @@ export default function ReportsPage() {
 
   const toggleStartModal = () => setIsModalOpen(prev => !prev);
 
+  const handleDownload = (type: DownloadType) => {
+    downloadTable(filterNonCircular(selectedStreams), balanceType, date, dateRange, type);
+  };
+
+  const handleEmailDownload = (email: string) => {
+    if (selectedDownloadType) {
+      downloadTable(filterNonCircular(selectedStreams), balanceType, date, dateRange, selectedDownloadType, email);
+    }
+  };
+
   return (
     <div className='flex flex-grow flex-col gap-10 h-[90vh] w-2/3 rounded-lg p-4 ml-12 overflow-auto'>
       <div className='flex justify-between items-center'>
@@ -59,37 +72,25 @@ export default function ReportsPage() {
                 ? format(date, 'LLL dd, y HH:mm:ss')
                 : 'Select Date'}
           </ToolButton>
-          <ToolButton>
-            <select
-              value={balanceType}
-              onChange={handleBalanceTypeChange}
-              className='bg-transparent border-none focus:ring-0 focus:ring-transparent py-0 cursor-pointer'>
-              {Object.values(BalanceType).map(value => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </ToolButton>
-        </div>
-        <div className='flex gap-4'>
           <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
             <DropdownMenu>
-              <DropdownMenuTrigger>Download</DropdownMenuTrigger>
+              <DropdownMenuTrigger className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'>
+                {balanceType}
+                <svg
+                  className='ml-2 w-4 h-4'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 9l-7 7-7-7'></path>
+                </svg>
+              </DropdownMenuTrigger>
               <DropdownMenuContent className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg px-4 py-2 mb-2 font-bold border-none drop-shadow-xl'>
-                <DropdownMenuLabel className='font-extrabold'>Export Type</DropdownMenuLabel>
+                <DropdownMenuLabel className='font-extrabold'>Select Balance Type</DropdownMenuLabel>
                 <DropdownMenuSeparator className='bg-sablier' />
-                {Object.values(DownloadType).map(value => (
+                {Object.values(BalanceType).map(value => (
                   <DropdownMenuItem
-                    onClick={() =>
-                      downloadTable(
-                        filterNonCircular(selectedStreams),
-                        balanceType,
-                        date,
-                        dateRange,
-                        value as DownloadType,
-                      )
-                    }
+                    onClick={() => handleBalanceTypeChange({ target: { value } } as ChangeEvent<HTMLSelectElement>)}
                     key={value}>
                     {value}
                   </DropdownMenuItem>
@@ -97,7 +98,61 @@ export default function ReportsPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <ToolButton>Email</ToolButton>
+        </div>
+        <div className='flex gap-4'>
+          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
+            <DropdownMenu>
+              <DropdownMenuTrigger className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'>
+                Download
+                <svg
+                  className='ml-2 w-4 h-4'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 9l-7 7-7-7'></path>
+                </svg>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg px-4 py-2 mb-2 font-bold border-none drop-shadow-xl'>
+                <DropdownMenuLabel className='font-extrabold'>Export Type</DropdownMenuLabel>
+                <DropdownMenuSeparator className='bg-sablier' />
+                {Object.values(DownloadType).map(value => (
+                  <DropdownMenuItem onClick={() => handleDownload(value)} key={value}>
+                    {value}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
+            <DropdownMenu>
+              <DropdownMenuTrigger className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'>
+                Email
+                <svg
+                  className='ml-2 w-4 h-4'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 9l-7 7-7-7'></path>
+                </svg>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg px-4 py-2 mb-2 font-bold border-none drop-shadow-xl'>
+                <DropdownMenuLabel className='font-extrabold'>Export Type</DropdownMenuLabel>
+                <DropdownMenuSeparator className='bg-sablier' />
+                {Object.values(DownloadType).map(value => (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setSelectedDownloadType(value);
+                      setIsEmailModalOpen(true);
+                    }}
+                    key={value}>
+                    {value}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
       <StreamsTable
@@ -112,6 +167,11 @@ export default function ReportsPage() {
       {isModalOpen && balanceType === BalanceType.Forecast && (
         <DatePickerModal date={date} onClose={toggleStartModal} onDateChange={handleDateChange} setToCurrentDate />
       )}
+      <EmailInputModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        onSubmit={handleEmailDownload}
+      />
     </div>
   );
 }
