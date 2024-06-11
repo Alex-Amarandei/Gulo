@@ -1,3 +1,4 @@
+import { Maybe } from '@/utils/data';
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import {
   Chain,
@@ -37,7 +38,7 @@ const WAGMI_CONFIG = getDefaultConfig({
   ssr: true,
 });
 
-export function getSablierSubgraphEndpoint(chain: Chain | undefined): string {
+export function getSablierSubgraphEndpoint(chain: Maybe<Chain>): string {
   switch (chain) {
     case mainnet:
       return 'https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-v2/';

@@ -1,5 +1,6 @@
 // {"image":""}
 import { Increment } from '@/constants/enums';
+import { Maybe } from '@/utils/data';
 import BigNumber from 'bignumber.js';
 
 export const RADIAN = Math.PI / 180;
@@ -34,3 +35,5 @@ export const COLOR_PALETTES = [
 export const NO_POSITIVE_BALANCE_STREAMS = 'No Positive Balance Streams';
 export const NO_NEGATIVE_BALANCE_STREAMS = 'No Negative Balance Streams';
 export const NO_APPLICABLE_STREAMS = [NO_POSITIVE_BALANCE_STREAMS, NO_NEGATIVE_BALANCE_STREAMS];
+
+export const LAMBDA_ENDPOINT: Maybe<string> = process.env.LAMBDA_ENDPOINT;

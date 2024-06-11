@@ -6,11 +6,12 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/lib/ui/atoms/popover'
 import { Calendar } from '@/lib/ui/molecules/calendar';
 import { TimePicker } from '@/lib/ui/molecules/time-picker';
 import { cn } from '@/lib/utils';
+import { Maybe } from '@/utils/data';
 import { add, format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 export default function DateTimePicker({ date, onDateChange }: DateTimePickerProps) {
-  const handleSelect = (newDay: Date | undefined) => {
+  const handleSelect = (newDay: Maybe<Date>) => {
     if (!newDay) return;
     if (!date) {
       onDateChange(newDay);

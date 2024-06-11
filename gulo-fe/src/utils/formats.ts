@@ -2,6 +2,9 @@ import { DIVISOR_1_E_18, MOCK_JSON_WITH_IMAGE_FIELD_BASE64 } from '@/constants/m
 import { Stream, StreamData } from '@/interfaces/stream';
 import BigNumber from 'bignumber.js';
 import { format } from 'date-fns';
+import { Address } from 'viem';
+
+import { Maybe } from './data';
 
 export function formatDecimals(number: BigNumber, fixed = 0): string {
   if (fixed > 0) {
@@ -86,4 +89,10 @@ export function uppercaseAlias(streams: StreamData[]): StreamData[] {
       alias: stream.alias.toUpperCase(),
     };
   });
+}
+
+export function getFileName(address: Maybe<Address>, downloadType: string): string {
+  const fileName = address ?? 'response';
+  const extension = downloadType.toLowerCase();
+  return `${fileName}.${extension}`;
 }

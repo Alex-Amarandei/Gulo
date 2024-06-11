@@ -7,15 +7,15 @@ import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import Chart from '@/components/templates/charts';
 import { ChartType, Increment } from '@/constants/enums';
 import { INCREMENT_LIMITS } from '@/constants/miscellaneous';
-import { nowWithZeroSeconds, oneMonthFrom } from '@/utils/data';
+import { Maybe, nowWithZeroSeconds, oneMonthFrom } from '@/utils/data';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 export default function Analytics() {
   const now = nowWithZeroSeconds();
 
-  const [startTime, setStartTime] = useState<Date | undefined>(now);
-  const [endTime, setEndTime] = useState<Date | undefined>(oneMonthFrom(now));
+  const [startTime, setStartTime] = useState<Maybe<Date>>(now);
+  const [endTime, setEndTime] = useState<Maybe<Date>>(oneMonthFrom(now));
   const [isStartModalOpen, setIsStartModalOpen] = useState(false);
   const [isEndModalOpen, setIsEndModalOpen] = useState(false);
   const [increment, setIncrement] = useState(Increment.Day);
@@ -41,7 +41,7 @@ export default function Analytics() {
     return diffInSeconds <= INCREMENT_LIMITS[potentialIncrement];
   };
 
-  const handleStartTimeChange = (date: Date | undefined) => {
+  const handleStartTimeChange = (date: Maybe<Date>) => {
     if (chartType === ChartType.Pie) {
       setStartTime(date);
       return;
@@ -56,7 +56,7 @@ export default function Analytics() {
     }
   };
 
-  const handleEndTimeChange = (date: Date | undefined) => {
+  const handleEndTimeChange = (date: Maybe<Date>) => {
     if (date && startTime && date < startTime) {
       toast.error('End time cannot be before start time.');
     } else if (date && startTime && !isTimeDifferenceValid(startTime, date, increment)) {

@@ -4,11 +4,12 @@ import { useRef } from 'react';
 
 import { Label } from '@/lib/ui/atoms/label';
 import { TimePickerInput } from '@/lib/ui/molecules/time-picker-input';
+import { Maybe } from '@/utils/data';
 import { Clock } from 'lucide-react';
 
 interface TimePickerProps {
-  date: Date | undefined;
-  setDate: (date: Date | undefined) => void;
+  date: Maybe<Date>;
+  setDate: (date: Maybe<Date>) => void;
 }
 
 export function TimePicker({ date, setDate }: TimePickerProps) {

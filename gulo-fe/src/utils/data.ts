@@ -4,7 +4,9 @@ import { Stream } from '@/interfaces/stream';
 import getBalance from '@/utils/balances';
 import { format } from 'date-fns';
 
-function getSteps(startTime: Date | undefined, endTime: Date | undefined, increment: Increment) {
+export type Maybe<T> = NonNullable<T> | undefined;
+
+function getSteps(startTime: Maybe<Date>, endTime: Maybe<Date>, increment: Increment) {
   if (startTime === undefined || endTime === undefined) {
     return [];
   }
@@ -44,8 +46,8 @@ export function formatDate(timestamp: number, increment: Increment): string {
 
 export function getLineChartStreamData(
   streams: Stream[],
-  startTime: Date | undefined,
-  endTime: Date | undefined,
+  startTime: Maybe<Date>,
+  endTime: Maybe<Date>,
   increment: Increment,
 ) {
   const steps = getSteps(startTime, endTime, increment);
@@ -61,8 +63,8 @@ export function getLineChartStreamData(
 
 export function getBarChartStreamData(
   streams: Stream[],
-  startTime: Date | undefined,
-  endTime: Date | undefined,
+  startTime: Maybe<Date>,
+  endTime: Maybe<Date>,
   increment: Increment,
 ) {
   const steps = getSteps(startTime, endTime, increment);
@@ -81,7 +83,7 @@ export function getBarChartStreamData(
   });
 }
 
-export function getPieChartStreamData(streams: Stream[], startTime: Date | undefined) {
+export function getPieChartStreamData(streams: Stream[], startTime: Maybe<Date>) {
   const positiveData: { alias: string; amount: number; color: string; isNegative: boolean }[] = [];
   const negativeData: { alias: string; amount: number; color: string; isNegative: boolean }[] = [];
   const timestampInMilliseconds = startTime !== undefined ? startTime.getTime() : 0;

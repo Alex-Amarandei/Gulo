@@ -33,7 +33,6 @@ def lambda_handler(event, context):
     download_type = body_json.get("downloadType", "")
     response = handle_post_request(body_str, download_type)
 
-    # Ensure CORS headers are added to the response
     cors_headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",

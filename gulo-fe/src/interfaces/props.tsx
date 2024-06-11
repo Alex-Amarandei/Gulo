@@ -2,6 +2,7 @@ import { HTMLAttributes, ReactNode } from 'react';
 
 import { BalanceType, ChartType, Increment } from '@/constants/enums';
 import { Stream } from '@/interfaces/stream';
+import { Maybe } from '@/utils/data';
 import { DateRange } from 'react-day-picker';
 
 export interface StreamListProps {
@@ -26,16 +27,16 @@ export interface FilterButtonProps {
 }
 
 export interface DatePickerModalProps {
-  date: Date | undefined;
+  date: Maybe<Date>;
   setToCurrentDate?: boolean;
   onClose: () => void;
-  onDateChange: (date: Date | undefined) => void;
+  onDateChange: (date: Maybe<Date>) => void;
 }
 
 export interface DateRangePickerModalProps extends HTMLAttributes<HTMLDivElement> {
-  date: DateRange | undefined;
+  date: Maybe<DateRange>;
   onClose: () => void;
-  onDateChange: (date: DateRange | undefined) => void;
+  onDateChange: (date: Maybe<DateRange>) => void;
 }
 
 export interface InfoModalProps {
@@ -48,29 +49,29 @@ export interface ToolButtonProps {
 }
 
 export interface StreamDataProps {
-  endTime: Date | undefined;
+  endTime: Maybe<Date>;
   increment: Increment;
-  startTime: Date | undefined;
+  startTime: Maybe<Date>;
   streams: Stream[];
 }
 
 export interface ChartProps {
   chartType: ChartType;
-  endTime: Date | undefined;
+  endTime: Maybe<Date>;
   increment: Increment;
-  startTime: Date | undefined;
+  startTime: Maybe<Date>;
 }
 
 export interface ChartWrapperProps {
-  endTime: Date | undefined;
+  endTime: Maybe<Date>;
   increment: Increment;
-  startTime: Date | undefined;
+  startTime: Maybe<Date>;
   streams: Stream[];
 }
 
 export interface DateTimePickerProps {
-  date: Date | undefined;
-  onDateChange: (date: Date | undefined) => void;
+  date: Maybe<Date>;
+  onDateChange: (date: Maybe<Date>) => void;
 }
 
 export interface StreamsTableProps {

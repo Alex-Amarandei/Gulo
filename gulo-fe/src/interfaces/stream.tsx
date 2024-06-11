@@ -109,3 +109,20 @@ export interface StreamContextType {
   streamNftMap: Record<string, string>;
   setStreamNftMap: Dispatch<SetStateAction<Record<string, string>>>;
 }
+
+export interface StreamActualRow {
+  alias: string;
+  asset: string;
+  streamedAmount: string;
+  from: string;
+  to: string;
+}
+
+export interface StreamForecastRow {
+  alias: string;
+  asset: string;
+  currentAmount: string;
+  forecastAmount: string;
+  from: string;
+  to: string;
+}

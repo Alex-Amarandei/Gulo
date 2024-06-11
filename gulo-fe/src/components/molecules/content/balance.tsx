@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import { useStreams } from '@/components/contexts/streams-context';
 import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import getBalance from '@/utils/balances';
+import { Maybe } from '@/utils/data';
 import { format } from 'date-fns';
 
 export default function Balance() {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Maybe<Date>>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedStreams } = useStreams();
   const [balance, setBalance] = useState('0.0000');

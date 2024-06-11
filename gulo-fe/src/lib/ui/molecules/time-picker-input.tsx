@@ -4,11 +4,12 @@ import { InputHTMLAttributes, KeyboardEvent, forwardRef, useEffect, useMemo, use
 
 import { Input } from '@/lib/ui/atoms/input';
 import { Period, TimePickerType, cn, getArrowByType, getDateByType, setDateByType } from '@/lib/utils';
+import { Maybe } from '@/utils/data';
 
 export interface TimePickerInputProps extends InputHTMLAttributes<HTMLInputElement> {
   picker: TimePickerType;
-  date: Date | undefined;
-  setDate: (date: Date | undefined) => void;
+  date: Maybe<Date>;
+  setDate: (date: Maybe<Date>) => void;
   period?: Period;
   onRightFocus?: () => void;
   onLeftFocus?: () => void;

@@ -1,30 +1,25 @@
+import { download, prepareForDownload } from '@/api/reports/handlers/handle-download';
 import { BalanceType, DownloadType } from '@/constants/enums';
 import { Stream } from '@/interfaces/stream';
+import WAGMI_CONFIG from '@/utils/configs';
+import { Maybe } from '@/utils/data';
+import { getAccount } from '@wagmi/core';
+import dotenv from 'dotenv';
 import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
 
-function saveTextAsFile(text: string, filename: string) {
-  const blob = new Blob([text], { type: 'text/plain' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
+dotenv.config();
 
 export async function downloadTable(
   streams: Stream[],
   balanceType: BalanceType,
-  date: Date | undefined,
-  dateRange: DateRange | undefined,
+  date: Maybe<Date>,
+  dateRange: Maybe<DateRange>,
   downloadType: DownloadType,
 ) {
-  const endpoint = 'https://mciqhau6bprq5w5h5wdcimegly0caohq.lambda-url.eu-central-1.on.aws/';
-
   const body = JSON.stringify(
     {
-      streams,
+      streams: prepareForDownload(streams, balanceType, downloadType, date, dateRange),
       balanceType,
       date,
       dateRange,
@@ -42,7 +37,14 @@ export async function downloadTable(
   };
 
   try {
-    const response = await fetch(endpoint, options);
+    const lambdaEndpoint = process.env.LAMBDA_ENDPOINT;
+
+    if (lambdaEndpoint === undefined) {
+      toast.error("Oops. It's on us! Please try again in a few minutes.");
+      return;
+    }
+
+    const response = await fetch(lambdaEndpoint, options);
 
     if (!response.ok) {
       const errorMessage = `HTTP error! status: ${response.status}`;
@@ -51,14 +53,14 @@ export async function downloadTable(
     }
 
     const data = await response.json();
+    const address = getAccount(WAGMI_CONFIG).address;
 
-    const dataString = JSON.stringify(data, null, 2);
-    saveTextAsFile(dataString, 'response.json');
+    download(data, address, downloadType);
 
-    toast.success('Request successful!');
+    toast.success('File generated successfully!');
     return data;
   } catch (error) {
-    toast.error('An error occurred while processing your request.');
+    toast.error("Oops. It's on us! Please try again in a few minutes.");
     throw error;
   }
 }

@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/lib/ui/molecules/dropdown-menu';
-import { nowWithZeroSeconds, oneMonthBefore } from '@/utils/data';
+import { Maybe, nowWithZeroSeconds, oneMonthBefore } from '@/utils/data';
 import { filterNonCircular } from '@/utils/filters';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
@@ -28,17 +28,17 @@ export default function ReportsPage() {
   const { selectedStreams } = useStreams();
   const [balanceType, setBalanceType] = useState(BalanceType.Actual);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(now);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+  const [date, setDate] = useState<Maybe<Date>>(now);
+  const [dateRange, setDateRange] = useState<Maybe<DateRange>>({
     from: oneMonthBefore(now),
     to: now,
   });
 
-  const handleDateRangeChange = (dateRange: DateRange | undefined) => {
+  const handleDateRangeChange = (dateRange: Maybe<DateRange>) => {
     setDateRange(dateRange);
   };
 
-  const handleDateChange = (date: Date | undefined) => {
+  const handleDateChange = (date: Maybe<Date>) => {
     setDate(date);
   };
 

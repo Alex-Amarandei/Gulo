@@ -3,8 +3,9 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 
 import { Stream, StreamContextType } from '@/interfaces/stream';
+import { Maybe } from '@/utils/data';
 
-const StreamContext = createContext<StreamContextType | undefined>(undefined);
+const StreamContext = createContext<Maybe<StreamContextType>>(undefined);
 
 export const StreamProvider = ({ children }: { children: ReactNode }) => {
   const [streams, setStreams] = useState<Stream[]>([]);

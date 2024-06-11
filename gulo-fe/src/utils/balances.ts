@@ -1,5 +1,6 @@
 import { Segment, Stream } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
+import { Maybe } from '@/utils/data';
 import { hasCliff, hasNotStarted, isCanceled, isCircular, isIncoming, isLinear } from '@/utils/filters';
 import { getAccount } from '@wagmi/core';
 import BigNumber from 'bignumber.js';
@@ -124,7 +125,7 @@ function getOutgoingStreamBalance(stream: Stream, timestamp: number): BigNumber 
   return entitledAmount;
 }
 
-export default function getBalance(streams: Stream[], date: Date | undefined): string {
+export default function getBalance(streams: Stream[], date: Maybe<Date>): string {
   let entitledAmount = new BigNumber(0);
   const address = getAccount(WAGMI_CONFIG).address;
   const timestampNow = Math.floor(new Date().getTime() / 1000);
@@ -149,7 +150,7 @@ export default function getBalance(streams: Stream[], date: Date | undefined): s
   return entitledAmount.toFixed(4).toString();
 }
 
-export function getStreamedAmountForDateRange(stream: Stream, dateRange: DateRange | undefined) {
+export function getStreamedAmountForDateRange(stream: Stream, dateRange: Maybe<DateRange>) {
   const startStreamedAmount = Number(getBalance([stream], dateRange?.from));
   const endStreamedAmount = Number(getBalance([stream], dateRange?.to));
 

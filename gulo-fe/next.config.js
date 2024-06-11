@@ -15,4 +15,11 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+require('dotenv').config();
+
+module.exports = {
+  ...nextConfig,
+  env: {
+    LAMBDA_ENDPOINT: process.env.LAMBDA_ENDPOINT,
+  },
+};

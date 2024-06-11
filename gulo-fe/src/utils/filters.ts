@@ -1,16 +1,17 @@
 import { Stream } from '@/interfaces/stream';
 import areAddressesEqual from '@/utils/adresses';
+import { Maybe } from '@/utils/data';
 import { Address } from 'viem';
 
 export function isCircular(stream: Stream): boolean {
   return areAddressesEqual(stream.sender, stream.recipient);
 }
 
-export function isIncoming(stream: Stream, address: Address | undefined): boolean {
+export function isIncoming(stream: Stream, address: Maybe<Address>): boolean {
   return areAddressesEqual(stream.recipient, address) && !isCircular(stream);
 }
 
-export function isOutgoing(stream: Stream, address: Address | undefined): boolean {
+export function isOutgoing(stream: Stream, address: Maybe<Address>): boolean {
   return areAddressesEqual(stream.sender, address) && !isCircular(stream);
 }
 
@@ -18,11 +19,11 @@ export function hasNotStarted(stream: Stream, timestamp: number): boolean {
   return timestamp < Number(stream.startTime);
 }
 
-export function isOutgoingCancelable(stream: Stream, address: Address | undefined): boolean {
+export function isOutgoingCancelable(stream: Stream, address: Maybe<Address>): boolean {
   return isOutgoing(stream, address) && stream.cancelable;
 }
 
-export function isOutgoingNonCancelable(stream: Stream, address: Address | undefined): boolean {
+export function isOutgoingNonCancelable(stream: Stream, address: Maybe<Address>): boolean {
   return isOutgoing(stream, address) && !stream.cancelable;
 }
 
@@ -71,14 +72,14 @@ export const selectNonCircular = (streams: Stream[]): Stream[] => {
   });
 };
 
-export const selectIn = (streams: Stream[], address: Address | undefined): Stream[] => {
+export const selectIn = (streams: Stream[], address: Maybe<Address>): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = isIncoming(stream, address);
     return stream.isSelected;
   });
 };
 
-export const selectOut = (streams: Stream[], address: Address | undefined): Stream[] => {
+export const selectOut = (streams: Stream[], address: Maybe<Address>): Stream[] => {
   return streams.filter(stream => {
     stream.isSelected = isOutgoing(stream, address);
     return stream.isSelected;
