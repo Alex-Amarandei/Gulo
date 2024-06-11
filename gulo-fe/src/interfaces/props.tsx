@@ -85,4 +85,6 @@ export interface EmailInputModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (email: string) => void;
+  email: Maybe<string>;
+  setEmail: (email: string) => void;
 }

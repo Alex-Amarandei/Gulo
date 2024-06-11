@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="110px" height="110px" viewBox="0 0 110 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <title>Slice</title>
+    <defs>
+        <filter x="-18.1%" y="-16.6%" width="136.2%" height="125.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.75 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#FABF52" offset="0%"></stop>
+            <stop stop-color="#F77725" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="7.80625564e-16%" id="linearGradient-3">
+            <stop stop-color="#02111A" offset="0%"></stop>
+            <stop stop-color="#0B6299" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FCAF4C" offset="0%"></stop>
+            <stop stop-color="#F77725" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" filter="url(#filter-1)" transform="translate(55.0259, 55.0002) scale(1, -1) translate(-55.0259, -55.0002)translate(20, 5)">
+            <path d="M66.88171,25.000447 C73.8731828,12.5007275 71.7576244,0.0264476449 34.9632023,0 C-1.85261569,-0.024360072 -3.76184128,12.4803808 3.25641285,25.000447 C10.0523283,37.1238769 27.0246462,48.2624442 27,49.0003611 C26.9499013,50.5003371 -37.5021067,100.000361 34.9632023,100.000361 C104.794379,100.000361 48.0989668,54.6170294 44,50.0003611 C43.8453811,49.8262138 59.8902372,37.5001666 66.88171,25.000447 Z" id="Path" stroke="#003F7D" stroke-width="3.2" fill="url(#linearGradient-2)" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M35.5958549,87.461501 C91.351362,87.461501 43.1124012,49.9576848 43.1124012,49.3266703 C43.1124012,48.6956557 91.351362,11.2302927 35.5958549,11.192071 C-20.1596521,11.1540239 28.0793086,48.5516562 28.0793086,49.3265656 C28.0793086,50.101475 -20.1596521,87.461501 35.5958549,87.461501 Z" id="Oval" stroke="#003F7D" stroke-width="1.28" fill="url(#linearGradient-3)"></path>
+            <path d="M66.88171,25.0003919 C73.8731828,12.5006632 71.7576244,0.0263741495 34.9632023,0.000361129969 C-1.85261569,-0.0244336048 -3.76184128,12.4803165 3.25641285,25.0003919 C10.0523283,37.1238307 25.2186099,49.2625138 25.1939638,50.0004314 C25.1438651,51.5004085 -37.5021067,100.000361 34.9632023,100.000361 C104.794379,100.000361 49.0653597,54.9625493 44.9663928,50.3458776" id="Path" stroke="#003F7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            <polygon id="Oval" stroke="url(#linearGradient-4)" stroke-width="0.8" fill="url(#linearGradient-4)" points="35.2849741 57.4096876 39.2746114 49.3253371 35.2849741 41.2438844 31.2953368 49.3253371"></polygon>
+        </g>
+    </g>
+</svg>

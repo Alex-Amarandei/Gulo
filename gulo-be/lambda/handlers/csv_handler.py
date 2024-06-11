@@ -22,17 +22,26 @@ def handle_csv(body_json):
             writer.writerow([alias, asset, streamed_amount, sender, recipient])
     else:  # Forecast
         writer.writerow(
-            ["Alias", "Asset", "Current Amount", "Forecast Amount", "From", "To"]
+            [
+                "Alias",
+                "Asset",
+                "Current Amount",
+                "Forecast Amount",
+                "Sure",
+                "From",
+                "To",
+            ]
         )
         for stream in streams:
             alias = stream.get("alias", "")
             asset = stream.get("asset", "")
             current_amount = stream.get("currentAmount", 0)
             forecast_amount = stream.get("forecastAmount", 0)
+            sure = "Yes" if stream.get("sure", False) else "No"
             sender = stream.get("from", "")
             recipient = stream.get("to", "")
             writer.writerow(
-                [alias, asset, current_amount, forecast_amount, sender, recipient]
+                [alias, asset, current_amount, forecast_amount, sure, sender, recipient]
             )
 
     csv_content = output.getvalue()

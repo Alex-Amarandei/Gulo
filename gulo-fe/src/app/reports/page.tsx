@@ -27,6 +27,7 @@ export default function ReportsPage() {
   const now = nowWithZeroSeconds();
 
   const { selectedStreams } = useStreams();
+  const [email, setEmail] = useState<Maybe<string>>(undefined);
   const [balanceType, setBalanceType] = useState(BalanceType.Actual);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState<Maybe<Date>>(now);
@@ -171,6 +172,8 @@ export default function ReportsPage() {
         isOpen={isEmailModalOpen}
         onClose={() => setIsEmailModalOpen(false)}
         onSubmit={handleEmailDownload}
+        email={email}
+        setEmail={setEmail}
       />
     </div>
   );

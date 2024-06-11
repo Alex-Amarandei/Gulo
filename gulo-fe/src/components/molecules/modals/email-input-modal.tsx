@@ -3,7 +3,7 @@ import { MouseEvent, useRef } from 'react';
 import { EmailInputModalProps } from '@/interfaces/props';
 import { toast } from 'sonner';
 
-export const EmailInputModal = ({ isOpen, onClose, onSubmit }: EmailInputModalProps) => {
+export const EmailInputModal = ({ isOpen, onClose, onSubmit, email, setEmail }: EmailInputModalProps) => {
   const emailRef = useRef<HTMLInputElement>(null);
 
   const validateEmail = (email: string) => {
@@ -16,6 +16,7 @@ export const EmailInputModal = ({ isOpen, onClose, onSubmit }: EmailInputModalPr
     const email = emailRef.current?.value ?? '';
     if (validateEmail(email)) {
       onSubmit(email);
+      setEmail(email);
       onClose();
     } else {
       toast.error('Please enter a valid email address.');
@@ -58,6 +59,7 @@ export const EmailInputModal = ({ isOpen, onClose, onSubmit }: EmailInputModalPr
               className='w-full p-2 rounded-lg mb-4 font-bold text-gray-800 bg-gradient-to-br from-slate-100 to-slate-200 focus:outline-none focus:border-none focus:ring-2 focus:ring-sablier'
               placeholder='your-email@example.com'
               style={{ fontStyle: 'normal' }}
+              defaultValue={email ?? undefined}
             />
           </div>
           <div className='flex justify-end gap-2'>
