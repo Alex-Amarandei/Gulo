@@ -20,6 +20,7 @@ export enum BalanceType {
 
 export enum DownloadType {
   CSV = 'CSV',
+  JSON = 'JSON',
   PDF = 'PDF',
   XLSX = 'XLSX',
 }
