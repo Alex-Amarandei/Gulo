@@ -3,3 +3,8 @@ node_modules
 */.DS_Store
 .env*
 **/*.zip
+gulo-be/lambda/bin/
+**/lambda/lambda_env/**
+gulo-be/lambda/lambda_env
+gulo-be/lambda/xlsxwriter
+gulo-be/lambda/XlsxWriter-3.2.0.dist-info
