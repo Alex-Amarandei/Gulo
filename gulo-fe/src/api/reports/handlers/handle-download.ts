@@ -6,6 +6,7 @@ import { Address } from 'viem';
 
 import { downloadCsv, prepareForDownloadCsv } from './download-csv';
 import { downloadJson, prepareForDownloadJson } from './download-json';
+import { downloadXlsx, prepareForDownloadXlsx } from './download-xlsx';
 
 export function prepareForDownload(
   streams: Stream[],
@@ -19,6 +20,8 @@ export function prepareForDownload(
       return prepareForDownloadJson(streams);
     case DownloadType.CSV:
       return prepareForDownloadCsv(streams, balanceType, date, dateRange);
+    case DownloadType.XLSX:
+      return prepareForDownloadXlsx(streams, balanceType, date, dateRange);
     default:
       return [];
   }
@@ -31,6 +34,9 @@ export function download(data: any, address: Maybe<Address>, downloadType: Downl
       break;
     case DownloadType.CSV:
       downloadCsv(data, address);
+      break;
+    case DownloadType.XLSX:
+      downloadXlsx(data, address);
       break;
     default:
       break;

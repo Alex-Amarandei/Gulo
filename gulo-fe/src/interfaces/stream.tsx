@@ -116,6 +116,7 @@ export interface StreamActualRow {
   streamedAmount: string;
   from: string;
   to: string;
+  color?: string;
 }
 
 export interface StreamForecastRow {
@@ -125,4 +126,6 @@ export interface StreamForecastRow {
   forecastAmount: string;
   from: string;
   to: string;
+  color?: string;
+  sure?: boolean;
 }

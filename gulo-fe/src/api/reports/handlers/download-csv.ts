@@ -28,6 +28,7 @@ function prepareForForecast(streams: Stream[], date: Maybe<Date>): StreamForecas
       to: stream.recipient,
       currentAmount: formatUsdAmount(Number(getBalance([stream], date))),
       forecastAmount: formatUsdAmount(Number(getRemainingAmount(stream))),
+      sure: !stream.cancelable,
     };
   });
 }
