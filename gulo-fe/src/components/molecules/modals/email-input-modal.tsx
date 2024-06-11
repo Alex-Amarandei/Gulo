@@ -56,7 +56,7 @@ export const EmailInputModal = ({ isOpen, onClose, onSubmit, email, setEmail }: 
             <input
               type='email'
               ref={emailRef}
-              className='w-full p-2 rounded-lg mb-4 font-bold text-gray-800 bg-gradient-to-br from-slate-100 to-slate-200 focus:outline-none focus:border-none focus:ring-2 focus:ring-sablier'
+              className='w-full px-6 py-4 rounded-lg mb-4 font-bold text-gray-800 bg-gradient-to-br from-slate-100 to-slate-200 focus:outline-none focus:border-none focus:ring-2 focus:ring-sablier'
               placeholder='your-email@example.com'
               style={{ fontStyle: 'normal' }}
               defaultValue={email ?? undefined}
