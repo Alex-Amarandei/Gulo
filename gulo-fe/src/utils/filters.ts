@@ -1,9 +1,9 @@
-import { Stream } from '@/interfaces/stream';
+import { Stream, StreamData } from '@/interfaces/stream';
 import areAddressesEqual from '@/utils/adresses';
 import { Maybe } from '@/utils/data';
 import { Address } from 'viem';
 
-export function isCircular(stream: Stream): boolean {
+export function isCircular(stream: Stream | StreamData): boolean {
   return areAddressesEqual(stream.sender, stream.recipient);
 }
 
@@ -100,7 +100,7 @@ export const selectNonCancelable = (streams: Stream[]): Stream[] => {
   });
 };
 
-export const filterNonCircular = (streams: Stream[]): Stream[] => {
+export const filterNonCircular = (streams: StreamData[]): StreamData[] => {
   return streams.filter(stream => {
     return !isCircular(stream);
   });

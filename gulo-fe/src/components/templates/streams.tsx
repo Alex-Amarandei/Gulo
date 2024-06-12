@@ -11,12 +11,11 @@ import { Stream, StreamData } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
 import { getNftColor } from '@/utils/data';
 import {
+  isCircular,
   selectAll,
   selectCancelable,
-  selectCircular,
   selectIn,
   selectNonCancelable,
-  selectNonCircular,
   selectNone,
   selectOut,
 } from '@/utils/filters';
@@ -33,21 +32,23 @@ export default function Streams() {
   useEffect(() => {
     const fetchData = async () => {
       const streams = await fetchStreams();
-      const streamWithNftDetails: Stream[] = await Promise.all(
-        streams.map(async (stream: StreamData) => {
-          const nft = await fetchNftDetails(stream);
-          const color = getNftColor(nft);
-          const rebasedStream = rebaseStream(stream);
-          setStreamNftMap(prevState => ({ ...prevState, [stream.alias]: nft }));
-          return {
-            ...rebasedStream,
-            color: color,
-            isSelected: true,
-          };
-        }),
+      const coloredStreams: Stream[] = await Promise.all(
+        streams
+          .filter((stream: StreamData) => !isCircular(stream))
+          .map(async (stream: StreamData) => {
+            const nft = await fetchNftDetails(stream);
+            const color = getNftColor(nft);
+            const rebasedStream = rebaseStream(stream);
+            setStreamNftMap(prevState => ({ ...prevState, [stream.alias]: nft }));
+            return {
+              ...rebasedStream,
+              color: color,
+              isSelected: true,
+            };
+          }),
       );
-      setStreams(streamWithNftDetails);
-      setSelectedStreams(streamWithNftDetails);
+      setStreams(coloredStreams);
+      setSelectedStreams(coloredStreams);
     };
 
     fetchData();
@@ -76,12 +77,6 @@ export default function Streams() {
               onSecondClick={() => setSelectedStreams(selectAll(streams))}
             />
             <FilterButton
-              first={'Non-Self'}
-              second={'Self'}
-              onFirstClick={() => setSelectedStreams(selectNonCircular(streams))}
-              onSecondClick={() => setSelectedStreams(selectCircular(streams))}
-            />
-            <FilterButton
               first={'In'}
               second={'Out'}
               onFirstClick={() => setSelectedStreams(selectIn(streams, account.address))}
@@ -106,11 +101,11 @@ export default function Streams() {
       {!isStreamsCollapsed && (
         <div className='flex justify-between items-center'>
           {Object.keys(streamNftMap).length === streams.length ? (
-            <Suspense fallback={<strong>Loading...</strong>}>
+            <Suspense fallback={<strong className='text-slate-100'>Loading...</strong>}>
               <StreamList streams={streams} />
             </Suspense>
           ) : (
-            <strong>Loading...</strong>
+            <strong className='text-slate-100'>Loading...</strong>
           )}
         </div>
       )}
