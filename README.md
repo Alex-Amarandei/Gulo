@@ -18,9 +18,13 @@ Currently, the main feature is calculating the total amount of funds available f
 
 However, many exciting features will be shipped in the coming weeks! Keep an eye out 😉
 
-### 📊 Analytics Page is Shipped! 🆕
+### 📊 Analytics Page is Live! 💯
 
 -   **Analytics Page:** See the evolution of your balance over time, both past and future. Line Charts, Bar Charts, Pie Charts — you name it!
+
+### 📝 Reports Page is Shipped! 🆕
+
+-   **Reports Page:** Get reports that will help you in your accountability efforts. Export them to JSON, CSV, Excel — whatever you need. You can also email them to yourself or to your accountant directly in-app (🔜)
 
 ## 🌱 Why was Gulo created?
 
@@ -36,8 +40,7 @@ The Roadmap is as follows:
 
 ### 📅 June
 
--   **Multi-Currency Support:** Currently, only DAI is supported, but all ERC-20 tokens will be included soon!
--   **Reports Page:** Get reports that will help you in your accountability efforts. Export them to CSV, Excel, PDF—whatever you need.
+-   **Multi-Currency Support:** Currently, only stablecoins (DAI, USDC, USDT) are supported, but all ERC-20 tokens will be included soon!
 
 ### 📅 July
 
