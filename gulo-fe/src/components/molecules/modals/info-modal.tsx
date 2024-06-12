@@ -57,11 +57,12 @@ export default function InfoModal({ onClose }: InfoModalProps) {
         </p>
         <br />
         <h3 className='text-xl font-semibold'>
-          <u>What do &quot;Self&quot; and &quot;Non-Self&quot; mean?</u>
+          <u>What about Streams that I sent to myself?</u>
         </h3>
         <p className='mt-2'>
-          &quot;Self&quot; signifies a circular stream, sent from you, to you. While this is peculiar in nature, it is
-          an edge case to be considered. Some Sablier users use this kind of Streams to limit their access to savings.
+          While this is peculiar in nature, it is an edge case to be considered. Some Sablier users use this kind of
+          Streams to limit their access to savings. However, Self-Streams being zero-sum by nature, are not included in
+          the calculation.
         </p>
         <br />
         <h3 className='text-xl font-semibold'>

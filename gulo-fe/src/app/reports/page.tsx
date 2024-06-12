@@ -19,7 +19,6 @@ import {
   DropdownMenuTrigger,
 } from '@/lib/ui/molecules/dropdown-menu';
 import { Maybe, nowWithZeroSeconds, oneMonthBefore } from '@/utils/data';
-import { filterNonCircular } from '@/utils/filters';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 
@@ -53,12 +52,12 @@ export default function ReportsPage() {
   const toggleStartModal = () => setIsModalOpen(prev => !prev);
 
   const handleDownload = (type: DownloadType) => {
-    downloadTable(filterNonCircular(selectedStreams), balanceType, date, dateRange, type);
+    downloadTable(selectedStreams, balanceType, date, dateRange, type);
   };
 
   const handleEmailDownload = (email: string) => {
     if (selectedDownloadType) {
-      downloadTable(filterNonCircular(selectedStreams), balanceType, date, dateRange, selectedDownloadType, email);
+      downloadTable(selectedStreams, balanceType, date, dateRange, selectedDownloadType, email);
     }
   };
 
@@ -156,12 +155,7 @@ export default function ReportsPage() {
           </div>
         </div>
       </div>
-      <StreamsTable
-        balanceType={balanceType}
-        streams={filterNonCircular(selectedStreams)}
-        dateRange={dateRange}
-        date={date}
-      />
+      <StreamsTable balanceType={balanceType} streams={selectedStreams} dateRange={dateRange} date={date} />
       {isModalOpen && balanceType === BalanceType.Actual && (
         <DateRangePickerModal date={dateRange} onClose={toggleStartModal} onDateChange={handleDateRangeChange} />
       )}
