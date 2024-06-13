@@ -21,5 +21,10 @@ module.exports = {
   ...nextConfig,
   env: {
     LAMBDA_ENDPOINT: process.env.LAMBDA_ENDPOINT,
+    POLYGON_API_KEY: process.env.POLYGON_API_KEY,
+    SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
+    ACCESS_KEY_ID: process.env.ACCESS_KEY_ID,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+    S3_REGION: process.env.S3_REGION,
   },
 };

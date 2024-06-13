@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 
+import { getPriceForTicker } from '@/api/data/crypto-exists';
 import fetchNftDetails from '@/api/streams/fetch-nft-details';
 import fetchStreams from '@/api/streams/fetch-streams';
 import FilterButton from '@/components/atoms/buttons/filter-button';
@@ -32,10 +33,12 @@ export default function Streams() {
   useEffect(() => {
     const fetchData = async () => {
       const streams = await fetchStreams();
-      const coloredStreams: Stream[] = await Promise.all(
+      const filteredStreams = await Promise.all(
         streams
           .filter((stream: StreamData) => !isCircular(stream))
           .map(async (stream: StreamData) => {
+            const { exists, price } = await getPriceForTicker(stream.asset.symbol);
+            if (!exists) return null;
             const nft = await fetchNftDetails(stream);
             const color = getNftColor(nft);
             const rebasedStream = rebaseStream(stream);
@@ -44,9 +47,11 @@ export default function Streams() {
               ...rebasedStream,
               color: color,
               isSelected: true,
+              assetPrice: price,
             };
           }),
       );
+      const coloredStreams = filteredStreams.filter(Boolean) as Stream[];
       setStreams(coloredStreams);
       setSelectedStreams(coloredStreams);
     };

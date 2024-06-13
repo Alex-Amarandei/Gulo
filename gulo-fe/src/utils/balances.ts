@@ -132,10 +132,6 @@ export default function getBalance(streams: Stream[], date: Maybe<Date>): string
   const timestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
   streams.forEach(stream => {
-    if (!['DAI', 'USDC', 'USDT'].includes(stream.asset.symbol)) {
-      return;
-    }
-
     if (hasNotStarted(stream, timestamp) || isCircular(stream)) {
       return;
     }
@@ -144,7 +140,11 @@ export default function getBalance(streams: Stream[], date: Maybe<Date>): string
       ? getIncomingStreamBalance(stream, timestamp, timestampNow)
       : getOutgoingStreamBalance(stream, timestamp);
 
-    entitledAmount = entitledAmount.plus(balance);
+    console.log('balance', balance.toString());
+    console.log('price', stream.assetPrice);
+    console.log('product', balance.times(stream.assetPrice).toString());
+
+    entitledAmount = entitledAmount.plus(balance.times(stream.assetPrice));
   });
 
   return entitledAmount.toFixed(4).toString();

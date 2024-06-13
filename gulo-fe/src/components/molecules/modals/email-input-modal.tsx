@@ -71,11 +71,6 @@ export const EmailInputModal = ({ isOpen, onClose, onSubmit, email, setEmail }: 
           </div>
         </form>
       </div>
-      <style jsx>{`
-        input::placeholder {
-          font-style: italic;
-        }
-      `}</style>
     </div>
   );
 };
