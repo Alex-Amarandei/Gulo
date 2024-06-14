@@ -1,15 +1,13 @@
 const GET_STREAMS_QUERY = `
-query getStreams_BySender_Or_ByRecipient($first: Int!, $skip: Int!, $recipient: Bytes!, $sender: Bytes!, $subgraphId: BigInt!) {
+query getStreams_BySender_Or_ByRecipient($recipient: Bytes!, $sender: Bytes!) {
   streams(
-    first: $first
-    skip: $skip
     orderBy: subgraphId
     orderDirection: desc
     where: {
       or: [
-        {and: [{sender: $sender}, {subgraphId_lt: $subgraphId}]}, 
-        {and: [{proxender: $sender}, {subgraphId_lt: $subgraphId}]}, 
-        {and: [{recipient: $recipient}, {subgraphId_lt: $subgraphId}]}
+        {sender: $sender}, 
+        {proxender: $sender}, 
+        {recipient: $recipient},
       ]
     }
   ) {

@@ -23,3 +23,8 @@ export enum DownloadType {
   JSON = 'JSON',
   XLSX = 'XLSX',
 }
+
+export enum StreamCategory {
+  LockupLinear = 'LockupLinear',
+  LockupDynamic = 'LockupDynamic',
+}

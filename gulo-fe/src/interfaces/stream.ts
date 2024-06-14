@@ -129,3 +129,19 @@ export interface StreamForecastRow {
   color?: string;
   sure?: boolean;
 }
+
+export interface GraphStream {
+  alias: string;
+  sender: string;
+  recipient: string;
+  startTime: number;
+  endTime: number;
+  cliffTime: string;
+  cliffAmount: string;
+  cancelable: boolean;
+  canceled: boolean;
+  canceledTime: string;
+  depositAmount: string;
+  intactAmount: string;
+  withdrawnAmount: string;
+}

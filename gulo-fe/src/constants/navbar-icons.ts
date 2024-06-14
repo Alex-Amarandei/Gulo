@@ -16,4 +16,9 @@ export const NavbarButtonPathsByRoute: Record<string, NavbarButtonPaths> = {
     overview: '/images/miscellaneous/overview-off.png',
     reports: '/images/miscellaneous/reports-on.png',
   },
+  '/graph': {
+    analytics: '/images/miscellaneous/analytics-off.png',
+    overview: '/images/miscellaneous/overview-off.png',
+    reports: '/images/miscellaneous/reports-off.png',
+  },
 };
