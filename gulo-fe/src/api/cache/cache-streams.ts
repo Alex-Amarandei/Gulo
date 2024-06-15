@@ -1,68 +1,51 @@
-import { StreamCacheData } from '@/interfaces/graph';
-import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import dotenv from 'dotenv';
-import { toast } from 'sonner';
+import { getCacheFromS3, saveCacheToS3 } from '@/api/cache/s3-cache';
+import { fetchAllStreams } from '@/api/streams/fetch-all-streams';
+import { delay } from '@/api/utils/delay';
+import { CachedStreamData } from '@/interfaces/graph';
+import { GraphStream } from '@/interfaces/stream';
+import WAGMI_CONFIG, { SABLIER_SUBGRAPH_ENDPOINTS } from '@/utils/configs';
+import { getCacheKey } from '@/utils/formats';
+import { getChainId } from '@wagmi/core';
 
-dotenv.config();
+export const getCachedStreams = async (): Promise<{ streams: GraphStream[]; hasNewStreams: boolean }> => {
+  await delay(1000);
 
-const s3Client = new S3Client({
-  region: process.env.S3_REGION,
-  credentials: {
-    accessKeyId: process.env.ACCESS_KEY_ID!,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY!,
-  },
-});
+  const chainId = getChainId(WAGMI_CONFIG);
+  const endpoint = SABLIER_SUBGRAPH_ENDPOINTS[chainId];
+  const cacheKey = getCacheKey(chainId, 'streams');
+  const cachedData = (await getCacheFromS3(cacheKey)) as CachedStreamData;
 
-const BUCKET_NAME = process.env.S3_BUCKET_NAME;
+  let allStreams: GraphStream[] = cachedData ? cachedData.streams : [];
+  let skip = cachedData ? cachedData.count : 0;
 
-const streamToString = async (stream: ReadableStream<Uint8Array>): Promise<string> => {
-  const reader = stream.getReader();
-  const utf8Decoder = new TextDecoder('utf-8');
-  let result = '';
-  let keepReading = true;
+  let hasMore = true;
+  let hasNewStreams = false;
 
-  while (keepReading) {
-    const { done, value } = await reader.read();
-    if (done) {
-      keepReading = false;
-      break;
+  while (hasMore) {
+    const currentSkip = Math.min(skip, 5000);
+    const streams = await fetchAllStreams(endpoint, currentSkip);
+
+    if (streams.length === 0) {
+      hasMore = false;
+    } else {
+      if (currentSkip === 5000) {
+        const difference = 5000 + streams.length - cachedData.streams.length;
+
+        if (difference > 0) {
+          allStreams = [...allStreams, ...streams.slice(streams.length - difference, streams.length)];
+        }
+        break;
+      } else {
+        allStreams = [...allStreams, ...streams];
+        skip += streams.length;
+      }
+      hasNewStreams = true;
     }
-    result += utf8Decoder.decode(value, { stream: true });
   }
 
-  result += utf8Decoder.decode(); // end of stream
-  return result;
-};
-
-export const getCacheFromS3 = async (key: string): Promise<StreamCacheData> => {
-  try {
-    const params = { Bucket: BUCKET_NAME!, Key: key };
-    const command = new GetObjectCommand(params);
-    const data = await s3Client.send(command);
-
-    const bodyContents = await streamToString(data.Body as ReadableStream<Uint8Array>);
-    return JSON.parse(bodyContents);
-  } catch (error: unknown) {
-    if (error instanceof Error && error.name === 'NoSuchKey') {
-      await saveCacheToS3(key, { count: 0, streams: [] });
-      return { count: 0, streams: [] };
-    }
-    toast.error('Error getting cache from S3: ' + error);
-    return { count: 0, streams: [] };
+  if (hasNewStreams) {
+    await saveCacheToS3(cacheKey, { count: allStreams.length, streams: allStreams });
   }
-};
 
-export const saveCacheToS3 = async (key: string, cache: StreamCacheData): Promise<void> => {
-  try {
-    const params = {
-      Bucket: BUCKET_NAME!,
-      Key: key,
-      Body: JSON.stringify(cache),
-      ContentType: 'application/json',
-    };
-    const command = new PutObjectCommand(params);
-    await s3Client.send(command);
-  } catch (error: unknown) {
-    toast.error('Error getting cache from S3: ' + error);
-  }
+  return { streams: allStreams, hasNewStreams };
 };

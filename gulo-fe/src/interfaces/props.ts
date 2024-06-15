@@ -88,3 +88,19 @@ export interface EmailInputModalProps {
   email: Maybe<string>;
   setEmail: (email: string) => void;
 }
+
+export interface GraphInfoModalProps {
+  chainId: number;
+  onClose: () => void;
+  componentInfo: {
+    largestComponent: number;
+    componentCount: number;
+    singleNodeComponents: number;
+    topThreeComponents: Node[][];
+    averageDegree: number;
+    density: number;
+    diameter: number;
+    topThreeInfluentialNodes: { id: string; degreeCentrality: number }[];
+    topThreePageRankNodes: { id: string; pageRank: number }[];
+  };
+}

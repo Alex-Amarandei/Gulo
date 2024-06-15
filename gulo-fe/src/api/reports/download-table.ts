@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 
 dotenv.config();
 
+const lambdaEndpoint = process.env.LAMBDA_ENDPOINT;
+
 export async function downloadTable(
   streams: Stream[],
   balanceType: BalanceType,
@@ -39,8 +41,6 @@ export async function downloadTable(
   };
 
   try {
-    const lambdaEndpoint = process.env.LAMBDA_ENDPOINT;
-
     if (lambdaEndpoint === undefined) {
       toast.error("Oops. It's on us! Please try again in a few minutes.");
       return;
@@ -49,8 +49,7 @@ export async function downloadTable(
     const response = await fetch(lambdaEndpoint, options);
 
     if (!response.ok) {
-      const errorMessage = `HTTP error! status: ${response.status}`;
-      toast.error(errorMessage);
+      toast.error("Oops. It's on us! Please try again in a few minutes.");
       return;
     }
 

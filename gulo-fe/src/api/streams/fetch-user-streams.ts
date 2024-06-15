@@ -3,7 +3,7 @@ import WAGMI_CONFIG, { SABLIER_SUBGRAPH_ENDPOINTS } from '@/utils/configs';
 import { uppercaseAlias } from '@/utils/formats';
 import { getAccount } from '@wagmi/core';
 
-const fetchUserStreams = async () => {
+export const fetchUserStreams = async () => {
   const { address, chain } = getAccount(WAGMI_CONFIG);
 
   const variables = {
@@ -27,5 +27,3 @@ const fetchUserStreams = async () => {
   const data = await response.json();
   return data.data ? uppercaseAlias(data.data.streams) : [];
 };
-
-export default fetchUserStreams;

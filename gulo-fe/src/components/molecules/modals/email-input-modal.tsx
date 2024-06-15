@@ -1,4 +1,4 @@
-import { MouseEvent, useRef } from 'react';
+import { FormEvent, MouseEvent, useRef } from 'react';
 
 import { EmailInputModalProps } from '@/interfaces/props';
 import { toast } from 'sonner';
@@ -11,7 +11,7 @@ export const EmailInputModal = ({ isOpen, onClose, onSubmit, email, setEmail }: 
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = (event?: MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event?: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     const email = emailRef.current?.value ?? '';
     if (validateEmail(email)) {

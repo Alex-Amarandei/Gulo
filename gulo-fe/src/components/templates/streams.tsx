@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 
 import fetchNftDetails from '@/api/streams/fetch-nft-details';
-import fetchUserStreams from '@/api/streams/fetch-user-streams';
+import { fetchUserStreams } from '@/api/streams/fetch-user-streams';
 import FilterButton from '@/components/atoms/buttons/filter-button';
 import { useStreams } from '@/components/contexts/streams-context';
 import StreamList from '@/components/molecules/content/stream-list';

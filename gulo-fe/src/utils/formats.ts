@@ -96,3 +96,11 @@ export function getFileName(address: Maybe<Address>, downloadType: string): stri
   const extension = downloadType.toLowerCase();
   return `${fileName}.${extension}`;
 }
+
+export function getCacheKey(chainId: number, key: string): string {
+  return `streams/${chainId}/${key}.json`;
+}
+
+export function getSablierSearchByChainIdAndAddress(chainId: number, address: string): string {
+  return `https://app.sablier.com/?t=search&c=${chainId}&s=${address}&r=${address}`;
+}

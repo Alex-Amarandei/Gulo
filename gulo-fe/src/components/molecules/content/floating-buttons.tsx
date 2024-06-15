@@ -1,6 +1,6 @@
-import BuyMeACoffeeButton from '@/components/atoms/buttons/buy-me-a-coffee-button';
-import GraphButton from '@/components/atoms/buttons/graph-button';
-import InfoButton from '@/components/atoms/buttons/info-button';
+import BuyMeACoffeeButton from '@/components/atoms/buttons/floating/buy-me-a-coffee-button';
+import GraphButton from '@/components/atoms/buttons/floating/graph-button';
+import InfoButton from '@/components/atoms/buttons/floating/info-button';
 
 export default function FloatingButtons() {
   return (
