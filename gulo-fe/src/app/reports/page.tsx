@@ -124,7 +124,7 @@ export default function ReportsPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold hidden'>
+          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
             <DropdownMenu>
               <DropdownMenuTrigger className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'>
                 Email

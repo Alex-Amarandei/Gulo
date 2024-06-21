@@ -9,12 +9,12 @@ export interface CachedStreamData {
 export interface CachedGraphData {
   nodes: Node[];
   edges: Edge[];
-  components: Node[][];
-  singleNodeComponents: number;
-  topThreeComponents: Node[][];
-  topThreeInfluentialNodes: { id: string; degreeCentrality: number }[];
-  topThreePageRankNodes: { id: string; pageRank: number }[];
-  averageDegree: number;
-  density: number;
-  diameter: number;
+  components?: Node[][];
+  singleNodeComponents?: number;
+  topThreeComponents?: Node[][];
+  topThreeInfluentialNodes?: { id: string; degreeCentrality: number }[];
+  topThreePageRankNodes?: { id: string; pageRank: number }[];
+  averageDegree?: number;
+  density?: number;
+  diameter?: number;
 }

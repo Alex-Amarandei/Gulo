@@ -1,9 +1,8 @@
 import { MouseEvent } from 'react';
 
 import { GraphInfoModalProps } from '@/interfaces/props';
-import { getSablierSearchByChainIdAndAddress } from '@/utils/formats';
 
-export function GraphInfoModal({ onClose, componentInfo, chainId }: GraphInfoModalProps) {
+export function GraphInfoModal({ onClose, chainId }: GraphInfoModalProps) {
   const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -29,7 +28,7 @@ export function GraphInfoModal({ onClose, componentInfo, chainId }: GraphInfoMod
           </svg>
         </button>
         <h2 className='text-3xl font-semibold text-center mb-6 text-slate-100'>Stream Network Information</h2>
-        <div className='space-y-6 text-slate-100'>
+        {/* <div className='space-y-6 text-slate-100'>
           <div>
             <h3 className='text-lg font-bold'>Stream Clusters</h3>
             <p className='text-sm text-gray-300 italic'>
@@ -79,7 +78,6 @@ export function GraphInfoModal({ onClose, componentInfo, chainId }: GraphInfoMod
               Users: <span className='text-sablier font-bold'>{componentInfo.singleNodeComponents}</span>
             </p>
           </div>
-
           <div>
             <h3 className='text-lg font-bold'>Longest Stream Chain</h3>
             <p className='text-sm text-gray-300 italic'>
@@ -127,7 +125,7 @@ export function GraphInfoModal({ onClose, componentInfo, chainId }: GraphInfoMod
               ))}
             </ul>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -28,9 +28,6 @@ def handle_xlsx(body_json):
             "num_format": "$#,##0.00",
         }
     )
-    first_column_format = workbook.add_format(
-        {"bold": True, "font_color": "#F1F5F9", "bg_color": "#1F2937"}
-    )
     total_format = workbook.add_format(
         {
             "bold": True,

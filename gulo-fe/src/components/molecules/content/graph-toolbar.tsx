@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   DisablingPhysicsIcon,
   EnablingPhysicsIcon,
@@ -11,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface GraphToolbarProps {
   enablePhysics: () => void;
   disablePhysics: () => void;
-  openModal: () => void;
+  openModal?: () => void;
 }
 
 const InfoIcon = () => (
@@ -20,7 +18,7 @@ const InfoIcon = () => (
   </span>
 );
 
-const GraphToolbar: React.FC<GraphToolbarProps> = ({ enablePhysics, disablePhysics, openModal }) => {
+const GraphToolbar = ({ enablePhysics, disablePhysics }: GraphToolbarProps) => {
   return (
     <div className='fixed top-50 right-10 flex flex-col items-end space-y-20 z-50 focus:ring-0 focus:ring-transparent focus:outline-none'>
       <GraphToolbarButton
@@ -29,12 +27,12 @@ const GraphToolbar: React.FC<GraphToolbarProps> = ({ enablePhysics, disablePhysi
         onFirstClick={enablePhysics}
         onSecondClick={disablePhysics}
       />
-      <GraphToolbarButton
+      {/* <GraphToolbarButton
         firstIcon={<InfoIcon />}
         secondIcon={<InfoIcon />}
         onFirstClick={openModal}
         onSecondClick={openModal}
-      />
+      /> */}
     </div>
   );
 };

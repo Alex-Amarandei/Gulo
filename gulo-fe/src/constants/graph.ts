@@ -65,3 +65,8 @@ export const GRAPH_OPTIONS = {
     enabled: false,
   },
 };
+
+export const EMPTY_GRAPH_DATA = {
+  nodes: [],
+  edges: [],
+};

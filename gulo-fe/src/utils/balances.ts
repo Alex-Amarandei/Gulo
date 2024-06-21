@@ -33,7 +33,7 @@ function getCurrentLinearAmount(stream: Stream, timestamp: number): BigNumber {
   }
 
   return BigNumber(getElapsedTimePercentage(stream, startTime, timestamp))
-    .times(stream.intactAmount.minus(cliffAmount))
+    .times(stream.depositAmount.minus(cliffAmount))
     .plus(cliffAmount);
 }
 
@@ -61,7 +61,7 @@ function getCurrentDynamicAmount(
     elapsedAmount = stream.intactAmount;
   }
 
-  return { elapsedAmount: elapsedAmount, exitSegmentIndex };
+  return { elapsedAmount, exitSegmentIndex };
 }
 
 function calculateElapsedAmount(
@@ -77,17 +77,11 @@ function calculateElapsedAmount(
 
 function getStreamedAmount(stream: Stream, timestamp: number): BigNumber {
   let entitledAmount = new BigNumber(0);
-  const intactAmount = stream.intactAmount;
   const { elapsedAmount, exitSegmentIndex } = calculateElapsedAmount(stream, timestamp);
-
-  if (exitSegmentIndex === -1) {
-    entitledAmount = entitledAmount.plus(intactAmount);
-    return entitledAmount;
-  }
 
   entitledAmount = entitledAmount.plus(elapsedAmount);
 
-  if (exitSegmentIndex === null) {
+  if (exitSegmentIndex === -1 || exitSegmentIndex === null) {
     return entitledAmount;
   }
 
@@ -103,8 +97,8 @@ function getIncomingStreamBalance(stream: Stream, timestamp: number, timestampNo
 
   const selectedTimestamp = isCanceled(stream) ? Math.min(timestamp, Number(stream.canceledTime)) : timestamp;
 
-  if (timestamp >= timestampNow) {
-    entitledAmount = entitledAmount.minus(stream.withdrawnAmount);
+  if (selectedTimestamp < timestampNow) {
+    entitledAmount = entitledAmount.plus(stream.withdrawnAmount);
   }
 
   entitledAmount = entitledAmount.plus(getStreamedAmount(stream, selectedTimestamp));
@@ -115,8 +109,13 @@ function getIncomingStreamBalance(stream: Stream, timestamp: number, timestampNo
 function getOutgoingStreamBalance(stream: Stream, timestamp: number): BigNumber {
   let entitledAmount = new BigNumber(0);
 
-  if ((!isCanceled(stream) && !stream.cancelable) || (isCanceled(stream) && Number(stream.canceledTime) <= timestamp)) {
-    entitledAmount = entitledAmount.minus(stream.intactAmount);
+  if (!isCanceled(stream) && !stream.cancelable) {
+    entitledAmount = entitledAmount.minus(stream.depositAmount);
+    return entitledAmount;
+  }
+
+  if (isCanceled(stream) && Number(stream.canceledTime) <= timestamp) {
+    entitledAmount = entitledAmount.minus(stream.intactAmount).plus(stream.withdrawnAmount);
     return entitledAmount;
   }
 
@@ -161,8 +160,8 @@ export function getRemainingAmount(stream: Stream): string {
   const address = getAccount(WAGMI_CONFIG).address;
 
   if (isIncoming(stream, address)) {
-    return stream.intactAmount.minus(stream.withdrawnAmount).toFixed(4).toString();
+    return stream.intactAmount.toFixed(4).toString();
   }
 
-  return stream.intactAmount.times(-1).toFixed(4).toString();
+  return stream.intactAmount.plus(stream.withdrawnAmount).times(-1).toFixed(4).toString();
 }
