@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { StreamProvider } from '@/components/contexts/streams-context';
+import { StreamProvider } from '@/components/templates/contexts/streams-context';
 import Streams from '@/components/templates/streams';
 
 export default function Content({ children }: { children: ReactNode }) {

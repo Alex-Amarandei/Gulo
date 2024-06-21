@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 
 import { GraphInfoModalProps } from '@/interfaces/props';
 
-export function GraphInfoModal({ onClose, chainId }: GraphInfoModalProps) {
+export function GraphInfoModal({ onClose, streamCount }: GraphInfoModalProps) {
   const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -28,104 +28,15 @@ export function GraphInfoModal({ onClose, chainId }: GraphInfoModalProps) {
           </svg>
         </button>
         <h2 className='text-3xl font-semibold text-center mb-6 text-slate-100'>Stream Network Information</h2>
-        {/* <div className='space-y-6 text-slate-100'>
+        <div className='space-y-6 text-slate-100'>
           <div>
-            <h3 className='text-lg font-bold'>Stream Clusters</h3>
-            <p className='text-sm text-gray-300 italic'>
-              Clusters represent groups of users interconnected by streams.
-            </p>
-            <ul className='list-decimal list-inside'>
-              {componentInfo.topThreeComponents.map((component, index) => (
-                <li key={index}>
-                  <span className='text-sablier font-bold'>{component.length}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className='text-lg font-bold'>Cluster Count</h3>
-            <p className='text-sm text-gray-300 italic'>
-              The total number of clusters in the network, indicating the overall structure and fragmentation.
-            </p>
+            <h3 className='text-lg font-bold'>Stream Count</h3>
+            <p className='text-sm text-gray-300 italic'>The total number of streams in the network.</p>
             <p>
-              Count: <span className='text-sablier font-bold'>{componentInfo.componentCount}</span>
+              Count: <span className='text-sablier font-bold'>{streamCount}</span>
             </p>
           </div>
-          <div>
-            <h3 className='text-lg font-bold'>Average Connections</h3>
-            <p className='text-sm text-gray-300 italic'>
-              The average number of streams per user, showing the general level of user interaction.
-            </p>
-            <p>
-              Average: <span className='text-sablier font-bold'>{componentInfo.averageDegree.toFixed(2)}</span>
-            </p>
-          </div>
-          <div>
-            <h3 className='text-lg font-bold'>Network Density</h3>
-            <p className='text-sm text-gray-300 italic'>
-              The ratio between the existent connections compared to the total possible.
-            </p>
-            <p>
-              Density: <span className='text-sablier font-bold'>{componentInfo.density.toFixed(4)}%</span>
-            </p>
-          </div>
-          <div>
-            <h3 className='text-lg font-bold'>Savings Management Users</h3>
-            <p className='text-sm text-gray-300 italic'>
-              Users that only have self-streams, usually for limiting the access to their savings.
-            </p>
-            <p>
-              Users: <span className='text-sablier font-bold'>{componentInfo.singleNodeComponents}</span>
-            </p>
-          </div>
-          <div>
-            <h3 className='text-lg font-bold'>Longest Stream Chain</h3>
-            <p className='text-sm text-gray-300 italic'>
-              The longest chain of consecutive streams, showing the maximum reach within the network.
-            </p>
-            <p>
-              Longest: <span className='text-sablier font-bold'>{componentInfo.diameter}</span>
-            </p>
-          </div>
-          <div>
-            <h3 className='text-lg font-bold'>Most Influential Nodes</h3>
-            <p className='text-sm text-gray-300 italic'>Users with the most streams in the network.</p>
-            <ul className='list-decimal list-inside'>
-              {componentInfo.topThreeInfluentialNodes.map((node, index) => (
-                <li key={index}>
-                  <a
-                    href={getSablierSearchByChainIdAndAddress(chainId, node.id)}
-                    target='_blank'
-                    rel='noopener noreferrer'>
-                    <span className='hover:underline hover:text-sablier'>{node.id}</span>
-                    {': '}
-                  </a>
-                  <span className='text-sablier font-bold'>{node.degreeCentrality}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className='text-lg font-bold'>Top Nodes by PageRank</h3>
-            <p className='text-sm text-gray-300 italic'>
-              PageRank sorts users by considering both the number and the importance of their connections.
-            </p>
-            <ul className='list-decimal list-inside'>
-              {componentInfo.topThreePageRankNodes.map((node, index) => (
-                <li key={index}>
-                  <a
-                    href={getSablierSearchByChainIdAndAddress(chainId, node.id)}
-                    target='_blank'
-                    rel='noopener noreferrer'>
-                    <span className='hover:underline hover:text-sablier'>{node.id}</span>
-                    {': '}
-                  </a>
-                  <span className='text-sablier font-bold'>{node.pageRank.toFixed(4)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

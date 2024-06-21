@@ -3,14 +3,9 @@ import {
   EnablingPhysicsIcon,
   GraphToolbarButton,
 } from '@/components/atoms/buttons/floating/graph-toolbar-button';
+import { GraphToolbarProps } from '@/interfaces/props';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-interface GraphToolbarProps {
-  enablePhysics: () => void;
-  disablePhysics: () => void;
-  openModal?: () => void;
-}
 
 const InfoIcon = () => (
   <span>
@@ -18,7 +13,7 @@ const InfoIcon = () => (
   </span>
 );
 
-const GraphToolbar = ({ enablePhysics, disablePhysics }: GraphToolbarProps) => {
+export const GraphToolbar = ({ enablePhysics, disablePhysics, openModal }: GraphToolbarProps) => {
   return (
     <div className='fixed top-50 right-10 flex flex-col items-end space-y-20 z-50 focus:ring-0 focus:ring-transparent focus:outline-none'>
       <GraphToolbarButton
@@ -27,14 +22,14 @@ const GraphToolbar = ({ enablePhysics, disablePhysics }: GraphToolbarProps) => {
         onFirstClick={enablePhysics}
         onSecondClick={disablePhysics}
       />
-      {/* <GraphToolbarButton
-        firstIcon={<InfoIcon />}
-        secondIcon={<InfoIcon />}
-        onFirstClick={openModal}
-        onSecondClick={openModal}
-      /> */}
+      {openModal && (
+        <GraphToolbarButton
+          firstIcon={<InfoIcon />}
+          secondIcon={<InfoIcon />}
+          onFirstClick={openModal}
+          onSecondClick={openModal}
+        />
+      )}
     </div>
   );
 };
-
-export default GraphToolbar;

@@ -4,11 +4,11 @@ import { ChangeEvent, useState } from 'react';
 
 import { downloadTable } from '@/api/reports/download-table';
 import ToolButton from '@/components/atoms/buttons/tool-button';
-import { useStreams } from '@/components/contexts/streams-context';
 import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import DateRangePickerModal from '@/components/molecules/modals/date-range-picker-modal';
 import { EmailInputModal } from '@/components/molecules/modals/email-input-modal';
 import { StreamsTable } from '@/components/organisms/reports/streams-table';
+import { useStreams } from '@/components/templates/contexts/streams-context';
 import { BalanceType, DownloadType } from '@/constants/enums';
 import {
   DropdownMenu,

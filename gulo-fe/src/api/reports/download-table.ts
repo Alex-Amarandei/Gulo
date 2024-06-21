@@ -4,13 +4,8 @@ import { Stream } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
 import { Maybe } from '@/utils/data';
 import { getAccount } from '@wagmi/core';
-import dotenv from 'dotenv';
 import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
-
-dotenv.config();
-
-const lambdaEndpoint = process.env.LAMBDA_ENDPOINT;
 
 export async function downloadTable(
   streams: Stream[],
@@ -20,6 +15,8 @@ export async function downloadTable(
   downloadType: DownloadType,
   email?: string,
 ) {
+  const apiGatewayEndpoint = process.env.API_GATEWAY_ENDPOINT + '/reports';
+
   const body = JSON.stringify(
     {
       streams: prepareForDownload(streams, balanceType, downloadType, date, dateRange),
@@ -41,15 +38,15 @@ export async function downloadTable(
   };
 
   try {
-    if (lambdaEndpoint === undefined) {
-      toast.error("Oops. It's on us! Please try again in a few minutes.");
+    if (apiGatewayEndpoint === undefined) {
+      toast.error("Oops. That's on us. Please try again later. 🙏");
       return;
     }
 
-    const response = await fetch(lambdaEndpoint, options);
+    const response = await fetch(apiGatewayEndpoint, options);
 
     if (!response.ok) {
-      toast.error("Oops. It's on us! Please try again in a few minutes.");
+      toast.error('There was a problem generating your file. Please hang on for a minute! ⏱️');
       return;
     }
 
@@ -60,10 +57,10 @@ export async function downloadTable(
       download(data, address, downloadType);
     }
 
-    toast.success('File generated successfully!');
+    toast.success('File generated successfully! 📝');
     return data;
   } catch (error) {
-    toast.error("Oops. It's on us! Please try again in a few minutes.");
+    toast.error("Oops. That's on us. Please try again later. 🙏");
     throw error;
   }
 }

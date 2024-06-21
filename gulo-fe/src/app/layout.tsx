@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import WagmiProviderWrapper from '@/components/contexts/wagmi';
+import WagmiProviderWrapper from '@/components/templates/contexts/wagmi';
 import Content from '@/components/templates/layout/content';
 import Footer from '@/components/templates/layout/footer';
 import Header from '@/components/templates/layout/header';

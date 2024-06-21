@@ -1,7 +1,7 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
-import { useStreams } from '@/components/contexts/streams-context';
 import StreamModal from '@/components/molecules/modals/stream-modal';
+import { useStreams } from '@/components/templates/contexts/streams-context';
 import { StreamListProps } from '@/interfaces/props';
 import { Stream } from '@/interfaces/stream';
 import { formatDecimals, getCancelability } from '@/utils/formats';

@@ -91,8 +91,9 @@ export interface EmailInputModalProps {
 
 export interface GraphInfoModalProps {
   chainId: number;
+  streamCount: number;
   onClose: () => void;
-  componentInfo: {
+  componentInfo?: {
     largestComponent: number;
     componentCount: number;
     singleNodeComponents: number;
@@ -103,4 +104,10 @@ export interface GraphInfoModalProps {
     topThreeInfluentialNodes: { id: string; degreeCentrality: number }[];
     topThreePageRankNodes: { id: string; pageRank: number }[];
   };
+}
+
+export interface GraphToolbarProps {
+  enablePhysics: () => void;
+  disablePhysics: () => void;
+  openModal?: () => void;
 }

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import { useStreams } from '@/components/contexts/streams-context';
 import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
+import { useStreams } from '@/components/templates/contexts/streams-context';
 import getBalance from '@/utils/balances';
 import { Maybe } from '@/utils/data';
 import { format } from 'date-fns';

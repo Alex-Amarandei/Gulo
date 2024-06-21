@@ -9,6 +9,7 @@ export interface CachedStreamData {
 export interface CachedGraphData {
   nodes: Node[];
   edges: Edge[];
+  streamCount: number;
   components?: Node[][];
   singleNodeComponents?: number;
   topThreeComponents?: Node[][];
