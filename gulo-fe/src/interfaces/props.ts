@@ -111,3 +111,10 @@ export interface GraphToolbarProps {
   disablePhysics: () => void;
   openModal?: () => void;
 }
+
+export interface GraphToolbarButtonProps {
+  firstIcon: JSX.Element;
+  secondIcon: JSX.Element;
+  onFirstClick: () => void;
+  onSecondClick: () => void;
+}

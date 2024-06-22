@@ -1,21 +1,10 @@
 import { useState } from 'react';
 
+import { GraphToolbarButtonProps } from '@/interfaces/props';
 import { faInfoCircle, faMagnet, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface GraphToolbarButtonProps {
-  firstIcon: JSX.Element;
-  secondIcon: JSX.Element;
-  onFirstClick: () => void;
-  onSecondClick: () => void;
-}
-
-const GraphToolbarButton: React.FC<GraphToolbarButtonProps> = ({
-  firstIcon,
-  secondIcon,
-  onFirstClick,
-  onSecondClick,
-}) => {
+export const GraphToolbarButton = ({ firstIcon, secondIcon, onFirstClick, onSecondClick }: GraphToolbarButtonProps) => {
   const [isFirst, setIsFirst] = useState(true);
 
   const handleClick = () => {
@@ -36,23 +25,21 @@ const GraphToolbarButton: React.FC<GraphToolbarButtonProps> = ({
   );
 };
 
-const EnablingPhysicsIcon = () => (
+export const EnablingPhysicsIcon = () => (
   <span className='flex items-center'>
     <FontAwesomeIcon icon={faMagnet} className='text-slate-100 text-2xl' />
   </span>
 );
 
-const DisablingPhysicsIcon = () => (
+export const DisablingPhysicsIcon = () => (
   <span className='flex items-center'>
     <FontAwesomeIcon icon={faMagnet} className='text-slate-100 text-2xl' />
     <FontAwesomeIcon icon={faTimes} className='text-slate-100 text-2xl ml-1' />
   </span>
 );
 
-const InfoIcon = () => (
+export const InfoIcon = () => (
   <span className='flex items-center'>
     <FontAwesomeIcon icon={faInfoCircle} className='text-slate-100 text-2xl' />
   </span>
 );
-
-export { DisablingPhysicsIcon, EnablingPhysicsIcon, GraphToolbarButton, InfoIcon };

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { fetchGraphData } from '@/api/graph/fetch-graph-data';
 import { GraphToolbar } from '@/components/molecules/content/graph-toolbar';
 import { GraphInfoModal } from '@/components/molecules/modals/graph-info-modal';
-import { GRAPH_OPTIONS } from '@/constants/graph';
+import { GRAPH_OPTIONS, OPTIMISED_GRAPH_OPTIONS } from '@/constants/graph';
 import { Hourglass } from 'react-loader-spinner';
 import Graph, { Edge, Node } from 'react-vis-network-graph';
 import { toast } from 'sonner';
@@ -14,11 +14,17 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
   const [options, setOptions] = useState(GRAPH_OPTIONS);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [streamCount, setStreamCount] = useState(0);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (options === OPTIMISED_GRAPH_OPTIONS) {
+      toast.info('Oh oh, seems like we are in for a ride! 🎢 Optimizing graph settings... ⚙️');
+    }
+  }, [options]);
 
   useEffect(() => {
     if (isClient) {
@@ -27,6 +33,13 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
           if (graphData) {
             setGraph({ nodes: graphData.nodes, edges: graphData.edges });
             setStreamCount(graphData.streamCount);
+
+            if (graphData.streamCount > 10000) {
+              setOptions(OPTIMISED_GRAPH_OPTIONS);
+              toast.info('Oh oh, seems like we are in for a ride! 🎢 Optimizing graph settings... ⚙️');
+            } else {
+              setOptions(GRAPH_OPTIONS);
+            }
 
             setTimeout(() => {
               setOptions(prevOptions => ({
@@ -38,12 +51,16 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
               }));
             }, 5000);
 
-            setLoading(false); // Set loading to false when data is fetched
+            setLoading(false);
+
+            toast.success(
+              'Graph loaded! 🚀 Use the arrow keys and +/- signs to navigate. 🧭 Click and drag the nodes to interact. 🕹️',
+            );
           }
         })
         .catch(error => {
           toast.error(
-            'The Streams have overflown 🌊 We will take care of the cleaning, be sure to come back in a bit 🪣',
+            'The Streams have overflown! 🌊 Just refresh the page, and we will take care of the cleaning! 🪣',
           );
           setLoading(false);
         });
