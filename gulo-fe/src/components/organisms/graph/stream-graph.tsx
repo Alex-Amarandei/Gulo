@@ -1,11 +1,12 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fetchGraphData } from '@/api/graph/fetch-graph-data';
-import { SuspenseSpinner } from '@/components/atoms/suspense-spinner';
 import { GraphToolbar } from '@/components/molecules/content/graph-toolbar';
 import { GraphInfoModal } from '@/components/molecules/modals/graph-info-modal';
 import { GRAPH_OPTIONS } from '@/constants/graph';
+import { Hourglass } from 'react-loader-spinner';
 import Graph, { Edge, Node } from 'react-vis-network-graph';
+import { toast } from 'sonner';
 
 export const StreamGraph = ({ chainId }: { chainId: number }) => {
   const [graph, setGraph] = useState<{ nodes: Node[]; edges: Edge[] }>({ nodes: [], edges: [] });
@@ -13,6 +14,7 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
   const [options, setOptions] = useState(GRAPH_OPTIONS);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [streamCount, setStreamCount] = useState(0);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     setIsClient(true);
@@ -20,22 +22,31 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
 
   useEffect(() => {
     if (isClient) {
-      fetchGraphData(chainId).then(graphData => {
-        if (graphData) {
-          setGraph({ nodes: graphData.nodes, edges: graphData.edges });
-          setStreamCount(graphData.streamCount);
+      fetchGraphData(chainId)
+        .then(graphData => {
+          if (graphData) {
+            setGraph({ nodes: graphData.nodes, edges: graphData.edges });
+            setStreamCount(graphData.streamCount);
 
-          setTimeout(() => {
-            setOptions(prevOptions => ({
-              ...prevOptions,
-              physics: {
-                ...prevOptions.physics,
-                enabled: false,
-              },
-            }));
-          }, 5000);
-        }
-      });
+            setTimeout(() => {
+              setOptions(prevOptions => ({
+                ...prevOptions,
+                physics: {
+                  ...prevOptions.physics,
+                  enabled: false,
+                },
+              }));
+            }, 5000);
+
+            setLoading(false); // Set loading to false when data is fetched
+          }
+        })
+        .catch(error => {
+          toast.error(
+            'The Streams have overflown 🌊 We will take care of the cleaning, be sure to come back in a bit 🪣',
+          );
+          setLoading(false);
+        });
     }
   }, [isClient, chainId]);
 
@@ -68,11 +79,27 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
 
   return (
     <div className='relative min-h-[90vh] min-w-full focus:ring-0 focus:ring-transparent focus:outline-none'>
-      <Suspense fallback={<SuspenseSpinner />}>
-        <GraphToolbar enablePhysics={enablePhysics} disablePhysics={disablePhysics} openModal={openModal} />
-        <Graph graph={graph} options={options} style={{ height: '1000px', outline: 'none', border: 'none' }} />
-        {modalIsOpen && <GraphInfoModal onClose={closeModal} streamCount={streamCount} chainId={chainId} />}
-      </Suspense>
+      {loading ? (
+        <div className='flex flex-col justify-center items-center min-h-[90vh]'>
+          <Hourglass
+            height='15%'
+            width='15%'
+            colors={['#f77725', '#0b6197']}
+            ariaLabel='hourglass-loading'
+            wrapperStyle={{
+              border: 'none',
+            }}
+            visible={true}
+          />
+          <p className='mt-4 text-lg font-semibold text-blue-500'>Gathering all of the Streams out there... ⏳</p>
+        </div>
+      ) : (
+        <>
+          <GraphToolbar enablePhysics={enablePhysics} disablePhysics={disablePhysics} openModal={openModal} />
+          <Graph graph={graph} options={options} style={{ height: '1000px', outline: 'none', border: 'none' }} />
+          {modalIsOpen && <GraphInfoModal onClose={closeModal} streamCount={streamCount} chainId={chainId} />}
+        </>
+      )}
     </div>
   );
 };

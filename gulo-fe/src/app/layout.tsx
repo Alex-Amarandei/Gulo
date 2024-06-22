@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang='en'>
       <link rel='icon' href='/images/branding/favicon.ico' />
       <body className='flex flex-col'>
-        <Toaster />
+        <Toaster richColors />
         <WagmiProviderWrapper>
           <Header />
           <Content>{children}</Content>

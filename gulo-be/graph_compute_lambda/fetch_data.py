@@ -6,10 +6,14 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def fetch_all_streams(endpoint, skip):
+def fetch_all_streams(endpoint, skip, timestamp_gt=0):
     try:
         response = requests.post(
-            endpoint, json={"query": GET_ALL_STREAMS_QUERY, "variables": {"skip": skip}}
+            endpoint,
+            json={
+                "query": GET_ALL_STREAMS_QUERY,
+                "variables": {"skip": skip, "timestamp_gt": timestamp_gt},
+            },
         )
         response.raise_for_status()
         data = response.json()

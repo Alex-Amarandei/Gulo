@@ -1,7 +1,6 @@
-import os
-import json
 import logging
 from compute_graph import compute_graph
+from utils import create_response
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -23,29 +22,17 @@ def lambda_handler(event, context):
             f"Invocation type is {'asynchronous' if is_async_invocation else 'synchronous'}"
         )
 
-        if is_async_invocation:
-            logger.info("Asynchronous invocation, returning 202 status")
-            return {
-                "statusCode": 202,
-                "body": json.dumps({"message": "Cache update initiated."}),
-            }
-
-        logger.info("Synchronous invocation, returning computed graph data")
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-            },
-            "body": json.dumps(result),
+        response_body = {
+            "status": "success",
+            "data": (
+                result
+                if not is_async_invocation
+                else {"message": "Cache update initiated."}
+            ),
         }
+
+        status_code = 202 if is_async_invocation else 200
+        return create_response(status_code, response_body)
     except Exception as e:
         logger.error("Error in compute lambda: %s", e)
-        return {
-            "statusCode": 500,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-            },
-            "body": json.dumps({"error": "Internal Server Error"}),
-        }
+        return create_response(500, {"status": "error", "message": str(e)})

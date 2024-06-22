@@ -1,24 +1,19 @@
 GET_ALL_STREAMS_QUERY = """
-query getAllStreams($skip: Int!) {
+query getAllStreams($skip: Int, $timestamp_gt: BigInt) {
   streams(
     skip: $skip
+    where: { timestamp_gt: $timestamp_gt }
     orderBy: timestamp
     orderDirection: asc
   ) {
-    alias
-    sender
-    recipient
-    timestamp
-    startTime
-    endTime
-    cliffTime
-    cliffAmount
-    cancelable
-    canceled
-    canceledTime
-    depositAmount
-    intactAmount
-    withdrawnAmount
+    ...StreamFragment
   }
+}
+
+fragment StreamFragment on Stream {
+  alias
+  sender
+  recipient
+  timestamp
 }
 """

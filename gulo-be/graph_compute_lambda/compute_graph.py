@@ -35,10 +35,19 @@ def compute_graph(chain_id, endpoint, initial_skip):
         skip += len(streams)
         logger.info(f"Total streams so far: {len(all_streams)}")
 
-        while has_more and skip < MAX_SKIP:
-            current_skip = min(skip, MAX_SKIP)
-            logger.info(f"Fetching streams from endpoint with skip: {current_skip}")
-            streams = fetch_all_streams(endpoint, current_skip)
+        last_timestamp = streams[-1]["timestamp"] if streams else None
+
+        while has_more:
+            if skip < MAX_SKIP:
+                current_skip = min(skip, MAX_SKIP)
+                logger.info(f"Fetching streams from endpoint with skip: {current_skip}")
+                streams = fetch_all_streams(endpoint, current_skip)
+            else:
+                logger.info(
+                    f"Fetching streams from endpoint with timestamp_gt: {last_timestamp}"
+                )
+                streams = fetch_all_streams(endpoint, 0, timestamp_gt=last_timestamp)
+
             logger.info(f"Fetched {len(streams)} streams")
 
             if not streams or len(streams) == 0:
@@ -48,6 +57,7 @@ def compute_graph(chain_id, endpoint, initial_skip):
                 skip += len(streams)
                 logger.info(f"Total streams so far: {len(all_streams)}")
                 has_new_streams = True
+                last_timestamp = streams[-1]["timestamp"]
 
         if has_new_streams:
             logger.info("New streams detected, saving updated streams cache to S3...")

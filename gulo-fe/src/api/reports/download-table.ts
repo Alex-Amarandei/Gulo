@@ -4,8 +4,11 @@ import { Stream } from '@/interfaces/stream';
 import WAGMI_CONFIG from '@/utils/configs';
 import { Maybe } from '@/utils/data';
 import { getAccount } from '@wagmi/core';
+import dotenv from 'dotenv';
 import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
+
+dotenv.config();
 
 export async function downloadTable(
   streams: Stream[],

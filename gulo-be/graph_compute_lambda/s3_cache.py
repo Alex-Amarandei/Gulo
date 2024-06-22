@@ -6,7 +6,16 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-s3_client = boto3.client("s3")
+aws_access_key_id = os.getenv("ACCESS_KEY_ID")
+aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY")
+s3_region = os.getenv("S3_REGION", "eu-central-1")
+
+s3_client = boto3.client(
+    "s3",
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key,
+    region_name=s3_region,
+)
 
 
 def get_cache_from_s3(key):

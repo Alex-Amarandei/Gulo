@@ -4,6 +4,7 @@ import boto3
 import logging
 from botocore.exceptions import ClientError
 from trigger import trigger_graph_compute_lambda
+from utils import create_response
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -44,14 +45,7 @@ def lambda_handler(event, context):
             chain_id,
             endpoint,
         )
-        return {
-            "statusCode": 400,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-            },
-            "body": json.dumps({"error": "Missing required query parameters"}),
-        }
+        return create_response(400, {"error": "Missing required query parameters"})
 
     s3_key = f"streams/{chain_id}/graph.json"
     logger.info("Fetching S3 object from key: %s", s3_key)
@@ -69,27 +63,13 @@ def lambda_handler(event, context):
                 lambda_client, GRAPH_COMPUTE_LAMBDA_NAME, payload, sync=True
             )
             logger.info("Synchronous response from graph-compute-lambda received.")
-            return {
-                "statusCode": 200,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET",
-                },
-                "body": response["body"],
-            }
+            return create_response(response["status"], response["body"])
         else:
             logger.error("Internal Server Error: %s", e)
-            response = trigger_graph_compute_lambda(
+            trigger_graph_compute_lambda(
                 lambda_client, GRAPH_COMPUTE_LAMBDA_NAME, payload, sync=False
             )
-            return {
-                "statusCode": 500,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET",
-                },
-                "body": json.dumps({"error": "Internal Server Error"}),
-            }
+            return create_response(500, {"error": "Internal Server Error"})
 
     stream_count = graph_data.get("streamCount", 0)
     payload["streamCount"] = stream_count
@@ -101,14 +81,7 @@ def lambda_handler(event, context):
             lambda_client, GRAPH_COMPUTE_LAMBDA_NAME, payload, sync=True
         )
         logger.info("Synchronous response from graph-compute-lambda received.")
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-            },
-            "body": response["body"],
-        }
+        return create_response(response["status"], response["body"])
     else:
         logger.info(
             "Stream count is greater than 0, triggering graph-compute-lambda asynchronously"
@@ -119,21 +92,7 @@ def lambda_handler(event, context):
 
     logger.info("Execution completed successfully!")
     try:
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-            },
-            "body": json.dumps(graph_data),
-        }
+        return create_response(200, graph_data)
     except Exception as e:
         logger.error("Error serializing response: %s", e)
-        return {
-            "statusCode": 500,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-            },
-            "body": json.dumps({"error": "Internal Server Error"}),
-        }
+        return create_response(500, {"error": "Internal Server Error"})

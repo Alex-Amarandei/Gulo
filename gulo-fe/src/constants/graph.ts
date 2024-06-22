@@ -4,11 +4,11 @@ export const GRAPH_OPTIONS = {
     size: 16,
     font: {
       size: 14,
-      color: '#F1F5F9', // Font color
+      color: '#F1F5F9',
     },
     color: {
-      background: '#FABF52', // Node fill color
-      border: '#F77725', // Node border color
+      background: '#FABF52',
+      border: '#F77725',
       highlight: {
         background: '#FABF52',
         border: '#F77725',
@@ -37,7 +37,7 @@ export const GRAPH_OPTIONS = {
     },
     stabilization: {
       enabled: true,
-      iterations: 1000, // Reduced iterations for faster stabilization
+      iterations: 1000,
       updateInterval: 25,
       onlyDynamicEdges: false,
       fit: true,
@@ -64,9 +64,4 @@ export const GRAPH_OPTIONS = {
   manipulation: {
     enabled: false,
   },
-};
-
-export const EMPTY_GRAPH_DATA = {
-  nodes: [],
-  edges: [],
 };
