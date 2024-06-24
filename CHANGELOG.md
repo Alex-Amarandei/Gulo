@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v0.5] 💸
+## [v0.5](https://github.com/Alex-Amarandei/Gulo/releases/tag/v0.5) 💸
 
 ### Added ➕
 
@@ -14,7 +14,7 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 
 - **Real-Time Token Price Updates:** The Token Prices that are currently used for calculating the balances are updated on a daily basis and not in real-time. 🕰️
 
-## [v0.4] ⚛️
+## [v0.4](https://github.com/Alex-Amarandei/Gulo/releases/tag/v0.4) ⚛️
 
 ### Added ➕
 
@@ -25,7 +25,7 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 
 - Graph Loading Time: On some chains (_e.g., Mainnet, Arbitrum_), the network graph may take up to 10 minutes to load. 😮‍💨
 
-## [v0.3] 📝
+## [v0.3](https://github.com/Alex-Amarandei/Gulo/releases/tag/v0.3) 📝
 
 ### Added ➕
 
@@ -35,13 +35,13 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 
 - **Email Support:** Email Support is implemented, but not yet available, due to a limitation on the SES side. 💔
 
-## [v0.2] 📊
+## [v0.2](https://github.com/Alex-Amarandei/Gulo/releases/tag/v0.2) 📊
 
 ### Added ➕
 
 - **Analytics Page:** See the evolution of your balance over time, both past and future. Line Charts, Bar Charts, Pie Charts — you name it! 📈
 
-## [v0.1] 🚀
+## [v0.1](https://github.com/Alex-Amarandei/Gulo/releases/tag/v0.1) 🚀
 
 ### Added ➕
 
