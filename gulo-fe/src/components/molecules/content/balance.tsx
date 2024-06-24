@@ -6,6 +6,7 @@ import DatePickerModal from '@/components/molecules/modals/date-picker-modal';
 import { useStreams } from '@/components/templates/contexts/streams-context';
 import getBalance from '@/utils/balances';
 import { Maybe } from '@/utils/data';
+import { formatBalance } from '@/utils/formats';
 import { format } from 'date-fns';
 
 export default function Balance() {
@@ -40,6 +41,8 @@ export default function Balance() {
     return () => clearInterval(interval);
   }, [selectedStreams, timestampChosenManually, date]);
 
+  const { integerPart, decimalPart } = formatBalance(balance);
+
   return (
     <div className='balance-square'>
       <div
@@ -49,10 +52,17 @@ export default function Balance() {
           {date ? format(date, 'LLL dd, y HH:mm:ss') : 'NOW'}
         </span>
       </div>
-      <div className='balance-rectangle-2 flex items-center justify-center text-center text-6xl text-slate-100'>
-        <strong>{balance}</strong>
+      <div className='balance-rectangle-2 flex items-center justify-center text-slate-100'>
+        <div className='flex items-end'>
+          <div className='flex items-center'>
+            <strong className='text-6xl'>{integerPart}</strong>
+          </div>
+          <div className='flex items-end'>
+            <strong className='text-3xl'>.{decimalPart}</strong>
+          </div>
+        </div>
       </div>
-      <div className='balance-rectangle-3 flex items-center justify-center text-center text-2xl text-slate-100'>
+      <div className='balance-rectangle-3 flex items-center justify-center text-center text-lg text-slate-100'>
         <strong>USD</strong>
       </div>
       {isModalOpen && <DatePickerModal date={date} onClose={handleCloseModal} onDateChange={setDate} />}

@@ -27,6 +27,10 @@ However, many exciting features will be shipped in the coming weeks! Keep an eye
 
 -   **Stream Network Graph View:** Visualise the entire Sablier Stream Network on the chain of your choice! Although they might take a bit to load, they are up to date and worth the wait! ⏳
 
+### 💸 Multi-Asset Support was Shipped 🆕
+
+-   **Multi-Asset Support:** All of your streams' tokens are now taken into account at their first fetched daily price. See how your portoflio's value evolves over time given the current market situation! 📈
+
 ## 🌱 Why was Gulo created?
 
 The Sablier Team has revolutionized the concept of money streaming in the Ethereum Ecosystem. Gulo represents a helping hand from an eager supporter aspiring to become a full-time Web3 builder. This project is my first endeavor in this direction.
@@ -38,10 +42,6 @@ Hi, I'm Alex, and I'm the sole developer working on Gulo.
 ## 🔮 What's next for Gulo?
 
 The Roadmap is as follows:
-
-### 📅 June
-
--   **Multi-Currency Support:** Currently, only stablecoins (DAI, USDC, USDT) are supported, but all ERC-20 tokens will be included soon!
 
 ### 📅 July
 

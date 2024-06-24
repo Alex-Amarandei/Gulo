@@ -122,7 +122,7 @@ function getHexFromHsl(hsl: string, forceRemoveAlpha = true): string {
     throw new Error('Invalid HSL format');
   }
 
-  const [_, h, s, l, a] = hslMatch;
+  const [, h, s, l, a] = hslMatch;
 
   const hValue = parseInt(h, 10);
   const sValue = parseFloat(s) / 100;

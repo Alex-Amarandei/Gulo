@@ -58,7 +58,7 @@ export const StreamGraph = ({ chainId }: { chainId: number }) => {
             );
           }
         })
-        .catch(error => {
+        .catch(() => {
           toast.error(
             'The Streams have overflown! 🌊 Just refresh the page, and we will take care of the cleaning! 🪣',
           );

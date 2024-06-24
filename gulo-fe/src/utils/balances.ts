@@ -131,10 +131,6 @@ export default function getBalance(streams: Stream[], date: Maybe<Date>): string
   const timestamp = date ? Math.floor(date.getTime() / 1000) : timestampNow;
 
   streams.forEach(stream => {
-    if (!['DAI', 'USDC', 'USDT'].includes(stream.asset.symbol)) {
-      return;
-    }
-
     if (hasNotStarted(stream, timestamp) || isCircular(stream)) {
       return;
     }
@@ -143,10 +139,11 @@ export default function getBalance(streams: Stream[], date: Maybe<Date>): string
       ? getIncomingStreamBalance(stream, timestamp, timestampNow)
       : getOutgoingStreamBalance(stream, timestamp);
 
-    entitledAmount = entitledAmount.plus(balance);
+    const value = balance.times(stream.assetPrice);
+    entitledAmount = entitledAmount.plus(value);
   });
 
-  return entitledAmount.toFixed(4).toString();
+  return entitledAmount.toFixed(6).toString();
 }
 
 export function getStreamedAmountForDateRange(stream: Stream, dateRange: Maybe<DateRange>) {
@@ -160,8 +157,8 @@ export function getRemainingAmount(stream: Stream): string {
   const address = getAccount(WAGMI_CONFIG).address;
 
   if (isIncoming(stream, address)) {
-    return stream.intactAmount.toFixed(4).toString();
+    return stream.intactAmount.times(stream.assetPrice).toFixed(6).toString();
   }
 
-  return stream.intactAmount.plus(stream.withdrawnAmount).times(-1).toFixed(4).toString();
+  return stream.intactAmount.plus(stream.withdrawnAmount).times(-stream.assetPrice).toFixed(6).toString();
 }

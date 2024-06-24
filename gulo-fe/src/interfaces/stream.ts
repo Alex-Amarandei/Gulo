@@ -99,6 +99,7 @@ export interface Stream {
   contract: Contract;
   color: string;
   isSelected: boolean;
+  assetPrice: number;
 }
 
 export interface StreamContextType {

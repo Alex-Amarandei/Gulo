@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 
 import fetchNftDetails from '@/api/streams/fetch-nft-details';
 import { fetchUserStreams } from '@/api/streams/fetch-user-streams';
+import { getTokenPrice } from '@/api/token/get-token-price';
 import FilterButton from '@/components/atoms/buttons/filter-button';
 import StreamList from '@/components/molecules/content/stream-list';
 import { useStreams } from '@/components/templates/contexts/streams-context';
@@ -34,23 +35,26 @@ export default function Streams() {
   useEffect(() => {
     const fetchData = async () => {
       const streams = await fetchUserStreams();
-      const coloredStreams: Stream[] = await Promise.all(
+      const upgradedStreams: Stream[] = await Promise.all(
         streams
           .filter((stream: StreamData) => !isCircular(stream))
           .map(async (stream: StreamData) => {
             const nft = await fetchNftDetails(stream);
             const color = getNftColor(nft);
             const rebasedStream = rebaseStream(stream);
+            const assetPrice = await getTokenPrice(stream.asset.symbol);
             setStreamNftMap(prevState => ({ ...prevState, [stream.alias]: nft }));
+
             return {
               ...rebasedStream,
               color: color,
               isSelected: true,
+              assetPrice: assetPrice,
             };
           }),
       );
-      setStreams(coloredStreams);
-      setSelectedStreams(coloredStreams);
+      setStreams(upgradedStreams);
+      setSelectedStreams(upgradedStreams);
     };
 
     fetchData();
@@ -59,7 +63,9 @@ export default function Streams() {
   return (
     currentRoute !== '/graph' && (
       <div
-        className={`rounded-lg overflow-auto p-4 transition-all duration-300 shadow-2xl h-[90vh] ${isStreamsCollapsed ? 'w-16' : 'w-1/3'} btn ${isStreamsCollapsed ? 'cursor-pointer z-50 absolute' : 'cursor-default'}`}
+        className={`rounded-lg overflow-auto p-4 transition-all duration-300 shadow-2xl h-[90vh] ${
+          isStreamsCollapsed ? 'w-16' : 'w-1/3'
+        } btn ${isStreamsCollapsed ? 'cursor-pointer z-50 absolute' : 'cursor-default'}`}
         onClick={() => {
           if (isStreamsCollapsed) {
             setIsStreamsCollapsed(false);

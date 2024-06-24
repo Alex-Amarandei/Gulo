@@ -47,6 +47,7 @@ export function rebaseStream(stream: StreamData): Stream {
     withdrawnAmount: rebase(BigNumber(stream.withdrawnAmount)),
     color: '',
     isSelected: true,
+    assetPrice: 1,
   };
 }
 
@@ -104,3 +105,12 @@ export function getCacheKey(chainId: number, key: string): string {
 export function getSablierSearchByChainIdAndAddress(chainId: number, address: string): string {
   return `https://app.sablier.com/?t=search&c=${chainId}&s=${address}&r=${address}`;
 }
+
+export const formatBalance = (balance: string): { integerPart: string; decimalPart: string } => {
+  const [integerPart, decimalPart] = balance.split('.');
+  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return {
+    integerPart: formattedIntegerPart,
+    decimalPart: decimalPart || '0000',
+  };
+};

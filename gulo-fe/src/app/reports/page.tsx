@@ -52,11 +52,13 @@ export default function ReportsPage() {
   const toggleStartModal = () => setIsModalOpen(prev => !prev);
 
   const handleDownload = (type: DownloadType) => {
-    downloadTable(selectedStreams, balanceType, date, dateRange, type);
+    if (selectedStreams.length > 0) {
+      downloadTable(selectedStreams, balanceType, date, dateRange, type);
+    }
   };
 
   const handleEmailDownload = (email: string) => {
-    if (selectedDownloadType) {
+    if (selectedDownloadType && selectedStreams.length > 0) {
       downloadTable(selectedStreams, balanceType, date, dateRange, selectedDownloadType, email);
     }
   };
@@ -100,9 +102,12 @@ export default function ReportsPage() {
           </div>
         </div>
         <div className='flex gap-4'>
-          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
+          <div
+            className={`text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 ${selectedStreams.length === 0 ? 'cursor-not-allowed opacity-50' : 'hover:scale-105 cursor-pointer'} px-4 py-2 mb-2 font-bold`}>
             <DropdownMenu>
-              <DropdownMenuTrigger className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'>
+              <DropdownMenuTrigger
+                className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'
+                disabled={selectedStreams.length === 0}>
                 Download
                 <svg
                   className='ml-2 w-4 h-4'
@@ -124,9 +129,12 @@ export default function ReportsPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className='text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer px-4 py-2 mb-2 font-bold'>
+          <div
+            className={`text-slate-100 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg transform transition-transform duration-300 ${selectedStreams.length === 0 ? 'cursor-not-allowed opacity-50' : 'hover:scale-105 cursor-pointer'} px-4 py-2 mb-2 font-bold`}>
             <DropdownMenu>
-              <DropdownMenuTrigger className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'>
+              <DropdownMenuTrigger
+                className='focus:ring-0 focus:outline-none focus:ring-transparent flex items-center'
+                disabled={selectedStreams.length === 0}>
                 Email
                 <svg
                   className='ml-2 w-4 h-4'
