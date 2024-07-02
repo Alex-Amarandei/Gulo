@@ -13,7 +13,7 @@ export default function Balance() {
   const [date, setDate] = useState<Maybe<Date>>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedStreams } = useStreams();
-  const [balance, setBalance] = useState('0.0000');
+  const [balance, setBalance] = useState('0.000000');
   const [timestampChosenManually, setTimestampChosenManually] = useState(false);
 
   const handleOpenModal = () => {
